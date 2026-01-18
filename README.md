@@ -84,7 +84,7 @@ When ready for local development, the project uses **User Secrets** to manage co
 
 ```bash
 dotnet user-secrets init
-dotnet user-secrets set "ConnectionStrings:Default" "YourConnectionStringHere"
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YourConnectionStringHere"
 ```
 
 ---
