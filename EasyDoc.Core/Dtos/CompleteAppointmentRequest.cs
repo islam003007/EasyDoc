@@ -1,5 +1,5 @@
 ﻿namespace EasyDoc.Application.Services;
 
 
-internal record CompleteAppointmentRequest(Guid AppointmentId, Guid DoctorId, string Diagnosis, string Prescription, string? Notes);
+internal record CompleteAppointmentRequest(Guid DoctorId, Guid AppointmentId, string Diagnosis, string Prescription, string? Notes);
 

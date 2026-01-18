@@ -51,7 +51,7 @@ internal class CreateDoctorScheduleCommandHandler : ICommandHandler<CreateDoctor
 
         var result = await _doctorService.CreateDoctorScheduleAsync(request, cancellationToken);
 
-        if (result.Error.Code == DoctorErrors.NotFoundCode)
+        if (!result.IsSuccess && result.Error.Code == DoctorErrors.NotFoundCode)
             throw new CurrentUserNotFoundException(_userContext.UserId); // Doctor Has to be logged in that's why that's a exceptional case
 
         return result;

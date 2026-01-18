@@ -1,4 +1,9 @@
-﻿using EasyDoc.Application.Abstractions.Messaging;
+﻿using EasyDoc.Application.Abstractions.Authentication;
+using EasyDoc.Application.Abstractions.Exceptions;
+using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.Dtos;
+using EasyDoc.Application.Errors;
+using EasyDoc.Application.Services;
 using EasyDoc.SharedKernel;
 using FluentValidation;
 
@@ -29,8 +34,26 @@ internal class UpdateDoctorScheduleCommandValidator : AbstractValidator<UpdateDo
 
 internal class UpdateDoctorScheduleCommandHandler : ICommandHandler<UpdateDoctorScheduleCommand>
 {
-    public Task<Result> Handle(UpdateDoctorScheduleCommand command, CancellationToken cancellationToken = default)
+    private readonly IUserContext _userContext;
+    private readonly DoctorsService _doctorsService;
+
+    public UpdateDoctorScheduleCommandHandler(IUserContext userContext, DoctorsService doctorsService)
     {
-        throw new NotImplementedException();
+        _userContext = userContext;
+        _doctorsService = doctorsService;
+    }
+
+    public async Task<Result> Handle(UpdateDoctorScheduleCommand command, CancellationToken cancellationToken = default)
+    {
+        var doctorId = _userContext.DoctorId;
+
+        var request = new UpdateDoctorScheduleRequest(doctorId, command.ScheduleId, command.StartTime, command.EndTime);
+
+        var result = await _doctorsService.UpdateDoctorScheduleAsync(request, cancellationToken);
+
+        if (!result.IsSuccess && result.Error.Code == DoctorErrors.NotFoundCode)
+            throw new CurrentUserNotFoundException(_userContext.UserId);
+
+        return result;
     }
 }

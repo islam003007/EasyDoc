@@ -52,10 +52,12 @@ internal class GetDoctorsQueryHandler : IQueryHandler<GetDoctorsQuery, IReadOnly
 
         var doctors = await doctorsQuery.Where(d => d.IsVisible)
                                         .OrderBy(d => d.Id)
+                                        .Skip((query.PageNumber - 1) * query.PageSize)
+                                        .Take(query.PageSize)
                                         .Select((doctor) => new GetDoctorsResponse(doctor.Id, doctor.PersonName, doctor.ProfilePictureUrl))
                                         .ToListAsync(cancellationToken);
 
-        // TODO: Apply is Visible filter. or apply global filter and use IgnoreQueryFilters for admin only.
+        // TODO: apply global filter and use IgnoreQueryFilters for admin only. apply other filters if needed.
         return doctors;
     }
 }

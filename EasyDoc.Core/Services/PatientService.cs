@@ -82,7 +82,7 @@ internal class PatientService
 
             if (!result.IsSuccess) 
             {
-                if (result.Error.Code == UserErrors.NotFoundCode)
+                if (!result.IsSuccess && result.Error.Code == UserErrors.NotFoundCode)
                     throw new AppException("Users.NotFound.ByPatient",
                         $"The user belonging to the Patient with the Id {patient.Id} was not found",
                         new { PatientId = patient.Id });
@@ -114,7 +114,7 @@ internal class PatientService
 
             if (!result.IsSuccess)
             {
-                if (result.Error.Code == UserErrors.NotFoundCode)
+                if (!result.IsSuccess && result.Error.Code == UserErrors.NotFoundCode)
                     throw new AppException("Users.NotFound.ByPatient",
                         $"The user belonging to the Patient with the Id {patient.Id} was not found",
                         new { PatientId = patient.Id });

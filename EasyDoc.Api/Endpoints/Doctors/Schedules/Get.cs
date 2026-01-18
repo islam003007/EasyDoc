@@ -16,7 +16,7 @@ internal class Get : IEndpoint
     {
         app.MapGet("/{doctorId}/schedules", async (Guid doctorId,
             IQueryHandler<GetDoctorSchedulesQuery,
-            IReadOnlyCollection<DoctorScheduleResponse>> handler,
+            IReadOnlyList<DoctorScheduleResponse>> handler,
            CancellationToken cancellationToken) =>
         {
             var query = new GetDoctorSchedulesQuery(doctorId);

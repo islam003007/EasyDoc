@@ -1,8 +1,11 @@
-﻿using EasyDoc.Application.Abstractions.Messaging;
+﻿using EasyDoc.Application.Abstractions.Authentication;
+using EasyDoc.Application.Abstractions.Data;
+using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Constants;
 using EasyDoc.Application.CQRS.Appointments.Queries.Common;
 using EasyDoc.SharedKernel;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyDoc.Application.CQRS.Appointments.Queries;
 
@@ -23,8 +26,23 @@ internal class GetDoctorAppointmentsQueryValidator : AbstractValidator<GetDoctor
 
 internal class GetDoctorAppointmentQueryHandler : IQueryHandler<GetDoctorAppointmentsQuery, IReadOnlyList<AppointmentResponse>>
 {
-    public Task<Result<IReadOnlyList<AppointmentResponse>>> Handle(GetDoctorAppointmentsQuery query, CancellationToken cancellationToken = default)
+    private readonly IReadOnlyApplicationDbContext _dbContext;
+    private readonly IUserContext _userContext;
+
+    public GetDoctorAppointmentQueryHandler(IReadOnlyApplicationDbContext dbContext, IUserContext userContext)
     {
-        throw new NotImplementedException();
+        _dbContext = dbContext;
+        _userContext = userContext;
+    }
+
+    public async Task<Result<IReadOnlyList<AppointmentResponse>>> Handle(GetDoctorAppointmentsQuery query, CancellationToken cancellationToken = default)
+    {
+        var doctorId = _userContext.DoctorId;
+
+        var appointments = await _dbContext.Appointments.Where(a => a.DoctorId == doctorId)
+                                                        .Select(AppointmentMapper.ToAppointmentResponse)
+                                                        .ToListAsync(cancellationToken);
+
+        return appointments;
     }
 }

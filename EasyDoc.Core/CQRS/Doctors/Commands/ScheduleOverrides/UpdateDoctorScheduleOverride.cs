@@ -1,10 +1,15 @@
-﻿using EasyDoc.Application.Abstractions.Messaging;
+﻿using EasyDoc.Application.Abstractions.Authentication;
+using EasyDoc.Application.Abstractions.Exceptions;
+using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.Dtos;
+using EasyDoc.Application.Errors;
+using EasyDoc.Application.Services;
 using EasyDoc.SharedKernel;
 using FluentValidation;
 
 namespace EasyDoc.Application.CQRS.Doctors.Commands.ScheduleOverrides;
 
-public record UpdateDoctorScheduleOverrideCommand(bool IsAvailable, TimeOnly? StartTime, TimeOnly? EndTime) : ICommand;
+public record UpdateDoctorScheduleOverrideCommand(Guid ScheduleOverrideId, bool IsAvailable, TimeOnly? StartTime, TimeOnly? EndTime) : ICommand;
 
 internal class UpdateDoctorScheduleOverrideCommandValidator : AbstractValidator<UpdateDoctorScheduleOverrideCommand>
 {
@@ -23,8 +28,30 @@ internal class UpdateDoctorScheduleOverrideCommandValidator : AbstractValidator<
 
 internal class UpdateDoctorScheduleOverrideCommandHandler : ICommandHandler<UpdateDoctorScheduleOverrideCommand>
 {
-    public Task<Result> Handle(UpdateDoctorScheduleOverrideCommand command, CancellationToken cancellationToken = default)
+    private readonly IUserContext _userContext;
+    private readonly DoctorsService _doctorsService;
+
+    public UpdateDoctorScheduleOverrideCommandHandler(IUserContext userContext, DoctorsService doctorsService)
     {
-        throw new NotImplementedException();
+        _userContext = userContext;
+        _doctorsService = doctorsService;
+    }
+
+    public async Task<Result> Handle(UpdateDoctorScheduleOverrideCommand command, CancellationToken cancellationToken = default)
+    {
+        var doctorId = _userContext.DoctorId;
+
+        var request = new UpdateDoctorScheduleOverrideRequest(doctorId,
+            command.ScheduleOverrideId,
+            command.IsAvailable,
+            command.StartTime,
+            command.EndTime);
+
+        var result = await _doctorsService.UpdateDoctorScheduleOverrideAsync(request, cancellationToken);
+
+        if (!result.IsSuccess && result.Error.Code == DoctorErrors.NotFoundCode)
+            throw new CurrentUserNotFoundException(_userContext.UserId);
+
+        return result;
     }
 }

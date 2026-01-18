@@ -17,7 +17,7 @@ internal class DoctorSearchService : IDoctorSearchService
         _context = context;
     }
 
-    public async Task<Result<IEnumerable<DoctorSearchReadModel>>> SearchDoctorsAsync(
+    public async Task<Result<IReadOnlyList<DoctorSearchReadModel>>> SearchDoctorsAsync(
         string SearchInput,
         Guid? cityId = null,
         Guid? departmentId = null,
@@ -30,7 +30,7 @@ internal class DoctorSearchService : IDoctorSearchService
 
         if (string.IsNullOrWhiteSpace(SearchInput))
         {
-            return Result.Success<IEnumerable<DoctorSearchReadModel>>(Enumerable.Empty<DoctorSearchReadModel>());
+            return Result.Success<IReadOnlyList<DoctorSearchReadModel>>(new List<DoctorSearchReadModel>());
         }
 
         // 2. Normalize (Lower case + Arabic normalization)
@@ -66,6 +66,6 @@ internal class DoctorSearchService : IDoctorSearchService
                                             @PageSize = {pageSize};")
                                             .ToListAsync(cancellationToken);
 
-        return Result.Success<IEnumerable<DoctorSearchReadModel>>(SearchResult);
+        return Result.Success<IReadOnlyList<DoctorSearchReadModel>>(SearchResult);
     }
 }

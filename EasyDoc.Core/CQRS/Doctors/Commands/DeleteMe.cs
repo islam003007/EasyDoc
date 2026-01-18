@@ -1,5 +1,7 @@
 ﻿using EasyDoc.Application.Abstractions.Authentication;
+using EasyDoc.Application.Abstractions.Exceptions;
 using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.Errors;
 using EasyDoc.Application.Services;
 using EasyDoc.SharedKernel;
 
@@ -17,10 +19,15 @@ internal class DeleteMeCommandHandler : ICommandHandler<DeleteMeCommand>
         _userContext = userContext;
         _doctorsService = doctorsService;
     }
-    public Task<Result> Handle(DeleteMeCommand command, CancellationToken cancellationToken = default)
+    public async Task<Result> Handle(DeleteMeCommand command, CancellationToken cancellationToken = default)
     {
         var doctorId = _userContext.UserId;
 
-        return _doctorsService.DeleteDoctorSoftAsync(doctorId, cancellationToken);
+        var result = await _doctorsService.DeleteDoctorSoftAsync(doctorId, cancellationToken);
+
+        if (!result.IsSuccess && result.Error.Code == DoctorErrors.NotFoundCode)
+            throw new CurrentUserNotFoundException(_userContext.UserId);
+
+        return result;
     }
 }

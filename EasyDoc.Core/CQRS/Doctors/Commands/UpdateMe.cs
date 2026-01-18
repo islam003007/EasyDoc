@@ -1,6 +1,8 @@
 ﻿using EasyDoc.Application.Abstractions.Authentication;
+using EasyDoc.Application.Abstractions.Exceptions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Dtos;
+using EasyDoc.Application.Errors;
 using EasyDoc.Application.Services;
 using EasyDoc.Domain.Constants;
 using EasyDoc.SharedKernel;
@@ -38,7 +40,7 @@ internal class UpdateMeCommandHandler : ICommandHandler<UpdateMeCommand>
         _userContext = userContext;
         _doctorsService = doctorsService;
     }
-    public Task<Result> Handle(UpdateMeCommand command, CancellationToken cancellationToken = default)
+    public async Task<Result> Handle(UpdateMeCommand command, CancellationToken cancellationToken = default)
     {
         var doctorId = _userContext.UserId;
 
@@ -50,6 +52,11 @@ internal class UpdateMeCommandHandler : ICommandHandler<UpdateMeCommand>
             command.Description,
             command.ProfilePictureUrl);
 
-        return _doctorsService.UpdateDoctorAsync(updateRequest, cancellationToken);
+        var result = await _doctorsService.UpdateDoctorAsync(updateRequest, cancellationToken);
+
+        if (!result.IsSuccess && result.Error.Code == DoctorErrors.NotFoundCode)
+            throw new CurrentUserNotFoundException(_userContext.UserId);
+
+        return result;
     }
 }

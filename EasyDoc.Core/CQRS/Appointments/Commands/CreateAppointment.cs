@@ -1,4 +1,9 @@
-﻿using EasyDoc.Application.Abstractions.Messaging;
+﻿using EasyDoc.Application.Abstractions.Authentication;
+using EasyDoc.Application.Abstractions.Exceptions;
+using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.Dtos;
+using EasyDoc.Application.Errors;
+using EasyDoc.Application.Services;
 using EasyDoc.Domain.Constants;
 using EasyDoc.SharedKernel;
 using FluentValidation;
@@ -24,8 +29,26 @@ internal class CreateAppointmentCommandValidator : AbstractValidator<CreateAppoi
 
 internal class CreateAppointmentCommandHandler : ICommandHandler<CreateAppointmentCommand, Guid>
 {
-    public Task<Result<Guid>> Handle(CreateAppointmentCommand command, CancellationToken cancellationToken = default)
+    private readonly AppointmentService _appointmentService;
+    private readonly IUserContext _userContext;
+
+    public CreateAppointmentCommandHandler(AppointmentService appointmentService, IUserContext userContext)
     {
-        throw new NotImplementedException();
+        _appointmentService = appointmentService;
+        _userContext = userContext;
+    }
+
+    public async Task<Result<Guid>> Handle(CreateAppointmentCommand command, CancellationToken cancellationToken = default)
+    {
+        var patientId = _userContext.PatientId;
+
+        var request = new CreateAppointmentRequest(patientId, command.DoctorId, command.Date, command.StartTime);
+
+        var result = await _appointmentService.CreateAppointmentAsync(request, cancellationToken);
+
+        if (!result.IsSuccess && result.Error.Code == PatientErrors.NotFoundCode)
+            throw new CurrentUserNotFoundException(_userContext.UserId);
+
+        return result;
     }
 }

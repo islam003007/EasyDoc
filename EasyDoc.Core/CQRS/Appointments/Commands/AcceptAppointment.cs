@@ -1,4 +1,6 @@
-﻿using EasyDoc.Application.Abstractions.Messaging;
+﻿using EasyDoc.Application.Abstractions.Authentication;
+using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.Services;
 using EasyDoc.SharedKernel;
 using FluentValidation;
 
@@ -17,8 +19,19 @@ internal class AcceptAppointmentCommandValidator : AbstractValidator<AcceptAppoi
 
 internal class AcceptAppointmentCommandHandler : ICommandHandler<AcceptAppointmentCommand>
 {
+    private readonly AppointmentService _appointmentService;
+    private readonly IUserContext _userContext;
+
+    public AcceptAppointmentCommandHandler(AppointmentService appointmentService, IUserContext userContext)
+    {
+        _appointmentService = appointmentService;
+        _userContext = userContext;
+    }
+
     public Task<Result> Handle(AcceptAppointmentCommand command, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var doctorId = _userContext.DoctorId;
+
+        return _appointmentService.AcceptAppointmentAsync(doctorId, command.AppointmentId, cancellationToken);
     }
 }

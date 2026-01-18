@@ -21,11 +21,12 @@ public class Update : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPatch("Me/schedule-overrides/{scheduleOverrideId}", async (Request request,
+        app.MapPatch("Me/schedule-overrides/{scheduleOverrideId}", async (Guid scheduleOverrideId,
+            Request request,
             ICommandHandler<UpdateDoctorScheduleOverrideCommand> handler,
             CancellationToken cancellationToken) =>
         {
-            var command = new UpdateDoctorScheduleOverrideCommand(request.IsAvailable, request.StartTime, request.EndTime);
+            var command = new UpdateDoctorScheduleOverrideCommand(scheduleOverrideId, request.IsAvailable, request.StartTime, request.EndTime);
 
             var result = await handler.Handle(command, cancellationToken);
 

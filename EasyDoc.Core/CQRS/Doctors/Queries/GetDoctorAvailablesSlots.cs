@@ -1,8 +1,6 @@
 ﻿using EasyDoc.Application.Abstractions.Data;
-using EasyDoc.Application.Abstractions.Exceptions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Errors;
-using EasyDoc.Domain.Constants;
 using EasyDoc.Domain.Entities.AppointmentAggregate;
 using EasyDoc.SharedKernel;
 using FluentValidation;

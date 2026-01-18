@@ -1,4 +1,9 @@
-﻿using EasyDoc.Application.Abstractions.Messaging;
+﻿using EasyDoc.Application.Abstractions.Authentication;
+using EasyDoc.Application.Abstractions.Exceptions;
+using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.Dtos;
+using EasyDoc.Application.Errors;
+using EasyDoc.Application.Services;
 using EasyDoc.SharedKernel;
 using FluentValidation;
 
@@ -30,8 +35,26 @@ internal class CreateDoctorScheduleOverrideCommandValidator : AbstractValidator<
 
 internal class CreateDoctorScheduleOverrideCommandHandler : ICommandHandler<CreateDoctorScheduleOverrideCommand, Guid>
 {
-    public Task<Result<Guid>> Handle(CreateDoctorScheduleOverrideCommand command, CancellationToken cancellationToken = default)
+    private readonly DoctorsService _doctorService;
+    private readonly IUserContext _userContext;
+
+    public CreateDoctorScheduleOverrideCommandHandler(DoctorsService doctorService, IUserContext userContext)
     {
-        throw new NotImplementedException();
+        _doctorService = doctorService;
+        _userContext = userContext;
+    }
+
+    public async Task<Result<Guid>> Handle(CreateDoctorScheduleOverrideCommand command, CancellationToken cancellationToken = default)
+    {
+        var doctorId = _userContext.DoctorId;
+
+        var request = new CreateDoctorScheduleOverrideRequest(doctorId, command.Date, command.IsAvailable, command.StartTime, command.EndTime);
+
+        var result = await _doctorService.CreateDoctorScheduleOverrideAsync(request, cancellationToken);
+
+        if (!result.IsSuccess && result.Error.Code == DoctorErrors.NotFoundCode)
+            throw new CurrentUserNotFoundException(_userContext.UserId); // Doctor Has to be logged in that's why that's a exceptional case
+
+        return result;
     }
 }

@@ -6,7 +6,6 @@ using EasyDoc.Application.Errors;
 using EasyDoc.Application.Specifications;
 using EasyDoc.Domain.Entities;
 using EasyDoc.Domain.Entities.DoctorAggregate;
-using EasyDoc.Domain.Entities.PatientAggregate;
 using EasyDoc.SharedKernel;
 
 namespace EasyDoc.Application.Services;
@@ -131,7 +130,7 @@ internal class DoctorsService
 
             if (!result.IsSuccess)
             {
-                if (result.Error.Code == UserErrors.NotFoundCode)
+                if (!result.IsSuccess && result.Error.Code == UserErrors.NotFoundCode)
                     throw new AppException("Users.NotFound.ByDoctor",
                         $"The user belonging to the doctor with the Id {doctorId} was not found",
                         new { PatientId = doctorId });
@@ -160,7 +159,7 @@ internal class DoctorsService
 
             if (!result.IsSuccess)
             {
-                if (result.Error.Code == UserErrors.NotFoundCode)
+                if (!result.IsSuccess && result.Error.Code == UserErrors.NotFoundCode)
                     throw new AppException("Users.NotFound.ByDoctor",
                         $"The user belonging to the doctor with the Id {doctorId} was not found",
                         new { PatientId = doctorId });
