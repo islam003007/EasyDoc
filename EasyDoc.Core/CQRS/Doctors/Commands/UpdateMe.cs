@@ -40,7 +40,7 @@ internal class UpdateMeCommandHandler : ICommandHandler<UpdateMeCommand>
         _userContext = userContext;
         _doctorsService = doctorsService;
     }
-    public async Task<Result> Handle(UpdateMeCommand command, CancellationToken cancellationToken = default)
+    public async Task<Result> HandleAsync(UpdateMeCommand command, CancellationToken cancellationToken = default)
     {
         var doctorId = _userContext.UserId;
 

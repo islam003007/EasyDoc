@@ -29,7 +29,7 @@ public class Complete : IEndpoint
         {
             var command = new CompleteAppointmentCommand(appointmentId, request.Diagnosis, request.Prescription, request.Notes);
 
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.HandleAsync(command, cancellationToken);
 
             return result.Match(Results.NoContent, CustomResults.Problem);
 

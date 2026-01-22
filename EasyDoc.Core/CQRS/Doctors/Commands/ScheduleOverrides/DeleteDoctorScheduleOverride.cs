@@ -29,7 +29,7 @@ internal class DeleteDoctorScheduleOverrideCommandHandler : ICommandHandler<Dele
         _doctorsService = doctorsService;
     }
 
-    public async Task<Result> Handle(DeleteDoctorScheduleOverrideCommand command, CancellationToken cancellationToken = default)
+    public async Task<Result> HandleAsync(DeleteDoctorScheduleOverrideCommand command, CancellationToken cancellationToken = default)
     {
         var doctorId = _userContext.DoctorId;
 

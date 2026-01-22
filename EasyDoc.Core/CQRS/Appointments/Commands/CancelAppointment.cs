@@ -28,7 +28,7 @@ internal class CancelAppointmentCommandHandler : ICommandHandler<CancelAppointme
         _appointmentService = appointmentService;
     }
 
-    public Task<Result> Handle(CancelAppointmentCommand command, CancellationToken cancellationToken = default)
+    public Task<Result> HandleAsync(CancelAppointmentCommand command, CancellationToken cancellationToken = default)
     {
         var doctorId = _userContext.DoctorId;
 

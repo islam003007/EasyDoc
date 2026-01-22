@@ -17,9 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\Users\Commands\" />
-    <Folder Include="CQRS\Users\Commands\UpdateMyPassword\" />
-    <Folder Include="CQRS\Users\Commands\UpdateMyEmail\" />
+    <Folder Include="CQRS\Auth\Commands\UpdateMyPassword\" />
+    <Folder Include="CQRS\Auth\Commands\UpdateMyEmail\" />
   </ItemGroup>
 
 </Project>

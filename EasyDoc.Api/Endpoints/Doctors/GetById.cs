@@ -22,7 +22,7 @@ internal class GetById : IEndpoint
         {
             var query = new GetDoctorByIdQuery(doctorId);
 
-            var result = await handler.Handle(query, cancellationToken);
+            var result = await handler.HandleAsync(query, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
         });

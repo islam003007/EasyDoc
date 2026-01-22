@@ -24,7 +24,7 @@ internal class DeleteDoctorCommandHandler : ICommandHandler<DeleteDoctorCommand>
     {
         _doctorsService = doctorService;
     }
-    public Task<Result> Handle(DeleteDoctorCommand command, CancellationToken cancellationToken = default)
+    public Task<Result> HandleAsync(DeleteDoctorCommand command, CancellationToken cancellationToken = default)
     {
         if (command.IsSoftDelete)
             return _doctorsService.DeleteDoctorSoftAsync(command.DoctorId, cancellationToken);

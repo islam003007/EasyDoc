@@ -22,8 +22,6 @@ namespace EasyDoc.Api
                 options.Password.RequireUppercase = true;
                 options.Password.RequireLowercase = true;
 
-                // the following line is to allow Lock outs so that the admin can lock accounts
-                // lockoutOnFailure = false MUST BE USED TO AVOID AUTOMATIC LOCKOUTS
                 options.Lockout.AllowedForNewUsers = true;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -32,6 +30,7 @@ namespace EasyDoc.Api
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.Name = "EasyDoc.Auth";
+                // default options are fine.
             });
 
             services.AddAuthorization(options =>

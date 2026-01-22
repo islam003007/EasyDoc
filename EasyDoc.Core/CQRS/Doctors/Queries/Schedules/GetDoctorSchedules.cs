@@ -28,7 +28,7 @@ internal class GetDoctorSchedulesQueryHandler : IQueryHandler<GetDoctorSchedules
         _dbContext = dbContext;
     }
 
-    public async Task<Result<IReadOnlyList<DoctorScheduleResponse>>> Handle(GetDoctorSchedulesQuery query,
+    public async Task<Result<IReadOnlyList<DoctorScheduleResponse>>> HandleAsync(GetDoctorSchedulesQuery query,
         CancellationToken cancellationToken = default)
     {
         return await _dbContext.Doctors

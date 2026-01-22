@@ -33,7 +33,7 @@ internal class GetPatientAppointmentsForDoctorQueryHandler : IQueryHandler<GetPa
         _userContext = userContext;
     }
 
-    public async Task<Result<IReadOnlyList<AppointmentResponse>>> Handle(GetPatientAppointmentsForDoctorQuery query,
+    public async Task<Result<IReadOnlyList<AppointmentResponse>>> HandleAsync(GetPatientAppointmentsForDoctorQuery query,
         CancellationToken cancellationToken = default)
     {
         var doctorId = _userContext.DoctorId;

@@ -26,7 +26,7 @@ internal class GetMeQueryHandler : IQueryHandler<GetMeQuery, PatientMeResponse>
         _userContext = userContext;
     }
 
-    public async Task<Result<PatientMeResponse>> Handle(GetMeQuery query, CancellationToken cancellationToken = default)
+    public async Task<Result<PatientMeResponse>> HandleAsync(GetMeQuery query, CancellationToken cancellationToken = default)
     {
         var patientId = _userContext.PatientId;
 

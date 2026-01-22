@@ -19,7 +19,7 @@ internal class DeleteMeCommandHandler : ICommandHandler<DeleteMeCommand>
         _userContext = userContext;
         _doctorsService = doctorsService;
     }
-    public async Task<Result> Handle(DeleteMeCommand command, CancellationToken cancellationToken = default)
+    public async Task<Result> HandleAsync(DeleteMeCommand command, CancellationToken cancellationToken = default)
     {
         var doctorId = _userContext.UserId;
 

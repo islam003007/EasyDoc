@@ -59,7 +59,7 @@ internal class UpdateDoctorCommandHandler : ICommandHandler<UpdateDoctorCommand>
     {
         _doctorsService = doctorsService;
     }
-    public Task<Result> Handle(UpdateDoctorCommand command, CancellationToken cancellationToken = default)
+    public Task<Result> HandleAsync(UpdateDoctorCommand command, CancellationToken cancellationToken = default)
     {
         var updateRequest = new UpdateDoctorRequest(command.DoctorId,
             command.PersonName,

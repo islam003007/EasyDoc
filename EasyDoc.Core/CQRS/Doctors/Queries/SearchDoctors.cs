@@ -42,7 +42,7 @@ internal class SearchDoctorsQueryHandler : IQueryHandler<SearchDoctorsQuery, IRe
         _searchService = searchService;
     }
 
-    public async Task<Result<IReadOnlyList<SearchDoctorResponse>>> Handle(SearchDoctorsQuery query, CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<SearchDoctorResponse>>> HandleAsync(SearchDoctorsQuery query, CancellationToken cancellationToken = default)
     {
         var result = await _searchService.SearchDoctorsAsync(query.SearchInput,
             query.CityId,

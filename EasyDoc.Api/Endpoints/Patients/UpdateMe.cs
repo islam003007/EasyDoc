@@ -25,7 +25,7 @@ public class UpdateMe : IEndpoint
         {
             var command = new UpdateMeCommand(request.PersonName, request.PhoneNumber);
 
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.HandleAsync(command, cancellationToken);
 
             return result.Match(Results.NoContent, CustomResults.Problem);
 

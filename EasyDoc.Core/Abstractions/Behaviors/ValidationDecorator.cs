@@ -18,13 +18,13 @@ internal static class ValidationDecorator
             _innerHandler = innerHandler;
             _validators = validators;
         }
-        public async Task<Result<TResponse>> Handle(TQuery query, CancellationToken cancellationToken = default)
+        public async Task<Result<TResponse>> HandleAsync(TQuery query, CancellationToken cancellationToken = default)
         {
             ValidationFailure[] failures = await ValidateAsync(query, _validators);
 
             if (failures.Length == 0)
             {
-                return await _innerHandler.Handle(query, cancellationToken);
+                return await _innerHandler.HandleAsync(query, cancellationToken);
             }
 
            return Result.Failure<TResponse>(createValidationError(failures));
@@ -66,13 +66,13 @@ internal static class ValidationDecorator
             _validators = validators;
         }
 
-        public async Task<Result> Handle(TCommand command, CancellationToken cancellationToken = default)
+        public async Task<Result> HandleAsync(TCommand command, CancellationToken cancellationToken = default)
         {
             ValidationFailure[] failures = await ValidateAsync(command, _validators);
 
             if (failures.Length == 0)
             {
-                return await _innerHandler.Handle(command, cancellationToken);
+                return await _innerHandler.HandleAsync(command, cancellationToken);
             }
             return Result.Failure(createValidationError(failures));
         }

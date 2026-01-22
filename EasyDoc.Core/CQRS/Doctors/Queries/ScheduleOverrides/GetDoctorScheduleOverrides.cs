@@ -29,7 +29,7 @@ internal class GetDoctorScheduleOverridesQueryHandler : IQueryHandler<GetDoctorS
         _dbContext = dbContext;
     }
 
-    public async Task<Result<IReadOnlyCollection<DoctorScheduleOverrideResponse>>> Handle(GetDoctorScheduleOverridesQuery query, CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyCollection<DoctorScheduleOverrideResponse>>> HandleAsync(GetDoctorScheduleOverridesQuery query, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Doctors
             .Where(d => d.Id == query.DoctorId)

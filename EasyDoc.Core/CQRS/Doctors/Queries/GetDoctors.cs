@@ -35,7 +35,7 @@ internal class GetDoctorsQueryHandler : IQueryHandler<GetDoctorsQuery, IReadOnly
         _dbContext = dbContext;
     }
 
-    public async Task<Result<IReadOnlyList<GetDoctorsResponse>>> Handle(GetDoctorsQuery query, CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<GetDoctorsResponse>>> HandleAsync(GetDoctorsQuery query, CancellationToken cancellationToken = default)
     {
         var doctorsQuery = _dbContext.Doctors;
                                       

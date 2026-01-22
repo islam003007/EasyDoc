@@ -18,7 +18,7 @@ public class DeleteMe : IEndpoint
         {
             var command = new DeleteMeCommand();
 
-            var results = await handler.Handle(command, cancellationToken);
+            var results = await handler.HandleAsync(command, cancellationToken);
 
             return results.Match(Results.NoContent, CustomResults.Problem);
 

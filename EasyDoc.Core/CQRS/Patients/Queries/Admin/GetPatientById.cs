@@ -27,7 +27,7 @@ internal class GetPatientByIdQueryHandle : IQueryHandler<GetPatientByIdQuery, Ad
         _dbContext = dbContext;
     }
 
-    public async Task<Result<AdminPatientResponse>> Handle(GetPatientByIdQuery query, CancellationToken cancellationToken = default)
+    public async Task<Result<AdminPatientResponse>> HandleAsync(GetPatientByIdQuery query, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Patients
             .Where(p => p.Id == query.PatientId)

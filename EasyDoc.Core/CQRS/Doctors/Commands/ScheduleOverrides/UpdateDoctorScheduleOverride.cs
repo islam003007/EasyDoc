@@ -37,7 +37,7 @@ internal class UpdateDoctorScheduleOverrideCommandHandler : ICommandHandler<Upda
         _doctorsService = doctorsService;
     }
 
-    public async Task<Result> Handle(UpdateDoctorScheduleOverrideCommand command, CancellationToken cancellationToken = default)
+    public async Task<Result> HandleAsync(UpdateDoctorScheduleOverrideCommand command, CancellationToken cancellationToken = default)
     {
         var doctorId = _userContext.DoctorId;
 

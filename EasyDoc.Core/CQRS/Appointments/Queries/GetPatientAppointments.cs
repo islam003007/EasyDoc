@@ -35,7 +35,7 @@ internal class GetPatientAppointmentsQueryHandler : IQueryHandler<GetDoctorAppoi
         _userContext = userContext;
     }
 
-    public async Task<Result<IReadOnlyList<AppointmentResponse>>> Handle(GetDoctorAppointmentsQuery query, CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<AppointmentResponse>>> HandleAsync(GetDoctorAppointmentsQuery query, CancellationToken cancellationToken = default)
     {
         var patientId = _userContext.PatientId;
 

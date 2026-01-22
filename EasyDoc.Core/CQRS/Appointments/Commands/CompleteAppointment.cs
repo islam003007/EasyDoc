@@ -37,7 +37,7 @@ internal class CompleteAppointmentCommandHandler : ICommandHandler<CompleteAppoi
         _appointmentService = appointmentService;
     }
 
-    public Task<Result> Handle(CompleteAppointmentCommand command, CancellationToken cancellationToken = default)
+    public Task<Result> HandleAsync(CompleteAppointmentCommand command, CancellationToken cancellationToken = default)
     {
         var doctorId = _userContext.DoctorId;
 

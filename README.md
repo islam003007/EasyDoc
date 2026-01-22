@@ -85,7 +85,19 @@ When ready for local development, the project uses **User Secrets** to manage co
 ```bash
 dotnet user-secrets init
 dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YourConnectionStringHere"
+dotnet user-secrets set "MailTrap:ApiToken" "YourMailTrapApiTokenHere"
 ```
+
+## Email Sending
+
+This project depends on the [Mailtrap .NET SDK](https://github.com/mailtrap/mailtrap-dotnet) to test sending emails. 
+
+**Note:** This package is published on GitHub Packages and requires a Personal Access Token (PAT) with `read:packages` to restore.
+
+To install it:
+
+1. Visit the Mailtrap .NET SDK repo: [https://github.com/mailtrap/mailtrap-dotnet](https://github.com/mailtrap/mailtrap-dotnet)
+2. Follow their instructions to add the NuGet feed and restore the package.
 
 ---
 

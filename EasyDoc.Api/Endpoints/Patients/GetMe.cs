@@ -18,7 +18,7 @@ public class GetMe : IEndpoint
         {
             var query = new GetMeQuery();
 
-            var result = await handler.Handle(query, cancellationToken);
+            var result = await handler.HandleAsync(query, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
 

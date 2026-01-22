@@ -27,7 +27,7 @@ public class Update : IEndpoint
         {
             var command = new UpdateDoctorScheduleCommand(scheduleId, request.startTime, request.endTime);
 
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.HandleAsync(command, cancellationToken);
 
             return result.Match(Results.NoContent, CustomResults.Problem);
 

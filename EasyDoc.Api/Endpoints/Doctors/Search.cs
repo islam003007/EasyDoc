@@ -27,7 +27,7 @@ public class Search : IEndpoint
         {
             var searchQuery = new SearchDoctorsQuery(query, cityId, departmentId, pageNumber, pageSize);
 
-            var result = await handler.Handle(searchQuery, cancellationToken);
+            var result = await handler.HandleAsync(searchQuery, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
         });

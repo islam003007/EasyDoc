@@ -17,13 +17,13 @@ internal static class LoggingDecorator
             _logger = logger;
             _innerHandler = innerHandler;
         }
-        public async Task<Result<TResponse>> Handle(TQuery query, CancellationToken cancellationToken = default)
+        public async Task<Result<TResponse>> HandleAsync(TQuery query, CancellationToken cancellationToken = default)
         {
             string queryName = query.GetType().Name;
 
             _logger.LogInformation("Processing Query {Query}", queryName);
 
-            Result<TResponse> result = await _innerHandler.Handle(query, cancellationToken);
+            Result<TResponse> result = await _innerHandler.HandleAsync(query, cancellationToken);
 
             if (result.IsSuccess)
             {
@@ -83,13 +83,13 @@ internal static class LoggingDecorator
             _logger = logger;
             _innerHandler = innerHandler;
         }
-        public async Task<Result> Handle(TCommand command, CancellationToken cancellationToken = default)
+        public async Task<Result> HandleAsync(TCommand command, CancellationToken cancellationToken = default)
         {
             string commandName = command.GetType().Name;
 
             _logger.LogInformation("Processing command {Command}", commandName);
 
-            Result result = await _innerHandler.Handle(command, cancellationToken);
+            Result result = await _innerHandler.HandleAsync(command, cancellationToken);
 
             if (result.IsSuccess)
             {

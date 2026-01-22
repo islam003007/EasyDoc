@@ -3,8 +3,12 @@ using EasyDoc.Application.Abstractions.Exceptions;
 using EasyDoc.Application.Errors;
 using EasyDoc.Infrastructure.Data.Identity;
 using EasyDoc.SharedKernel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using System.Collections.Immutable;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 namespace EasyDoc.Infrastructure.Services;
 
@@ -12,10 +16,15 @@ internal class UserService : IUserService // all of the methods in this service 
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUnitOfWork _unitOfWork;
-    public UserService(UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork)
+    private readonly UserNotificationService _userNotificationService;
+
+    public UserService(UserManager<ApplicationUser> userManager,
+        IUnitOfWork unitOfWork,
+        UserNotificationService userNotificationService)
     {
         _userManager = userManager;
         _unitOfWork = unitOfWork;
+        _userNotificationService = userNotificationService;
     }
 
     public async Task<Result<Guid>> CreateUserAsync(string email, string password, string role)
@@ -34,6 +43,10 @@ internal class UserService : IUserService // all of the methods in this service 
 
         if (!roleResult.Succeeded)
             return ToFailureResult<Guid>(roleResult);
+
+        // Not checked so that the whole transaction doesn't fail becuase of the email failure. The user can later request another email.
+        // Outbox pattern would solve this.
+        await _userNotificationService.SendEmailConfirmationAsync(user);  
 
         return user.Id;
     }
@@ -75,7 +88,7 @@ internal class UserService : IUserService // all of the methods in this service 
 
     }
 
-    public async Task<Result> LockUserOut(ApplicationUser user)
+    private async Task<Result> LockUserOut(ApplicationUser user)
     {
         if (_unitOfWork.CurrentTransaction == null)
             throw new TransactionRequiredException();
@@ -101,6 +114,45 @@ internal class UserService : IUserService // all of the methods in this service 
         return Result.Success();
     }
 
+    public async Task<Result> ConfirmUserEmailAsync(Guid userId, string token)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+
+        if (user is null)
+            return Result.Failure(UserErrors.NotFound(userId));
+
+        try
+        {
+            token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+        }
+        catch (FormatException)
+        {
+            return Result.Failure(AuthErrors.InvalidToken);
+        }
+
+        var result = await _userManager.ConfirmEmailAsync(user, token);
+
+        if (!result.Succeeded)
+            return Result.Failure(AuthErrors.InvalidToken);
+
+        return Result.Success();
+    }
+
+    public async Task<Result> ResendEmailConfirmationToken(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user is null)
+            return Result.Failure(UserErrors.NotFoundByEmail(email));
+
+        if (user.EmailConfirmed)
+            return Result.Failure(AuthErrors.EmailAlreadyConfirmed);
+
+        await _userNotificationService.SendEmailConfirmationAsync(user);
+
+        return Result.Success();
+    }
+
     // can be refactored to a separate class as extension methods.
     private static Result ToFailureResult(IdentityResult result) =>
         result.Succeeded ?
@@ -112,3 +164,4 @@ internal class UserService : IUserService // all of the methods in this service 
         throw new InvalidOperationException($"Can not convert from a successful Identity result to a failure Result of type {typeof(TType).Name}")
         : Result.Failure<TType>(new MultiError(result.Errors.Select(e => Error.Problem(e.Code, e.Description))));
 }
+ 

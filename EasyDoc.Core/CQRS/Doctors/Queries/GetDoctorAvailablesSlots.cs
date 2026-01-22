@@ -28,7 +28,7 @@ internal class GetDoctorAvailableSlotsQueryHandler : IQueryHandler<GetDoctorAvai
     {
         _dbcontext = dbcontext;
     }
-    public async Task<Result<IReadOnlyList<SlotResponse>>> Handle(GetDoctorAvailableSlotsQuery query, CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<SlotResponse>>> HandleAsync(GetDoctorAvailableSlotsQuery query, CancellationToken cancellationToken = default)
     {
         var doctor = await _dbcontext.Doctors.Where(d => d.Id == query.DoctorId)
             .Include(d => d.Schedules.Where(s => s.DayOfWeek == query.Date.DayOfWeek))

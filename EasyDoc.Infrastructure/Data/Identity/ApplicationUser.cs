@@ -11,7 +11,7 @@ public class ApplicationUser : IdentityUser<Guid>
     }
     public ApplicationUser(string email)
     {
-        UserName = Guid.CreateVersion7().ToString("N"); // the "N" is just for fromat.
+        UserName = Guid.CreateVersion7().ToString("N"); // the "N" is just for format.
         SetEmail(email);
     }
 

@@ -55,7 +55,7 @@ public class Update : IEndpoint
                 optionalDescriptionResult.Value,
                 optionalPictureResult.Value);
 
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.HandleAsync(command, cancellationToken);
 
             return result.Match(Results.NoContent, CustomResults.Problem);
 
