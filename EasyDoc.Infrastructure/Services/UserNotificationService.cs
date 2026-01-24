@@ -54,4 +54,16 @@ internal class UserNotificationService
 
         return Result.Success();
     }
+
+    public async Task<Result> SendPassordResetAsync (ApplicationUser user)
+    {
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+        var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+
+        // again not checked. the user can always request another token.
+        await _emailSender.SendPasswordResetCodeAsync(user, user.Email!, encodedToken); 
+
+        return Result.Success();
+    }
 }

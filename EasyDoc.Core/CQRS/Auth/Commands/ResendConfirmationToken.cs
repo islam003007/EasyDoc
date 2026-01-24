@@ -28,6 +28,6 @@ internal class ResendConfirmationTokenCommandHandler : ICommandHandler<ResendCon
 
     public Task<Result> HandleAsync(ResendConfirmationTokenCommand command, CancellationToken cancellationToken = default)
     {
-        return _userService.ResendEmailConfirmationToken(command.Email);
+        return _userService.ResendEmailConfirmationTokenAsync(command.Email);
     }
 }

@@ -3,16 +3,13 @@ using EasyDoc.Application.Abstractions.Exceptions;
 using EasyDoc.Application.Errors;
 using EasyDoc.Infrastructure.Data.Identity;
 using EasyDoc.SharedKernel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 
 namespace EasyDoc.Infrastructure.Services;
 
-internal class UserService : IUserService // all of the methods in this service are supposed to run in a db transaction.
+internal class UserService : IUserService // some of the methods in this service are supposed to run in a db transaction.
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUnitOfWork _unitOfWork;
@@ -45,7 +42,7 @@ internal class UserService : IUserService // all of the methods in this service 
             return ToFailureResult<Guid>(roleResult);
 
         // Not checked so that the whole transaction doesn't fail becuase of the email failure. The user can later request another email.
-        // Outbox pattern would solve this.
+        // outbox pattern would solve this.
         await _userNotificationService.SendEmailConfirmationAsync(user);  
 
         return user.Id;
@@ -61,7 +58,7 @@ internal class UserService : IUserService // all of the methods in this service 
         if (user == null)
             return Result.Failure(UserErrors.NotFound(userId));
 
-        var lockoutResult = await LockUserOut(user);
+        var lockoutResult = await LockUserOutAsync(user);
 
         if (!lockoutResult.IsSuccess)
             return lockoutResult;
@@ -88,7 +85,7 @@ internal class UserService : IUserService // all of the methods in this service 
 
     }
 
-    private async Task<Result> LockUserOut(ApplicationUser user)
+    private async Task<Result> LockUserOutAsync(ApplicationUser user)
     {
         if (_unitOfWork.CurrentTransaction == null)
             throw new TransactionRequiredException();
@@ -133,12 +130,12 @@ internal class UserService : IUserService // all of the methods in this service 
         var result = await _userManager.ConfirmEmailAsync(user, token);
 
         if (!result.Succeeded)
-            return Result.Failure(AuthErrors.InvalidToken);
+            return ToFailureResult(result);
 
         return Result.Success();
     }
 
-    public async Task<Result> ResendEmailConfirmationToken(string email)
+    public async Task<Result> ResendEmailConfirmationTokenAsync(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
 
@@ -151,6 +148,41 @@ internal class UserService : IUserService // all of the methods in this service 
         await _userNotificationService.SendEmailConfirmationAsync(user);
 
         return Result.Success();
+    }
+
+    public async Task<Result> RequestPasswordResetAsync(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user is not null && await _userManager.IsEmailConfirmedAsync(user)) // to not reveal that that the email doesn't exist or not confirmed.
+            await _userNotificationService.SendPassordResetAsync(user);
+
+        return Result.Success();
+    }
+
+    public async Task<Result> ResetPasswordAsync(string email, string token, string newPassword)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user is null || await _userManager.IsEmailConfirmedAsync(user))
+            return Result.Failure(AuthErrors.InvalidToken); // to not reveal that the user doesn't exist or is not confirmed.
+
+        try
+        {
+            token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+        }
+        catch(FormatException)
+        {
+            return Result.Failure(AuthErrors.InvalidToken);
+        }
+
+        var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+        if (!result.Succeeded)
+            return ToFailureResult(result);
+
+        return Result.Success();
+
     }
 
     // can be refactored to a separate class as extension methods.
