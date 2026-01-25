@@ -3,6 +3,8 @@ using EasyDoc.Application.Constants;
 using EasyDoc.Infrastructure.Data;
 using EasyDoc.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Identity;
+using Serilog;
+using Serilog.Core;
 
 namespace EasyDoc.Api
 {
@@ -43,6 +45,14 @@ namespace EasyDoc.Api
 
                 options.AddPolicy(Policies.PatientsOnly, Policy =>
                     Policy.RequireRole(Roles.Patient));
+            });
+
+            services.AddProblemDetails(configure =>
+            {
+                configure.CustomizeProblemDetails = context =>
+                {
+                    context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
+                };
             });
             return services;
         }

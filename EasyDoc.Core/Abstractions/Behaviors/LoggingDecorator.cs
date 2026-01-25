@@ -1,7 +1,6 @@
 ﻿using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.SharedKernel;
 using Microsoft.Extensions.Logging;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EasyDoc.Application.Abstractions.Behaviors;
 
@@ -31,7 +30,14 @@ internal static class LoggingDecorator
             }
             else
             {
-                _logger.LogError("Completed query {Query} with error {@Error}", queryName, result.Error);
+                if (result.Error.Type == ErrorType.Failure) // ErrorType.Failure is not intended to be used. and it maps to 500.
+                {
+                    _logger.LogWarning("Completed query {Query} with error {@Error}", queryName, result.Error);
+                }
+                else
+                {
+                    _logger.LogInformation("Completed query {Query} with error {@Error}", queryName, result.Error);
+                }
             }
 
             return result;
@@ -65,7 +71,14 @@ internal static class LoggingDecorator
             }
             else
             {
-                _logger.LogError("Completed command {Command} with error {@Error}", commandName, result.Error);
+                if (result.Error.Type == ErrorType.Failure) // ErrorType.Failure is not intended to be used. and it maps to 500.
+                {
+                    _logger.LogWarning("Completed query {Query} with error {@Error}", commandName, result.Error);
+                }
+                else
+                {
+                    _logger.LogInformation("Completed query {Query} with error {@Error}", commandName, result.Error);
+                }
             }
 
             return result;
@@ -97,7 +110,14 @@ internal static class LoggingDecorator
             }
             else
             {
-                _logger.LogError("Completed command {Command} with error {@Error}", commandName, result.Error);
+                if (result.Error.Type == ErrorType.Failure) // ErrorType.Failure is not intended to be used. and it maps to 500.
+                {
+                    _logger.LogWarning("Completed query {Query} with error {@Error}", commandName, result.Error);
+                }
+                else
+                {
+                    _logger.LogInformation("Completed query {Query} with error {@Error}", commandName, result.Error);
+                }
             }
 
             return result; ;

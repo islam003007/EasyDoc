@@ -1,6 +1,8 @@
 using EasyDoc.Api;
+using EasyDoc.Api.Extensions;
 using EasyDoc.Application;
 using EasyDoc.Infrastructure;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,13 +15,23 @@ builder.Services.AddApplication();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+Log.Logger = new LoggerConfiguration()
+    .ConfigureLogging()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.MapOpenApi(); // TODO: swagger ui, apply migrations
 }
+
+app.UseCustomRequestLogging();
+
+app.UseExceptionHandler();
 
 app.UseAuthorization();
 
