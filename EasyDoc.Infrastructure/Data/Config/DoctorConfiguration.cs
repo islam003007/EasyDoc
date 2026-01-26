@@ -21,7 +21,7 @@ public class DoctorConfiguration : IEntityTypeConfiguration<Doctor>
         builder.OwnsOne(profile => profile.PhoneNumber, phoneNumber =>
         {
             phoneNumber.Property(phoneNumber => phoneNumber.Value)
-            .HasMaxLength(PhoneNumberConstants.PhoneNumberMaxLength).HasColumnName("PhoneNumber");
+            .HasMaxLength(25).HasColumnName("PhoneNumber");
         });
 
         builder.Property(d => d.IdCardPictureUrl).HasMaxLength(1500);

@@ -2,7 +2,7 @@
 
 namespace EasyDoc.Domain.Entities;
 
-public record PhoneNumber // value object
+public record PhoneNumber // value object. At this point might be overengineering but fine.
 {
     public string Value { get; } = default!;
 
@@ -10,13 +10,7 @@ public record PhoneNumber // value object
     public PhoneNumber(string value)
     {
         Guard.Against.NullOrWhiteSpace(value);
-        value = Normalize(value);
-
         Value = value;
     }
-    private static string Normalize(string value) => value.Trim(); // TODO: better normlization
-
     public override string ToString() => Value;
-    
-
 }
