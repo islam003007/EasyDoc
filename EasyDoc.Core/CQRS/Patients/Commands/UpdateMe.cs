@@ -1,4 +1,5 @@
 ﻿using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.Abstractions.Utils;
 using EasyDoc.Domain.Constants;
 using FluentValidation;
 
@@ -8,12 +9,12 @@ public record UpdateMeCommand(string? PersonName, string? PhoneNumber) : IComman
 
 internal class UpdateMeCommandValidator : AbstractValidator<UpdateMeCommand>
 {
-    public UpdateMeCommandValidator()
+    public UpdateMeCommandValidator(IPhoneNumberService phoneNumberService)
     {
         RuleFor(x => x.PersonName)
            .MaximumLength(ProfileConstants.PersonNameMaxLength);
 
         RuleFor(x => x.PhoneNumber)
-            .MaximumLength(PhoneNumberConstants.PhoneNumberMaxLength); // TODO: use libphonenumber for phone validation
+            .MustBeValidPhoneNumber(phoneNumberService);
     }
 }

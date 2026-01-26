@@ -1,6 +1,7 @@
 ﻿using EasyDoc.Application.Abstractions.Authentication;
 using EasyDoc.Application.Abstractions.Exceptions;
 using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.Abstractions.Utils;
 using EasyDoc.Application.Dtos;
 using EasyDoc.Application.Errors;
 using EasyDoc.Application.Services;
@@ -19,14 +20,14 @@ public record UpdateMeCommand(string? PersonName,
 
 internal class UpdateMeCommandValidator : AbstractValidator<UpdateMeCommand>
 {
-    public UpdateMeCommandValidator()
+    public UpdateMeCommandValidator(IPhoneNumberService phoneNumberService)
     {
 
         RuleFor(x => x.PersonName)
            .MaximumLength(ProfileConstants.PersonNameMaxLength);
 
         RuleFor(x => x.PhoneNumber)
-            .MaximumLength(PhoneNumberConstants.PhoneNumberMaxLength); // TODO: use libphonenumber for phone validation
+            .MustBeValidPhoneNumber(phoneNumberService);
     }
 }
 

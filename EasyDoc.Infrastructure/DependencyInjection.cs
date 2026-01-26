@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Mailtrap;
 using EasyDoc.Infrastructure.Options;
+using EasyDoc.Application.Abstractions.Utils;
 
 namespace EasyDoc.Infrastructure;
 
@@ -28,12 +29,15 @@ public static class DependencyInjection
         services.AddScoped<IUserContext, UserContext>();
         services.AddOptions<EmailOptions>()
             .Bind(configuration.GetSection("Email"))
+            .Validate(o => !String.IsNullOrEmpty(o.From),
+                        "Email from Address must be provided")
             .ValidateOnStart();
         services.AddMailtrapClient(options =>
         {
             options.ApiToken = configuration["MailTrap:ApiToken"] ??
             throw new InvalidOperationException("MailTrap:ApiToken is not configured.");
         });
+        services.AddSingleton<IPhoneNumberService, PhoneNumberService>();
 
         return services;
     }

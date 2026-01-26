@@ -1,4 +1,5 @@
 ﻿using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.Abstractions.Utils;
 using EasyDoc.Application.Dtos;
 using EasyDoc.Application.Services;
 using EasyDoc.Domain.Constants;
@@ -19,7 +20,7 @@ public record UpdateDoctorCommand(Guid DoctorId,
 
 internal class UpdateDoctorCommandValidator : AbstractValidator<UpdateDoctorCommand>
 {
-    public UpdateDoctorCommandValidator()
+    public UpdateDoctorCommandValidator(IPhoneNumberService phoneNumberService)
     {
         RuleFor(x => x.DoctorId)
             .NotEmpty();
@@ -30,8 +31,7 @@ internal class UpdateDoctorCommandValidator : AbstractValidator<UpdateDoctorComm
 
         RuleFor(x => x.PhoneNumber)
             .NotEmpty().When(x => x != null).WithMessage("Phone number must not be empty if provided.")
-            .MaximumLength(PhoneNumberConstants.PhoneNumberMaxLength)
-                 .WithMessage("Phone number should have at most 25 characters"); // TODO: use libphonenumber for phone validation
+            .MustBeValidPhoneNumber(phoneNumberService);
 
         RuleFor(x => x.CityId)
             .NotEmpty().When(x => x != null).WithMessage("City Id must not be empty if provided.");

@@ -1,4 +1,5 @@
 ﻿using EasyDoc.Api.Constants;
+using EasyDoc.Api.ExceptionHandlers;
 using EasyDoc.Application.Constants;
 using EasyDoc.Infrastructure.Data;
 using EasyDoc.Infrastructure.Data.Identity;
@@ -54,6 +55,9 @@ namespace EasyDoc.Api
                     context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
                 };
             });
+
+            services.AddExceptionHandler<GlobalExceptionHandler>();
+
             return services;
         }
     }

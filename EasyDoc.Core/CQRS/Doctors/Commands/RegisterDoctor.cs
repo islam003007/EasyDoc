@@ -1,4 +1,5 @@
 ﻿using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.Abstractions.Utils;
 using EasyDoc.Application.Dtos;
 using EasyDoc.Application.Services;
 using EasyDoc.Domain.Constants;
@@ -22,7 +23,7 @@ public record RegisterDoctorCommand(string Email,
 
 internal class RegisterDoctorCommandValidator : AbstractValidator<RegisterDoctorCommand>
 {
-    public RegisterDoctorCommandValidator()
+    public RegisterDoctorCommandValidator(IPhoneNumberService phoneNumberService)
     {
         // Email Validation
         RuleFor(x => x.Email)
@@ -44,7 +45,7 @@ internal class RegisterDoctorCommandValidator : AbstractValidator<RegisterDoctor
 
         RuleFor(x => x.PhoneNumber)
             .NotEmpty()
-            .MaximumLength(PhoneNumberConstants.PhoneNumberMaxLength); // TODO: use libphonenumber for phone validation
+            .MustBeValidPhoneNumber(phoneNumberService); // TODO: use libphonenumber for phone validation
 
         RuleFor(x => x.IdCardPictureUrl)
             .NotEmpty();

@@ -1,5 +1,7 @@
-﻿using EasyDoc.Application.Abstractions.Data;
+﻿using Ardalis.GuardClauses;
+using EasyDoc.Application.Abstractions.Data;
 using EasyDoc.Application.Abstractions.Exceptions;
+using EasyDoc.Application.Abstractions.Utils;
 using EasyDoc.Application.Constants;
 using EasyDoc.Application.Dtos;
 using EasyDoc.Application.Errors;
@@ -15,12 +17,16 @@ internal class DoctorsService
     private readonly IRepository<Doctor> _doctorRepository;
     private readonly IUserService _userService;
     private readonly IUnitOfWork _unitOfWork;
-    public DoctorsService(IRepository<Doctor> doctorRepository, IUserService userService, IUnitOfWork unitOfWork)
+    private readonly IPhoneNumberService _phoneNumberService;
+    public DoctorsService(IRepository<Doctor> doctorRepository,
+        IUserService userService,
+        IUnitOfWork unitOfWork,
+        IPhoneNumberService phoneNumberService)
     {
         _doctorRepository = doctorRepository;
         _userService = userService;
         _unitOfWork = unitOfWork;
-
+        _phoneNumberService = phoneNumberService;
     }
 
     public async Task<Result<Guid>> CreateDoctorAsync(CreateDoctorRequest request, CancellationToken cancellationToken = default)
@@ -36,7 +42,7 @@ internal class DoctorsService
 
             Doctor doctor = new Doctor(userId,
                 request.PersonName,
-                new PhoneNumber(request.PhoneNumber),
+                new PhoneNumber(NormalizePhoneNumber(request.PhoneNumber)),
                 request.IdCardPictureUrl,
                 request.ClinicAddress,
                 request.DepartmentId,
@@ -45,7 +51,7 @@ internal class DoctorsService
                 request.Description,
                 request.ProfilePictureUrl);
 
-            await _doctorRepository.AddAsync(doctor, cancellationToken); // cancellatioToken rudandant but for consistency
+            await _doctorRepository.AddAsync(doctor, cancellationToken); // cancellatioToken redundant but for consistency
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -73,7 +79,8 @@ internal class DoctorsService
 
         if (request.PhoneNumber is string phoneNumber)
         {
-            doctor.SetPhoneNumber(new PhoneNumber(phoneNumber));
+            var normalizedPhoneNumber = NormalizePhoneNumber(phoneNumber);
+            doctor.SetPhoneNumber(new PhoneNumber(normalizedPhoneNumber));
         }
 
         if (request.isVisible is bool isVisible)
@@ -300,6 +307,18 @@ internal class DoctorsService
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
+    }
+
+    private string NormalizePhoneNumber(string phoneNumber)
+    {
+        Guard.Against.NullOrEmpty(phoneNumber);
+
+        var isValidPhoneNumber = _phoneNumberService.TryNormalize(phoneNumber, out string normalizedPhoneNumber);
+
+        if (isValidPhoneNumber == false)
+            throw new ArgumentException("Invalid phone Number");
+
+        return normalizedPhoneNumber;
     }
 }
 

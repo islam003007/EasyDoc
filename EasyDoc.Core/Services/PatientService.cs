@@ -1,5 +1,7 @@
-﻿using EasyDoc.Application.Abstractions.Data;
+﻿using Ardalis.GuardClauses;
+using EasyDoc.Application.Abstractions.Data;
 using EasyDoc.Application.Abstractions.Exceptions;
+using EasyDoc.Application.Abstractions.Utils;
 using EasyDoc.Application.Constants;
 using EasyDoc.Application.Dtos;
 using EasyDoc.Application.Errors;
@@ -14,12 +16,17 @@ internal class PatientService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IUserService _userService;
     private readonly IRepository<Patient> _patientRepository;
+    private readonly IPhoneNumberService _phoneNumberService;
 
-    public PatientService(IUnitOfWork unitOfWork, IUserService userService, IRepository<Patient> patientRepository)
+    public PatientService(IUnitOfWork unitOfWork,
+        IUserService userService,
+        IRepository<Patient> patientRepository,
+        IPhoneNumberService phoneNumberService)
     {
         _unitOfWork = unitOfWork;
         _userService = userService;
         _patientRepository = patientRepository;
+        _phoneNumberService = phoneNumberService;
     }
 
     public async Task<Result<Guid>> CreatePatientAsync(CreatePatientRequest request, CancellationToken cancellationToken = default)
@@ -33,7 +40,7 @@ internal class PatientService
 
             var userId = result.Value;
 
-            var patient = new Patient(userId, request.PersonName, new PhoneNumber(request.PhoneNumber));
+            var patient = new Patient(userId, request.PersonName, new PhoneNumber(NormalizePhoneNumber(request.PhoneNumber)));
 
             await _patientRepository.AddAsync(patient);
 
@@ -59,7 +66,8 @@ internal class PatientService
 
         if (request.PhoneNumber is not null)
         {
-            patient.SetPhoneNumber(new PhoneNumber(request.PhoneNumber));
+            var normalizedPhoneNumber = NormalizePhoneNumber(request.PhoneNumber);
+            patient.SetPhoneNumber(new PhoneNumber(normalizedPhoneNumber));
         }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -128,5 +136,17 @@ internal class PatientService
 
             return Result.Success();
         }
+    }
+
+    private string NormalizePhoneNumber(string phoneNumber)
+    {
+        Guard.Against.NullOrEmpty(phoneNumber);
+
+        var isValidPhoneNumber = _phoneNumberService.TryNormalize(phoneNumber, out string normalizedPhoneNumber);
+
+        if (isValidPhoneNumber == false)
+            throw new ArgumentException("Invalid phone Number");
+
+        return normalizedPhoneNumber;
     }
 }

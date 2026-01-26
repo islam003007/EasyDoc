@@ -11,7 +11,7 @@ namespace EasyDoc.Infrastructure.Services;
 
 internal class MailTrapEmailSender : IEmailSender
 {
-    private readonly IMailtrapClient _mailtrapClient;
+    private readonly IMailtrapClient _mailtrapClient; // TODO: this is not used. there has to be a problem here.
     private readonly EmailOptions _emailOptions;
     private readonly ILogger<MailTrapEmailSender> _logger;
 
