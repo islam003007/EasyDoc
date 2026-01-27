@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands;
 using EasyDoc.Domain.Constants;
@@ -29,9 +28,9 @@ internal class Register : IEndpoint
         public string? ProfilePictureUrl { get; set; }
         public long DefaultAppointmentTimeInMinutes { get; set; } = AppointmentConstants.DefaultAppointmentTimeInMinutes;
     }
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/register", async (Request request,
+        return app.MapPost("/register", async (Request request,
             ICommandHandler<RegisterDoctorCommand, Guid> handler,
             CancellationToken cancellationToken) =>
         {

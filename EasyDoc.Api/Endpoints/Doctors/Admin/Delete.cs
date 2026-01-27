@@ -16,9 +16,9 @@ public class Delete : IEndpoint
         public bool IsSoftDelete { get; set; } = true;
     }
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/{id}", async (Guid id,
+        return app.MapDelete("/{id}", async (Guid id,
             Request request,
             ICommandHandler<DeleteDoctorCommand> handler,
             CancellationToken cancellationToken) =>

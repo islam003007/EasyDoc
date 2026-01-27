@@ -12,9 +12,9 @@ public class Accept : IEndpoint
     public Feature Feature => Feature.Appointments;
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/{appointmentId}/accept", async (Guid appointmentId,
+        return app.MapPost("/{appointmentId}/accept", async (Guid appointmentId,
             ICommandHandler<AcceptAppointmentCommand> handler,
             CancellationToken cancellationToken) =>
         {

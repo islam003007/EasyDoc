@@ -1,11 +1,10 @@
 ﻿using EasyDoc.Api.Constants;
+using EasyDoc.Api.Endpoints;
 using EasyDoc.Api.ExceptionHandlers;
 using EasyDoc.Application.Constants;
 using EasyDoc.Infrastructure.Data;
 using EasyDoc.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Identity;
-using Serilog;
-using Serilog.Core;
 
 namespace EasyDoc.Api
 {
@@ -57,6 +56,11 @@ namespace EasyDoc.Api
             });
 
             services.AddExceptionHandler<GlobalExceptionHandler>();
+
+            services.Scan(scan => scan.FromAssembliesOf(typeof(DependencyInjection))
+            .AddClasses(classes => classes.AssignableTo<IEndpoint>())
+            .AsImplementedInterfaces()
+            .WithTransientLifetime());
 
             return services;
         }

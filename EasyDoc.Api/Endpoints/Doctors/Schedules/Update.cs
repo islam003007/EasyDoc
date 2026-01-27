@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands.Schedules;
 using Web.Api.Infrastructure;
@@ -18,9 +17,9 @@ public class Update : IEndpoint
         public TimeOnly endTime { get; set; }
     }
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPatch("/me/schedules/{scheduleId}", async (Guid scheduleId,
+        return app.MapPatch("/me/schedules/{scheduleId}", async (Guid scheduleId,
             Request request,
             ICommandHandler<UpdateDoctorScheduleCommand> handler,
             CancellationToken cancellationToken) =>

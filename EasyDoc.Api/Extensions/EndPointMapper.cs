@@ -1,7 +1,7 @@
 ﻿using EasyDoc.Api.Constants;
-using EasyDoc.Application.Constants;
+using EasyDoc.Api.Endpoints;
 
-namespace EasyDoc.Api;
+namespace EasyDoc.Api.Extensions;
 
 public static class EndPointMapper
 {
@@ -26,7 +26,7 @@ public static class EndPointMapper
                 {
                     var targetGroup = endpoint.IsAdminEndpoint ? adminGroup : standardGroup;
 
-                    endpoint.MapEndpoint(targetGroup);
+                    endpoint.MapEndpoint(targetGroup).WithName($"{featureName}.{endpoint.GetType().Name}");
                 }
             }
 

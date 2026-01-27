@@ -11,9 +11,9 @@ public class DeleteMe : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/me", async (ICommandHandler<DeleteMeCommand> handler,
+        return app.MapDelete("/me", async (ICommandHandler<DeleteMeCommand> handler,
             CancellationToken cancellationToken) =>
         {
             var command = new DeleteMeCommand();

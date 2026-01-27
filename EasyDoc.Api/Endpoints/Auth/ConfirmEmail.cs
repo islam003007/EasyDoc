@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Auth.Commands;
 using Microsoft.AspNetCore.Routing;
@@ -13,9 +12,9 @@ public class ConfirmEmail : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/confirm-email", async (Guid userId,
+        return app.MapPost("/confirm-email", async (Guid userId,
             string Token,
             ICommandHandler<ConfirmEmailCommand> handler,
             CancellationToken cancellationToken) =>

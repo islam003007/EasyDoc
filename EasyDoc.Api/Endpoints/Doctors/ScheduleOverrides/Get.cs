@@ -11,9 +11,9 @@ internal class Get : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/{doctorId}/schedule-overriddes", async (Guid doctorId,
+        return app.MapGet("/{doctorId}/schedule-overriddes", async (Guid doctorId,
             IQueryHandler<GetDoctorScheduleOverridesQuery, IReadOnlyCollection<DoctorScheduleOverrideResponse>> handler,
             CancellationToken cancellationToken) =>
         {

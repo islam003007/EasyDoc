@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Patients.Commands;
 using Web.Api.Infrastructure;
@@ -21,9 +20,9 @@ public class Register : IEndpoint
         public string PhoneNumber { get; set; } = null!;
     }
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/register", async (Request request,
+        return app.MapPost("/register", async (Request request,
             ICommandHandler<RegisterPatientCommand, Guid> handler,
             CancellationToken cancellationToken) =>
         {

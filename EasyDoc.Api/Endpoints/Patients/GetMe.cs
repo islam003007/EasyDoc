@@ -11,9 +11,9 @@ public class GetMe : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/me", async (IQueryHandler<GetMeQuery, PatientMeResponse> handler,
+        return app.MapGet("/me", async (IQueryHandler<GetMeQuery, PatientMeResponse> handler,
             CancellationToken cancellationToken) =>
         {
             var query = new GetMeQuery();

@@ -26,9 +26,9 @@ public class Update : IEndpoint
         public bool? ClearProfilePictureUrl { get; set; }
     }
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPatch("/{id}", async (Guid id,
+        return app.MapPatch("/{id}", async (Guid id,
             Request request,
             ICommandHandler<UpdateDoctorCommand> handler,
             CancellationToken cancellationToken) =>

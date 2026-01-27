@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands;
 using EasyDoc.SharedKernel;
@@ -25,9 +24,9 @@ internal class UpdateMe : IEndpoint
         public bool? ClearProfilePictureUrl { get; set; }
     }
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPatch("/Me", async (Request request,
+        return app.MapPatch("/Me", async (Request request,
             ICommandHandler<UpdateMeCommand> handler,
             CancellationToken cancellationToken) =>
         {

@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Auth.Commands;
 using Web.Api.Infrastructure;
@@ -12,9 +11,9 @@ public class Logout : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/logout", async (ICommandHandler<LogoutCommand> handler,
+        return app.MapPost("/logout", async (ICommandHandler<LogoutCommand> handler,
             CancellationToken cancellationToken) =>
         {
             var command = new LogoutCommand();

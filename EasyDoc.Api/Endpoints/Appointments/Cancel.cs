@@ -13,9 +13,9 @@ public class Cancel : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/{appointmentId}/cancel", async (Guid appointmentId,
+        return app.MapPost("/{appointmentId}/cancel", async (Guid appointmentId,
             ICommandHandler<CancelAppointmentCommand> handler,
             CancellationToken cancellationToken) =>
         {

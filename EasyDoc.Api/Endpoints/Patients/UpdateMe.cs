@@ -17,9 +17,9 @@ public class UpdateMe : IEndpoint
         public string? PhoneNumber { get; set; }
     }
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPatch("/me", async (Request request,
+        return app.MapPatch("/me", async (Request request,
             ICommandHandler<UpdateMeCommand> handler,
             CancellationToken cancellationToken) =>
         {

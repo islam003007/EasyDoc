@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Auth.Commands;
 using Web.Api.Infrastructure;
@@ -18,9 +17,9 @@ public class Login : IEndpoint
         public string Password { get; set; } = null!;
     }
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/login", async (Request request,
+        return app.MapPost("/login", async (Request request,
             ICommandHandler<LoginCommand> handler,
             CancellationToken cancellationToken) =>
         {

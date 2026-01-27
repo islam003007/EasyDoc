@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Queries;
 using EasyDoc.Application.CQRS.Doctors.Queries.Common;
@@ -13,9 +12,9 @@ internal class GetById : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("{doctorId}", async (Guid doctorId,
+        return app.MapGet("{doctorId}", async (Guid doctorId,
             IQueryHandler<GetDoctorByIdQuery,
             DoctorResponse> handler,
             CancellationToken cancellationToken) =>

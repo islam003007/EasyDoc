@@ -1,4 +1,4 @@
-﻿namespace EasyDoc.Api;
+﻿namespace EasyDoc.Api.Endpoints;
 
 public enum Feature
 {
@@ -13,5 +13,5 @@ public interface IEndpoint
 {
     public Feature Feature { get; }
     public bool IsAdminEndpoint { get; }
-    public void MapEndpoint(IEndpointRouteBuilder app);
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app);
 }

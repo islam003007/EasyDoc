@@ -19,9 +19,9 @@ public class Create : IEndpoint
         public TimeOnly StartTime { get; set; }
     }
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("", async (Request request,
+        return app.MapPost("", async (Request request,
             ICommandHandler<CreateAppointmentCommand, Guid> handler,
             CancellationToken cancellationToken) =>
         {

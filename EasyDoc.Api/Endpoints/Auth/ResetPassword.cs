@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Auth.Commands;
 using Web.Api.Infrastructure;
@@ -19,9 +18,9 @@ public class ResetPassword : IEndpoint
         public string NewPassword { get; set; } = null!;
     }
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/reset-password", async (Request request,
+        return app.MapPost("/reset-password", async (Request request,
             ICommandHandler<ResetPasswordCommand> handler,
             CancellationToken cancellationToken) =>
         {

@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands.Schedules;
 using Web.Api.Infrastructure;
@@ -12,9 +11,9 @@ public class Delete : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/me/schedules/{scheduleId}", async (Guid scheduleId,
+        return app.MapDelete("/me/schedules/{scheduleId}", async (Guid scheduleId,
             ICommandHandler<DeleteDoctorScheduleCommand> handler,
             CancellationToken cancellationToken) =>
         {

@@ -20,9 +20,9 @@ public class Complete : IEndpoint
         public string? Notes { get; set; }
     }
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/{appointmentId}/Complete", async (Guid appointmentId,
+        return app.MapPost("/{appointmentId}/Complete", async (Guid appointmentId,
             Request request,
             ICommandHandler<CompleteAppointmentCommand> handler,
             CancellationToken cancellationToken) =>

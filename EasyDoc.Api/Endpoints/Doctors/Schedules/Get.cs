@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Queries.Schedules;
 using Web.Api.Infrastructure;
@@ -12,9 +11,9 @@ internal class Get : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/{doctorId}/schedules", async (Guid doctorId,
+        return app.MapGet("/{doctorId}/schedules", async (Guid doctorId,
             IQueryHandler<GetDoctorSchedulesQuery,
             IReadOnlyList<DoctorScheduleResponse>> handler,
            CancellationToken cancellationToken) =>

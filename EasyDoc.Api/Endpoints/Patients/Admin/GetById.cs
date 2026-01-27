@@ -14,9 +14,9 @@ public class GetById : IEndpoint
 
     public bool IsAdminEndpoint => true;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/{id}", async (Guid id,
+        return app.MapGet("/{id}", async (Guid id,
             IQueryHandler<GetPatientByIdQuery, AdminPatientResponse> handler,
             CancellationToken cancellationToken) =>
         {

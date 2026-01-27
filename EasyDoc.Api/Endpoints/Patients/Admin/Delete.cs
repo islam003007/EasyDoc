@@ -13,9 +13,9 @@ public class Delete : IEndpoint
 
     public bool IsAdminEndpoint => true;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete("{id}", async (Guid id,
+        return app.MapDelete("{id}", async (Guid id,
             ICommandHandler<DeletePatientCommand> handler,
             CancellationToken cancellationToken) =>
         {

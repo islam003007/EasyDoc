@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands.ScheduleOverrides;
 using Web.Api.Infrastructure;
@@ -19,9 +18,9 @@ public class Update : IEndpoint
         public TimeOnly? EndTime { get; set; }
     }
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPatch("Me/schedule-overrides/{scheduleOverrideId}", async (Guid scheduleOverrideId,
+        return app.MapPatch("Me/schedule-overrides/{scheduleOverrideId}", async (Guid scheduleOverrideId,
             Request request,
             ICommandHandler<UpdateDoctorScheduleOverrideCommand> handler,
             CancellationToken cancellationToken) =>

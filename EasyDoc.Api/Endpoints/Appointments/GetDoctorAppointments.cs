@@ -15,9 +15,9 @@ public class GetDoctorAppointments : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/doctor", async (IQueryHandler<GetDoctorAppointmentsQuery, IReadOnlyList<AppointmentResponse>> handler,
+        return app.MapGet("/doctor", async (IQueryHandler<GetDoctorAppointmentsQuery, IReadOnlyList<AppointmentResponse>> handler,
             CancellationToken cancellationToken,
             int PageNumber = 1,
             int PageSize = PageConstants.DefaultPageSize) =>

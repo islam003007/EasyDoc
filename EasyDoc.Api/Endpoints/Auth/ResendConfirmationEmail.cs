@@ -11,9 +11,9 @@ public class ResendConfirmationEmail : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("resend-confirmation-email", async (string email,
+        return app.MapPost("resend-confirmation-email", async (string email,
             ICommandHandler<ResendConfirmationTokenCommand> handler,
             CancellationToken cancellationToken) =>
         {

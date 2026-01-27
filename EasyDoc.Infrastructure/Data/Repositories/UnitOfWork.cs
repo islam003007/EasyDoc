@@ -1,10 +1,9 @@
 ﻿using EasyDoc.Application.Abstractions.Data;
-using EasyDoc.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Data;
 
-namespace EasyDoc.Infrastructure.Repositories;
+namespace EasyDoc.Infrastructure.Data.Repositories;
 
 internal class UnitOfWork : IUnitOfWork
 {

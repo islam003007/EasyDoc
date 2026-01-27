@@ -19,9 +19,9 @@ public class Create : IEndpoint
         public TimeOnly? endTime { get; set; }
     }
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/me/schedule-overrides", async (Request request,
+        return app.MapPost("/me/schedule-overrides", async (Request request,
             ICommandHandler<CreateDoctorScheduleOverrideCommand, Guid> handler,
             CancellationToken cancellationToken) =>
         {

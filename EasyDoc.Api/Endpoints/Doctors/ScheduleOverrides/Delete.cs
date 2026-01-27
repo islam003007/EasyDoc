@@ -11,9 +11,9 @@ public class Delete : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/me/schedule-overrides/{scheduleOverrideId}", async (Guid scheduleOverrideId,
+        return app.MapDelete("/me/schedule-overrides/{scheduleOverrideId}", async (Guid scheduleOverrideId,
             ICommandHandler<DeleteDoctorScheduleOverrideCommand> handler,
             CancellationToken cancellationToken) =>
         {

@@ -3,8 +3,6 @@ using EasyDoc.Application.Errors;
 using EasyDoc.Infrastructure.Data.Identity;
 using EasyDoc.SharedKernel;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Text;
 
 namespace EasyDoc.Infrastructure.Services;
 

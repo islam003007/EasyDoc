@@ -35,6 +35,6 @@ app.UseExceptionHandler();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapEndpoints();
 
 app.Run();

@@ -11,9 +11,9 @@ public class GetById : IEndpoint
     public Feature Feature => Feature.Doctors;
 
     public bool IsAdminEndpoint => true;
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/{id}", async (Guid id, IQueryHandler<GetDoctorByIdQuery, AdminDoctorResponse> handler, CancellationToken cancellationToken) =>
+        return app.MapGet("/{id}", async (Guid id, IQueryHandler<GetDoctorByIdQuery, AdminDoctorResponse> handler, CancellationToken cancellationToken) =>
         {
             var query = new GetDoctorByIdQuery(id);
 

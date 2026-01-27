@@ -78,16 +78,16 @@ internal static class ValidationDecorator
     }
 
     // Validates both commands and queries
-    private static async Task<ValidationFailure[]> ValidateAsync<TCommand>(
-       TCommand command,
-       IEnumerable<IValidator<TCommand>> validators)
+    private static async Task<ValidationFailure[]> ValidateAsync<T>(
+       T command,
+       IEnumerable<IValidator<T>> validators)
     {
         if (!validators.Any())
         {
             return [];
         }
 
-        var context = new ValidationContext<TCommand>(command);
+        var context = new ValidationContext<T>(command);
 
         ValidationResult[] validationResults = await Task.WhenAll(
             validators.Select(validator => validator.ValidateAsync(context)));
@@ -101,5 +101,5 @@ internal static class ValidationDecorator
     }
 
     private static ValidationError createValidationError(ValidationFailure[] validationFailures) =>
-        new(validationFailures.Select(f => new Error(f.ErrorCode, f.ErrorMessage, ErrorType.Problem)));
+        new(validationFailures.Select(f => Error.Problem(f.ErrorCode, f.ErrorMessage)));
 }

@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Constants;
 using EasyDoc.Application.CQRS.Doctors.Queries;
@@ -15,9 +14,9 @@ public class Search : IEndpoint
 
     public bool IsAdminEndpoint => false;
 
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/search", async (IQueryHandler<SearchDoctorsQuery, IReadOnlyList<SearchDoctorResponse>> handler,
+        return app.MapGet("/search", async (IQueryHandler<SearchDoctorsQuery, IReadOnlyList<SearchDoctorResponse>> handler,
             CancellationToken cancellationToken,
             string query,
             Guid? cityId = null,

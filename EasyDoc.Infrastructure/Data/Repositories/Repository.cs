@@ -4,7 +4,7 @@ using EasyDoc.Application.Abstractions.Data;
 using EasyDoc.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyDoc.Infrastructure.Repositories;
+namespace EasyDoc.Infrastructure.Data.Repositories;
 
 internal class Repository<T> : RepositoryBase<T>, IRepository<T>, IRepositoryBase<T>
     where T : class, IAggregateRoot // overridden every method that calls context.SaveChanges to implement Unit Of Work
