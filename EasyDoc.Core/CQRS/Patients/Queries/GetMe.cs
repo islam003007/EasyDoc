@@ -32,7 +32,7 @@ internal class GetMeQueryHandler : IQueryHandler<GetMeQuery, PatientMeResponse>
 
         return await _dbContext.Patients
             .Where(p => p.Id == patientId)
-            .Join(_dbContext.UserDtos,
+            .Join(_dbContext.UserReadModels,
             p => p.UserId,
             u => u.UserId,
             (p, u) => new PatientMeResponse(p.Id, p.PersonName, p.PhoneNumber.Value, u.Email))

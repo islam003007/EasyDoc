@@ -3,6 +3,7 @@ using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands.Admin;
 using EasyDoc.SharedKernel;
+using Microsoft.AspNetCore.Mvc;
 using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Doctors.Admin;
@@ -10,7 +11,6 @@ namespace EasyDoc.Api.Endpoints.Doctors.Admin;
 public class Update : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => true;
     public class Request
     {
@@ -29,7 +29,7 @@ public class Update : IEndpoint
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapPatch("/{id}", async (Guid id,
-            Request request,
+            [FromBody] Request request,
             ICommandHandler<UpdateDoctorCommand> handler,
             CancellationToken cancellationToken) =>
         {

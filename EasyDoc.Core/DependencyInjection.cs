@@ -2,6 +2,7 @@
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Options;
 using EasyDoc.Application.Services;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -52,6 +53,8 @@ public static class DependencyInjection
         services.Decorate(typeof(IQueryHandler<,>), typeof(ValidationDecorator.QueryHandler<,>));
         services.Decorate(typeof(ICommandHandler<>), typeof(ValidationDecorator.CommandHandler<>));
         services.Decorate(typeof(ICommandHandler<,>), typeof(ValidationDecorator.CommandHandler<,>));
+
+        services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly, includeInternalTypes: true);
 
         return services;
     }

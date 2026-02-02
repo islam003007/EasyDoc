@@ -15,7 +15,7 @@ public interface IReadOnlyApplicationDbContext
     public IQueryable<Doctor> Doctors { get; }
     public IQueryable<Department> Departments { get; }
     public IQueryable<Patient> Patients { get; }
-    public IQueryable<UserDto> UserDtos { get; } // This does not represent a table.
+    public IQueryable<UserReadModel> UserReadModels { get; }
     public IQueryable<DoctorDetailsReadModel> DoctorDetails { get; }
 
     // Preserve DbSet.FindAsync behavior

@@ -2,6 +2,7 @@
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands;
 using EasyDoc.Domain.Constants;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Web.Api.Infrastructure;
 
@@ -10,9 +11,7 @@ namespace EasyDoc.Api.Endpoints.Doctors;
 internal class Register : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => false;
-
     public class Request
     {
         public string Email { get; set; } = null!;
@@ -30,7 +29,7 @@ internal class Register : IEndpoint
     }
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        return app.MapPost("/register", async (Request request,
+        return app.MapPost("/register", async ([FromBody] Request request,
             ICommandHandler<RegisterDoctorCommand, Guid> handler,
             CancellationToken cancellationToken) =>
         {

@@ -1,4 +1,5 @@
-﻿using EasyDoc.Application.CQRS.Doctors.Queries.Common;
+﻿using EasyDoc.Application.Abstractions.Data;
+using EasyDoc.Application.CQRS.Doctors.Queries.Common;
 using EasyDoc.Domain.Entities.AppointmentAggregate;
 using EasyDoc.Domain.Entities.CityAggregate;
 using EasyDoc.Domain.Entities.DoctorAggregate;
@@ -9,6 +10,7 @@ using EasyDoc.Infrastructure.Data.Interceptors;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Reflection.Emit;
 namespace EasyDoc.Infrastructure.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
@@ -22,6 +24,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<Department> Departments { get; set; }
     public DbSet<Patient> Patients { get; set; }
     public DbSet<DoctorDetailsReadModel> DoctorDetails { get; set; }
+    public DbSet<UserReadModel> UserReadModels { get; set; }
 
     public ApplicationDbContext(DbContextOptions options,
         AddNormalizedNameAndPhoneticKeysInterceptor interceptor): base(options) 
@@ -37,5 +40,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         builder.Entity<DoctorDetailsReadModel>()
         .HasNoKey()
         .ToView("vw_DoctorDetails", "dbo");
+
+        builder.Entity<UserReadModel>()
+        .HasNoKey()
+        .ToView("vw_user_read");
     }
 }

@@ -10,9 +10,7 @@ namespace EasyDoc.Api.Endpoints.Appointments;
 public class Cancel : IEndpoint
 {
     public Feature Feature => Feature.Appointments;
-
     public bool IsAdminEndpoint => false;
-
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapPost("/{appointmentId}/cancel", async (Guid appointmentId,

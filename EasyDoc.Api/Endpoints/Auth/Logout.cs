@@ -8,9 +8,7 @@ namespace EasyDoc.Api.Endpoints.Auth;
 public class Logout : IEndpoint
 {
     public Feature Feature => Feature.Auth;
-
     public bool IsAdminEndpoint => false;
-
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapPost("/logout", async (ICommandHandler<LogoutCommand> handler,

@@ -26,7 +26,7 @@ public static class EndPointMapper
                 {
                     var targetGroup = endpoint.IsAdminEndpoint ? adminGroup : standardGroup;
 
-                    endpoint.MapEndpoint(targetGroup).WithName($"{featureName}.{endpoint.GetType().Name}");
+                    endpoint.MapEndpoint(targetGroup);
                 }
             }
 

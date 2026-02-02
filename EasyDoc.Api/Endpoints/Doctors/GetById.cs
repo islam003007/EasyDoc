@@ -9,9 +9,7 @@ namespace EasyDoc.Api.Endpoints.Doctors;
 internal class GetById : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => false;
-
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapGet("{doctorId}", async (Guid doctorId,

@@ -18,7 +18,6 @@ public class ApplicationUser : IdentityUser<Guid>
     private void SetEmail(string email)
     {
         Guard.Against.NullOrWhiteSpace(email);
-
         Email = email;
     }
 }

@@ -9,7 +9,6 @@ namespace EasyDoc.Api.Endpoints.Doctors.Admin;
 public class GetById : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => true;
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {

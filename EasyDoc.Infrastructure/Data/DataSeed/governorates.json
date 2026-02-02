@@ -1,0 +1,110 @@
+[
+  {
+    "id": "019c0982-2dda-7747-9cde-d3cb567e5583",
+    "name": "Cairo"
+  },
+  {
+    "id": "019c0982-2dda-76f0-8d30-159f622aa532",
+    "name": "Giza"
+  },
+  {
+    "id": "019c0982-2dda-7d91-9d1e-5606d79d2972",
+    "name": "Alexandria"
+  },
+  {
+    "id": "019c0982-2dda-7c1b-bc09-ac08167745c8",
+    "name": "Qalyubia"
+  },
+  {
+    "id": "019c0982-2dda-7ddd-813c-2ab401432109",
+    "name": "Dakahlia"
+  },
+  {
+    "id": "019c0982-2dda-7f03-a675-14bb8fc1beda",
+    "name": "Sharqia"
+  },
+  {
+    "id": "019c0982-2dda-72c8-a8b2-5571e52b3351",
+    "name": "Beheira"
+  },
+  {
+    "id": "019c0982-2dda-7cba-8e2d-12ac8ec705e2",
+    "name": "Gharbia"
+  },
+  {
+    "id": "019c0982-2dda-78aa-ad1c-4eee813d79b5",
+    "name": "Monufia"
+  },
+  {
+    "id": "019c0982-2dda-7987-8342-7bf6307f8952",
+    "name": "Kafr El Sheikh"
+  },
+  {
+    "id": "019c0982-2dda-7aaa-a406-69f503900e44",
+    "name": "Fayoum"
+  },
+  {
+    "id": "019c0982-2dda-771b-8044-a95bc34abe53",
+    "name": "Beni Suef"
+  },
+  {
+    "id": "019c0982-2dda-747a-b9c5-aea81dc16e42",
+    "name": "Minya"
+  },
+  {
+    "id": "019c0982-2dda-7992-8814-a5a26d23469f",
+    "name": "Asyut"
+  },
+  {
+    "id": "019c0982-2dda-7fda-b49f-0c6de14c6517",
+    "name": "Sohag"
+  },
+  {
+    "id": "019c0982-2dda-78ce-92fa-026238d15bcd",
+    "name": "Qena"
+  },
+  {
+    "id": "019c0982-2dda-7743-9a25-3bb5a7cac45b",
+    "name": "Luxor"
+  },
+  {
+    "id": "019c0982-2dda-77af-a002-3aa8f23cec98",
+    "name": "Aswan"
+  },
+  {
+    "id": "019c0982-2dda-778d-8325-6462a06280e4",
+    "name": "Red Sea"
+  },
+  {
+    "id": "019c0982-2dda-7a8a-b1a5-b03be8844513",
+    "name": "New Valley"
+  },
+  {
+    "id": "019c0982-2dda-7d9e-a00f-8ed427a9dffd",
+    "name": "Matrouh"
+  },
+  {
+    "id": "019c1a1f-f00f-76df-bef6-0a6bb90a25ba",
+    "name": "North Sinai"
+  },
+  {
+    "id": "019c0982-2dda-7955-9e21-ff989cfd9b4a",
+    "name": "South Sinai"
+  },
+  {
+    "id": "019c0982-2dda-7d53-b72e-13f24632330f",
+    "name": "Port Said"
+  },
+  {
+    "id": "019c0982-2dda-75df-912a-ecaad25931bc",
+    "name": "Ismailia"
+  },
+  {
+    "id": "019c0982-2dda-76c2-a4bd-d9cb92526a10",
+    "name": "Suez"
+  },
+  {
+    "id": "019c0982-2dda-7356-b412-84f0010b8b6d",
+    "name": "Damietta"
+  }
+]

@@ -35,7 +35,7 @@ internal class GetPatientsQueryHandler : IQueryHandler<GetPatientsQuery, IReadOn
     public async Task<Result<IReadOnlyList<AdminPatientResponse>>> HandleAsync(GetPatientsQuery query, CancellationToken cancellationToken = default)
     {
         var patients = await _dbContext.Patients
-            .Join(_dbContext.UserDtos,
+            .Join(_dbContext.UserReadModels,
             p => p.UserId,
             u => u.UserId,
             (p, u) => new AdminPatientResponse(p.Id, u.UserId, p.PersonName, p.PhoneNumber.Value, p.IsDeleted, u.Email))

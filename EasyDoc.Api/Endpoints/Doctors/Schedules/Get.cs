@@ -8,9 +8,7 @@ namespace EasyDoc.Api.Endpoints.Doctors.Schedules;
 internal class Get : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => false;
-
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapGet("/{doctorId}/schedules", async (Guid doctorId,

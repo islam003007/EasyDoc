@@ -1,0 +1,187 @@
+[
+  {
+    "id": "019c0982-2dda-7177-8f1f-6d1205a92f16",
+    "userId": "019c0982-2dda-7548-b066-6c48d7000242",
+    "personName": "أحمد حسن",
+    "phoneNumber": "+201522345678",
+    "idCardPictureUrl": "PLACE_DOCTOR_AHMED_IDCARD_URL",
+    "clinicAddress": "123 Clinic St, Sohag",
+    "departmentId": "019c0982-2dda-700e-ba8a-a8a762e995fa",
+    "cityId": "019c0982-2dda-7bff-8796-c1e9180bb97d",
+    "defaultAppointmentTimeInMinutes": 30,
+    "description": "Senior cardiologist",
+    "profilePictureUrl": "PLACE_DOCTOR_AHMED_PROFILE_URL",
+    "isVisible": true,
+    "Schedules": [
+      {
+        "id": "019c1a1f-f00e-7f28-a09f-e14f42562a7f",
+        "dayOfWeek": "Monday",
+        "startTime": "09:00",
+        "endTime": "14:00"
+      },
+      {
+        "id": "019c1a1f-f00e-785a-bf0d-c7dd33934d1e",
+        "dayOfWeek": "Wednesday",
+        "startTime": "10:00",
+        "endTime": "15:00"
+      }
+    ],
+    "ScheduleOverriddes": [
+      {
+        "id": "019c1a1f-f00e-7f01-9bbb-9c90e194a08a",
+        "date": "2026-02-06",
+        "isAvailable": false,
+        "startTime": null,
+        "endTime": null
+      }
+    ]
+  },
+  {
+    "id": "019c0982-2dda-70e0-b007-4908751d9e99",
+    "userId": "019c0982-2dda-7fb9-92d2-24d035f69039",
+    "personName": "Kareem Mohamed",
+    "phoneNumber": "+201512345679",
+    "idCardPictureUrl": "PLACE_DOCTOR_KAREEM_IDCARD_URL",
+    "clinicAddress": "456 Clinic Rd, Sohag",
+    "departmentId": "019c0982-2dda-7f88-990a-150e35890315",
+    "cityId": "019c0982-2dda-724f-8fda-bf5402b64803",
+    "defaultAppointmentTimeInMinutes": 20,
+    "description": "Orthopedics specialist",
+    "profilePictureUrl": "PLACE_DOCTOR_KAREEM_PROFILE_URL",
+    "isVisible": true,
+    "Schedules": [
+      {
+        "id": "019c1a1f-f00e-7f06-a999-dcd0106b9489",
+        "dayOfWeek": "Tuesday",
+        "startTime": "08:00",
+        "endTime": "12:00"
+      },
+      {
+        "id": "019c1a1f-f00e-7009-9f73-d6fdc39d7566",
+        "dayOfWeek": "Thursday",
+        "startTime": "13:00",
+        "endTime": "17:00"
+      }
+    ],
+    "ScheduleOverriddes": [
+      {
+        "id": "019c1a1f-f00e-7fd0-839a-70ab615a02b1",
+        "date": "2026-02-07",
+        "isAvailable": true,
+        "startTime": "09:00",
+        "endTime": "12:00"
+      }
+    ]
+  },
+  {
+    "id": "019c0982-2dda-79bf-b020-09d933744f77",
+    "userId": "019c0982-2dda-7a5c-bd18-fca976652c10",
+    "personName": "ليلى مصطفى",
+    "phoneNumber": "+201523456789",
+    "idCardPictureUrl": "PLACE_DOCTOR_LAYLA_IDCARD_URL",
+    "clinicAddress": "789 Health Ave, Sohag",
+    "departmentId": "019c0982-2dda-740b-abfa-400ed6383d3d",
+    "cityId": "019c0982-2dda-78d5-8acd-eb4c5ac8a8c9",
+    "defaultAppointmentTimeInMinutes": 25,
+    "description": "Pediatrics consultant",
+    "profilePictureUrl": "PLACE_DOCTOR_LAYLA_PROFILE_URL",
+    "isVisible": true,
+    "Schedules": [
+      {
+        "id": "019c1a1f-f00e-717a-85ae-375a7d89eea2",
+        "dayOfWeek": "Monday",
+        "startTime": "08:30",
+        "endTime": "12:30"
+      },
+      {
+        "id": "019c1a1f-f00e-738b-a89c-ca070076a37e",
+        "dayOfWeek": "Friday",
+        "startTime": "09:00",
+        "endTime": "13:00"
+      }
+    ],
+    "ScheduleOverriddes": [
+      {
+        "id": "019c1a1f-f00e-7b4c-9486-5c15fa66a72b",
+        "date": "2026-02-08",
+        "isAvailable": false,
+        "startTime": null,
+        "endTime": null
+      }
+    ]
+  },
+  {
+    "id": "019c0982-2dda-72e4-968a-a24cb383849c",
+    "userId": "019c0982-2dda-72fc-a170-56294a22e307",
+    "personName": "Mohamed Ali",
+    "phoneNumber": "+201524567890",
+    "idCardPictureUrl": "PLACE_DOCTOR_MOHAMED_IDCARD_URL",
+    "clinicAddress": "321 Wellness Blvd, Sohag",
+    "departmentId": "019c0982-2dda-7524-a3ac-43afcd55a50d",
+    "cityId": "019c0982-2dda-7471-9280-3683dda5f922",
+    "defaultAppointmentTimeInMinutes": 15,
+    "description": "Dentist",
+    "profilePictureUrl": "PLACE_DOCTOR_MOHAMED_PROFILE_URL",
+    "isVisible": true,
+    "Schedules": [
+      {
+        "id": "019c1a1f-f00e-7bd2-8489-698939662a6b",
+        "dayOfWeek": "Wednesday",
+        "startTime": "10:00",
+        "endTime": "14:00"
+      },
+      {
+        "id": "019c1a1f-f00e-75fa-b122-1049f097f6f9",
+        "dayOfWeek": "Thursday",
+        "startTime": "11:00",
+        "endTime": "15:00"
+      }
+    ],
+    "ScheduleOverriddes": [
+      {
+        "id": "019c1a1f-f00f-7bc0-9542-097f006dbf75",
+        "date": "2026-02-09",
+        "isAvailable": true,
+        "startTime": "11:00",
+        "endTime": "14:00"
+      }
+    ]
+  },
+  {
+    "id": "019c0982-2dda-73a0-bf5c-f9b8b4d7b249",
+    "userId": "019c0982-2dda-7807-98ae-c5dce7120367",
+    "personName": "يوسف سالم",
+    "phoneNumber": "+201525678901",
+    "idCardPictureUrl": "PLACE_DOCTOR_YOUSSEF_IDCARD_URL",
+    "clinicAddress": "654 Health St, Sohag",
+    "departmentId": "019c0982-2dda-7180-9417-0fd56f2a9ed8",
+    "cityId": "019c0982-2dda-75b1-862e-b7244f9b3b74",
+    "defaultAppointmentTimeInMinutes": 20,
+    "description": "Surgeon",
+    "profilePictureUrl": "PLACE_DOCTOR_YOUSSEF_PROFILE_URL",
+    "isVisible": false,
+    "Schedules": [
+      {
+        "id": "019c1a1f-f00f-75cb-9f52-5f19f07ea3dc",
+        "dayOfWeek": "Tuesday",
+        "startTime": "09:00",
+        "endTime": "13:00"
+      },
+      {
+        "id": "019c1a1f-f00f-71dc-9592-add65ea0027f",
+        "dayOfWeek": "Friday",
+        "startTime": "12:00",
+        "endTime": "16:00"
+      }
+    ],
+    "ScheduleOverriddes": [
+      {
+        "id": "019c1a1f-f00f-7424-863e-2ace8e79cd50",
+        "date": "2026-02-10",
+        "isAvailable": false,
+        "startTime": null,
+        "endTime": null
+      }
+    ]
+  }
+]

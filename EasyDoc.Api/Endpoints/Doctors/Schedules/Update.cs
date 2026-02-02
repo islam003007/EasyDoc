@@ -1,6 +1,7 @@
 ﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands.Schedules;
+using Microsoft.AspNetCore.Mvc;
 using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Doctors.Schedules;
@@ -8,9 +9,7 @@ namespace EasyDoc.Api.Endpoints.Doctors.Schedules;
 public class Update : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => false;
-
     public class Request
     {
         public TimeOnly startTime {  get; set; }
@@ -20,7 +19,7 @@ public class Update : IEndpoint
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapPatch("/me/schedules/{scheduleId}", async (Guid scheduleId,
-            Request request,
+            [FromBody] Request request,
             ICommandHandler<UpdateDoctorScheduleCommand> handler,
             CancellationToken cancellationToken) =>
         {

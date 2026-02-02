@@ -25,7 +25,7 @@ internal class ReadOnlyApplicationDbContext : IReadOnlyApplicationDbContext
     public IQueryable<Department> Departments => _applicationDbContext.Departments.AsNoTracking();
     public IQueryable<Patient> Patients => _applicationDbContext.Patients.AsNoTracking();
     public IQueryable<DoctorDetailsReadModel> DoctorDetails => _applicationDbContext.DoctorDetails;
-    public IQueryable<UserDto> UserDtos => _applicationDbContext.Users.Select(u => new UserDto(u.Id, u.Email!));
+    public IQueryable<UserReadModel> UserReadModels => _applicationDbContext.UserReadModels;
 
     // Implement FindAsync while keeping read-only semantics
     public async Task<T?> FindAsync<T>(params object[] keyValues) where T : class

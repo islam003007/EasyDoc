@@ -1,6 +1,7 @@
 ﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands.ScheduleOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Doctors.ScheduleOverrides;
@@ -8,9 +9,7 @@ namespace EasyDoc.Api.Endpoints.Doctors.ScheduleOverrides;
 public class Create : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => false;
-
     public class Request
     {
         public DateOnly date { get; set; }
@@ -21,7 +20,7 @@ public class Create : IEndpoint
 
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        return app.MapPost("/me/schedule-overrides", async (Request request,
+        return app.MapPost("/me/schedule-overrides", async ([FromBody] Request request,
             ICommandHandler<CreateDoctorScheduleOverrideCommand, Guid> handler,
             CancellationToken cancellationToken) =>
         {

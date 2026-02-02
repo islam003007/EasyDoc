@@ -11,7 +11,6 @@ public class Accept : IEndpoint
 {
     public Feature Feature => Feature.Appointments;
     public bool IsAdminEndpoint => false;
-
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapPost("/{appointmentId}/accept", async (Guid appointmentId,

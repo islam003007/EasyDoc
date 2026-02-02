@@ -22,7 +22,7 @@ namespace EasyDoc.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EasyDoc.Application.Doctors.Queries.DoctorDetailsReadModel", b =>
+            modelBuilder.Entity("EasyDoc.Application.CQRS.Doctors.Queries.Common.DoctorDetailsReadModel", b =>
                 {
                     b.Property<string>("City")
                         .IsRequired()
@@ -101,7 +101,7 @@ namespace EasyDoc.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Appointments", (string)null);
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("EasyDoc.Domain.Entities.AppointmentAggregate.Examination", b =>
@@ -125,7 +125,7 @@ namespace EasyDoc.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Examination", (string)null);
+                    b.ToTable("Examination");
                 });
 
             modelBuilder.Entity("EasyDoc.Domain.Entities.CityAggregate.City", b =>
@@ -146,23 +146,7 @@ namespace EasyDoc.Infrastructure.Migrations
 
                     b.HasIndex("GovernorateId");
 
-                    b.ToTable("Cities", (string)null);
-                });
-
-            modelBuilder.Entity("EasyDoc.Domain.Entities.DepartmentAggregate.Department", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("EasyDoc.Domain.Entities.DoctorAggregate.Doctor", b =>
@@ -232,7 +216,7 @@ namespace EasyDoc.Infrastructure.Migrations
 
                     SqlServerIndexBuilderExtensions.IncludeProperties(b.HasIndex("CityId", "DepartmentId"), new[] { "Id", "PersonName", "IdCardPictureUrl" });
 
-                    b.ToTable("Doctors", (string)null);
+                    b.ToTable("Doctors");
                 });
 
             modelBuilder.Entity("EasyDoc.Domain.Entities.DoctorAggregate.DoctorSchedule", b =>
@@ -258,7 +242,7 @@ namespace EasyDoc.Infrastructure.Migrations
                     b.HasIndex("DoctorId", "DayOfWeek")
                         .IsUnique();
 
-                    b.ToTable("DoctorSchedule", (string)null);
+                    b.ToTable("DoctorSchedule");
                 });
 
             modelBuilder.Entity("EasyDoc.Domain.Entities.DoctorAggregate.DoctorScheduleOverride", b =>
@@ -287,23 +271,7 @@ namespace EasyDoc.Infrastructure.Migrations
                     b.HasIndex("DoctorId", "Date")
                         .IsUnique();
 
-                    b.ToTable("DoctorScheduleOverride", (string)null);
-                });
-
-            modelBuilder.Entity("EasyDoc.Domain.Entities.GovernorateAggregate.Governorate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Governorates", (string)null);
+                    b.ToTable("DoctorScheduleOverride");
                 });
 
             modelBuilder.Entity("EasyDoc.Domain.Entities.PatientAggregate.Patient", b =>
@@ -328,7 +296,39 @@ namespace EasyDoc.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Patients", (string)null);
+                    b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("EasyDoc.Domain.Entities.RefrenceData.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("EasyDoc.Domain.Entities.RefrenceData.Governorate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Governorates");
                 });
 
             modelBuilder.Entity("EasyDoc.Infrastructure.Data.Identity.ApplicationRole", b =>
@@ -545,18 +545,16 @@ namespace EasyDoc.Infrastructure.Migrations
 
             modelBuilder.Entity("EasyDoc.Domain.Entities.AppointmentAggregate.Examination", b =>
                 {
-                    b.HasOne("EasyDoc.Domain.Entities.AppointmentAggregate.Appointment", "Appointment")
+                    b.HasOne("EasyDoc.Domain.Entities.AppointmentAggregate.Appointment", null)
                         .WithOne("Examination")
                         .HasForeignKey("EasyDoc.Domain.Entities.AppointmentAggregate.Examination", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Appointment");
                 });
 
             modelBuilder.Entity("EasyDoc.Domain.Entities.CityAggregate.City", b =>
                 {
-                    b.HasOne("EasyDoc.Domain.Entities.GovernorateAggregate.Governorate", null)
+                    b.HasOne("EasyDoc.Domain.Entities.RefrenceData.Governorate", null)
                         .WithMany()
                         .HasForeignKey("GovernorateId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -571,7 +569,7 @@ namespace EasyDoc.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("EasyDoc.Domain.Entities.DepartmentAggregate.Department", null)
+                    b.HasOne("EasyDoc.Domain.Entities.RefrenceData.Department", null)
                         .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -596,7 +594,7 @@ namespace EasyDoc.Infrastructure.Migrations
 
                             b1.HasKey("DoctorId");
 
-                            b1.ToTable("Doctors", (string)null);
+                            b1.ToTable("Doctors");
 
                             b1.WithOwner()
                                 .HasForeignKey("DoctorId");
@@ -649,7 +647,7 @@ namespace EasyDoc.Infrastructure.Migrations
 
                             b1.HasKey("PatientId");
 
-                            b1.ToTable("Patients", (string)null);
+                            b1.ToTable("Patients");
 
                             b1.WithOwner()
                                 .HasForeignKey("PatientId");

@@ -9,11 +9,11 @@ namespace EasyDoc.Infrastructure.Data.Repositories;
 internal class Repository<T> : RepositoryBase<T>, IRepository<T>, IRepositoryBase<T>
     where T : class, IAggregateRoot // overridden every method that calls context.SaveChanges to implement Unit Of Work
 {                                                                             
-    public Repository(DbContext dbContext) : base(dbContext)
+    public Repository(ApplicationDbContext dbContext) : base(dbContext)
     {
 
     }
-    public Repository(DbContext dbContext, ISpecificationEvaluator specificationEvaluator) : base(dbContext, specificationEvaluator)
+    public Repository(ApplicationDbContext dbContext, ISpecificationEvaluator specificationEvaluator) : base(dbContext, specificationEvaluator)
     {
 
     }

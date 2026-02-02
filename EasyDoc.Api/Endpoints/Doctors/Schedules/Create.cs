@@ -1,6 +1,7 @@
 ﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands.Schedules;
+using Microsoft.AspNetCore.Mvc;
 using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Doctors.Schedules;
@@ -8,9 +9,7 @@ namespace EasyDoc.Api.Endpoints.Doctors.Schedules;
 public class Create : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => false;
-
     public class Request
     {
         public DayOfWeek dayOfWeek {  get; set; }
@@ -20,7 +19,7 @@ public class Create : IEndpoint
 
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        return app.MapPost("/me/schedules", async (Request request,
+        return app.MapPost("/me/schedules", async ([FromBody] Request request,
             ICommandHandler<CreateDoctorScheduleCommand, Guid> handler,
             CancellationToken cancellationToken) =>
         {

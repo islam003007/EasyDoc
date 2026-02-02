@@ -1,0 +1,23 @@
+[
+  {
+    "id": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "userId": "019c0982-2dda-7331-8aa3-6e5bfd165c27",
+    "personName": "سارة محمد",
+    "phoneNumber": "+201012345678",
+    "isDeleted": false
+  },
+  {
+    "id": "019c0982-2dda-7716-bb95-55bb2a8363eb",
+    "userId": "019c0982-2dda-7dc0-990e-f15d211062bd",
+    "personName": "Omar Ahmed",
+    "phoneNumber": "+201112345679",
+    "isDeleted": false
+  },
+  {
+    "id": "019c0982-2dda-7507-a87f-033390f126ba",
+    "userId": "019c0982-2dda-7ccb-98f9-b22007802298",
+    "personName": "كريم علي",
+    "phoneNumber": "+201212345670",
+    "isDeleted": false
+  }
+]

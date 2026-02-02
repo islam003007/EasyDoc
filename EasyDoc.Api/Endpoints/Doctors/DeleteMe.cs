@@ -8,9 +8,7 @@ namespace EasyDoc.Api.Endpoints.Doctors;
 internal class DeleteMe : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => false;
-
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapDelete("/Me", async (ICommandHandler<DeleteMeCommand> handler,

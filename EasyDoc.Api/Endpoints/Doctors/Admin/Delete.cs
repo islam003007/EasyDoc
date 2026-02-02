@@ -2,6 +2,7 @@
 using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands.Admin;
+using Microsoft.AspNetCore.Mvc;
 using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Doctors.Admin;
@@ -10,7 +11,6 @@ public class Delete : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
     public bool IsAdminEndpoint => true;
-
     public class Request
     {
         public bool IsSoftDelete { get; set; } = true;
@@ -19,7 +19,7 @@ public class Delete : IEndpoint
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapDelete("/{id}", async (Guid id,
-            Request request,
+            [FromBody] Request request,
             ICommandHandler<DeleteDoctorCommand> handler,
             CancellationToken cancellationToken) =>
         {

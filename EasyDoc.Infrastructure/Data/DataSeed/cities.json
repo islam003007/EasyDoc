@@ -1,0 +1,32 @@
+[
+  {
+    "id": "019c0982-2dda-7bff-8796-c1e9180bb97d",
+    "name": "Sohag",
+    "governorateId": "019c0982-2dda-7fda-b49f-0c6de14c6517"
+  },
+  {
+    "id": "019c0982-2dda-724f-8fda-bf5402b64803",
+    "name": "Girga",
+    "governorateId": "019c0982-2dda-7fda-b49f-0c6de14c6517"
+  },
+  {
+    "id": "019c0982-2dda-78d5-8acd-eb4c5ac8a8c9",
+    "name": "Saqultah",
+    "governorateId": "019c0982-2dda-7fda-b49f-0c6de14c6517"
+  },
+  {
+    "id": "019c0982-2dda-7471-9280-3683dda5f922",
+    "name": "Akhmim",
+    "governorateId": "019c0982-2dda-7fda-b49f-0c6de14c6517"
+  },
+  {
+    "id": "019c0982-2dda-75b1-862e-b7244f9b3b74",
+    "name": "Tahta",
+    "governorateId": "019c0982-2dda-7fda-b49f-0c6de14c6517"
+  },
+  {
+    "id": "019c0982-2dda-7ea6-9ba8-577f5758b5b1",
+    "name": "Dar El Salam",
+    "governorateId": "019c0982-2dda-7fda-b49f-0c6de14c6517"
+  }
+]

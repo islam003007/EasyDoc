@@ -11,9 +11,7 @@ namespace EasyDoc.Api.Endpoints.Doctors;
 public class Search : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => false;
-
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapGet("/search", async (IQueryHandler<SearchDoctorsQuery, IReadOnlyList<SearchDoctorResponse>> handler,

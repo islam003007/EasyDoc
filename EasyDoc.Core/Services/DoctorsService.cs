@@ -7,6 +7,7 @@ using EasyDoc.Application.Dtos;
 using EasyDoc.Application.Errors;
 using EasyDoc.Application.Specifications;
 using EasyDoc.Domain.Entities;
+using EasyDoc.Domain.Entities.AppointmentAggregate;
 using EasyDoc.Domain.Entities.DoctorAggregate;
 using EasyDoc.SharedKernel;
 
@@ -15,18 +16,21 @@ namespace EasyDoc.Application.Services;
 internal class DoctorsService
 {
     private readonly IRepository<Doctor> _doctorRepository;
+    private readonly IRepository<Appointment> _appointmentRepository;
     private readonly IUserService _userService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPhoneNumberService _phoneNumberService;
     public DoctorsService(IRepository<Doctor> doctorRepository,
         IUserService userService,
         IUnitOfWork unitOfWork,
-        IPhoneNumberService phoneNumberService)
+        IPhoneNumberService phoneNumberService,
+        IRepository<Appointment> appointmentRepository)
     {
         _doctorRepository = doctorRepository;
         _userService = userService;
         _unitOfWork = unitOfWork;
         _phoneNumberService = phoneNumberService;
+        _appointmentRepository = appointmentRepository;
     }
 
     public async Task<Result<Guid>> CreateDoctorAsync(CreateDoctorRequest request, CancellationToken cancellationToken = default)
@@ -160,7 +164,19 @@ internal class DoctorsService
             if (doctorProfile == null)
                 return Result.Failure(DoctorErrors.NotFound(doctorId));
 
-            doctorProfile.SetVisibility(false);
+            var appointmentsSpecification = new AppointmentsByDoctorIdSpecification(doctorProfile.Id);
+
+            var appointments = await _appointmentRepository.ListAsync(appointmentsSpecification);
+
+            foreach (var appointment in appointments)
+            {
+                if (appointment.Status == AppointmentStatus.Scheduled || appointment.Status == AppointmentStatus.Pending)
+                {
+                    appointment.Cancel();
+                }
+            }
+
+            doctorProfile.SetVisibility(false);   
 
             var result = await _userService.DeleteUserSoftAsync(doctorProfile.UserId);
 

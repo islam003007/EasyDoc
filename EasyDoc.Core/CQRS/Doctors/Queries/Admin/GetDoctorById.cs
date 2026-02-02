@@ -45,7 +45,7 @@ internal class GetDoctorByIdQueryHandler : IQueryHandler<GetDoctorByIdQuery, Adm
     {
         return await _dbcontext.DoctorDetails
             .Where(doctorResponse => doctorResponse.Id == query.DoctorId)
-            .Join(_dbcontext.UserDtos,
+            .Join(_dbcontext.UserReadModels,
                 doctorDetails => doctorDetails.UserId,
                 userEmail => userEmail.UserId,
                 (doctorDetails, userDto) =>

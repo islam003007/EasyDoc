@@ -2,7 +2,6 @@
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Constants;
 using EasyDoc.Application.CQRS.Doctors.Queries;
-using EasyDoc.Domain.Entities.RefrenceData;
 using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Doctors;
@@ -10,12 +9,11 @@ namespace EasyDoc.Api.Endpoints.Doctors;
 internal class Get : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => false;
-
-
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
+        Console.WriteLine("mapping doctors/get");
+
         return app.MapGet("", async (IQueryHandler<GetDoctorsQuery, IReadOnlyList<GetDoctorsResponse>> handler,
             CancellationToken cancellationToken,
             Guid? cityId,

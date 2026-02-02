@@ -5,6 +5,7 @@ namespace EasyDoc.Api.Extensions;
 
 public static class LoggerExtenstions
 {
+    //TODO: use the settings files instead of this.
     public static LoggerConfiguration ConfigureLogging(this LoggerConfiguration logger)
     {
 

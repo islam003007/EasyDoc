@@ -13,10 +13,10 @@ namespace EasyDoc.Domain.Entities.AppointmentAggregate
         public TimeOnly EndTime { get; private set; }
         public AppointmentStatus Status { get; private set; }
         public Examination? Examination { get; private set; }
-        public Appointment(Guid patientProfileId, Guid doctorProfileId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
+        public Appointment(Guid patientId, Guid doctorId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
         {
-            Guard.Against.Default(patientProfileId, nameof(patientProfileId));
-            Guard.Against.Default(doctorProfileId, nameof(doctorProfileId));
+            Guard.Against.Default(patientId, nameof(patientId));
+            Guard.Against.Default(doctorId, nameof(doctorId));
             Guard.Against.Default(date, nameof(date));
             Guard.Against.Default(startTime, nameof(startTime));
             Guard.Against.Default(endTime, nameof(endTime));
@@ -26,8 +26,8 @@ namespace EasyDoc.Domain.Entities.AppointmentAggregate
                 startTime.AddMinutes(AppointmentConstants.MinAppointmentTimeInMinutes),
                 startTime.AddMinutes(AppointmentConstants.MaxAppointmentTimeInMinutes)); // so that an appointment doesn't take up the whole time
 
-            PatientId = patientProfileId;
-            DoctorId = doctorProfileId;
+            PatientId = patientId;
+            DoctorId = doctorId;
             Date = date;
             StartTime = startTime;
             EndTime = endTime;

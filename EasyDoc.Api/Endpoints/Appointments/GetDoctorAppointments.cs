@@ -12,9 +12,7 @@ namespace EasyDoc.Api.Endpoints.Appointments;
 public class GetDoctorAppointments : IEndpoint
 {
     public Feature Feature => Feature.Appointments;
-
     public bool IsAdminEndpoint => false;
-
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapGet("/doctor", async (IQueryHandler<GetDoctorAppointmentsQuery, IReadOnlyList<AppointmentResponse>> handler,

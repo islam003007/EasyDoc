@@ -117,8 +117,6 @@ public class Doctor : BaseProfile, IAggregateRoot
 
     public void SetMetaphoneKeys(string metaphoneKeys)
     {
-        Guard.Against.Empty(metaphoneKeys, nameof(metaphoneKeys));
-
         MetaphoneKeys = metaphoneKeys;
     }
 

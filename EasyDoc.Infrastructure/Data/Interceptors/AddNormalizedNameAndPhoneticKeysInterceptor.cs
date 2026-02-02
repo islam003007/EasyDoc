@@ -23,13 +23,10 @@ public class AddNormalizedNameAndPhoneticKeysInterceptor : SaveChangesIntercepto
 
         var doctors = dbContext.ChangeTracker.Entries<Doctor>()
                                .Where(e => e.Property(d => d.PersonName).IsModified || e.State == EntityState.Added)
-                               .Select(e => e?.Entity);
+                               .Select(e => e.Entity);
 
        foreach (var doctor in doctors)
         {
-            if (doctor is null)
-                continue;
-
             string name = doctor.PersonName;
 
             string normalizedName = ArabicNormalizer.Normalize(name.ToLower());

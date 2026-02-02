@@ -1,6 +1,7 @@
 ﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Auth.Commands;
+using Microsoft.AspNetCore.Mvc;
 using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Auth;
@@ -8,9 +9,7 @@ namespace EasyDoc.Api.Endpoints.Auth;
 public class ResetPassword : IEndpoint
 {
     public Feature Feature => Feature.Auth;
-
     public bool IsAdminEndpoint => false;
-
     public class Request
     {
         public string Email { get; set; } = null!;
@@ -20,7 +19,7 @@ public class ResetPassword : IEndpoint
 
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        return app.MapPost("/reset-password", async (Request request,
+        return app.MapPost("/reset-password", async ([FromBody] Request request,
             ICommandHandler<ResetPasswordCommand> handler,
             CancellationToken cancellationToken) =>
         {

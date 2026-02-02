@@ -9,15 +9,22 @@ namespace EasyDoc.Infrastructure.Services;
 internal class SignInService : ISignInService
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public SignInService(SignInManager<ApplicationUser> signInManager)
+    public SignInService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
     {
         _signInManager = signInManager;
+        _userManager = userManager;
     }
 
     public async Task<Result> SignInAsync(string email, string password)
     {
-        var loginResult = await _signInManager.PasswordSignInAsync(email,
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user is null)
+            return Result.Failure(AuthErrors.LoginFailed);
+
+        var loginResult = await _signInManager.PasswordSignInAsync(user.UserName!,
             password,
             isPersistent: true,
             lockoutOnFailure: true);

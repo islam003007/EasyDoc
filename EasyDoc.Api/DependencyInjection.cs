@@ -58,7 +58,7 @@ namespace EasyDoc.Api
             services.AddExceptionHandler<GlobalExceptionHandler>();
 
             services.Scan(scan => scan.FromAssembliesOf(typeof(DependencyInjection))
-            .AddClasses(classes => classes.AssignableTo<IEndpoint>())
+            .AddClasses(classes => classes.AssignableTo<IEndpoint>(), publicOnly: false)
             .AsImplementedInterfaces()
             .WithTransientLifetime());
 

@@ -8,9 +8,7 @@ namespace EasyDoc.Api.Endpoints.Auth;
 public class ForgotPassord : IEndpoint
 {
     public Feature Feature => Feature.Auth;
-
     public bool IsAdminEndpoint => false;
-
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapPost("/forgot-password", async (string email,

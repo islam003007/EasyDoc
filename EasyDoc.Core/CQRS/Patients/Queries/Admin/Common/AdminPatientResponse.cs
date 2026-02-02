@@ -14,7 +14,7 @@ public record AdminPatientResponse(Guid Id,
 
 public class AdminPatientResponseMapper
 {
-    public static readonly Expression<Func<Patient, UserDto, AdminPatientResponse>> ToPatientResponse =
+    public static readonly Expression<Func<Patient, UserReadModel, AdminPatientResponse>> ToPatientResponse =
         (patient, userDto) => new AdminPatientResponse(patient.Id,
             patient.UserId,
             patient.PersonName,

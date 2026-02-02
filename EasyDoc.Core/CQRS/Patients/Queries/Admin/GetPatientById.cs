@@ -31,7 +31,7 @@ internal class GetPatientByIdQueryHandle : IQueryHandler<GetPatientByIdQuery, Ad
     {
         return await _dbContext.Patients
             .Where(p => p.Id == query.PatientId)
-            .Join(_dbContext.UserDtos,
+            .Join(_dbContext.UserReadModels,
             p => p.UserId,
             u => u.UserId,
             AdminPatientResponseMapper.ToPatientResponse)

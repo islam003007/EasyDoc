@@ -1,0 +1,26 @@
+[
+  {
+    "id": "019c0982-2dda-7f88-990a-150e35890315",
+    "name": "Orthopedics"
+  },
+  {
+    "id": "019c0982-2dda-700e-ba8a-a8a762e995fa",
+    "name": "Cardiology"
+  },
+  {
+    "id": "019c0982-2dda-7180-9417-0fd56f2a9ed8",
+    "name": "Surgery"
+  },
+  {
+    "id": "019c0982-2dda-76eb-8ddd-042b77f90a6b",
+    "name": "Ophthalmology"
+  },
+  {
+    "id": "019c0982-2dda-740b-abfa-400ed6383d3d",
+    "name": "Pediatrics"
+  },
+  {
+    "id": "019c0982-2dda-7524-a3ac-43afcd55a50d",
+    "name": "Dentistry"
+  }
+]

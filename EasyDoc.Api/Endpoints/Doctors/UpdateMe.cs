@@ -2,6 +2,7 @@
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands;
 using EasyDoc.SharedKernel;
+using Microsoft.AspNetCore.Mvc;
 using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Doctors;
@@ -9,9 +10,7 @@ namespace EasyDoc.Api.Endpoints.Doctors;
 internal class UpdateMe : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => false;
-
     public class Request
     {
         public string? PersonName { get; set; }
@@ -26,7 +25,7 @@ internal class UpdateMe : IEndpoint
 
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        return app.MapPatch("/Me", async (Request request,
+        return app.MapPatch("/Me", async ([FromBody] Request request,
             ICommandHandler<UpdateMeCommand> handler,
             CancellationToken cancellationToken) =>
         {

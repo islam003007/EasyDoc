@@ -8,9 +8,7 @@ namespace EasyDoc.Api.Endpoints.Doctors.ScheduleOverrides;
 public class Delete : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
-
     public bool IsAdminEndpoint => false;
-
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapDelete("/me/schedule-overrides/{scheduleOverrideId}", async (Guid scheduleOverrideId,

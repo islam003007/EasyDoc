@@ -7,7 +7,6 @@ obj/
 
 # User secrets & env
 **/secrets.json
-appsettings.Development.json
 .env
 .env.*
 

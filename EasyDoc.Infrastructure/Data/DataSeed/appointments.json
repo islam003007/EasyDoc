@@ -1,0 +1,152 @@
+[
+  {
+    "id": "019c1a1f-f00f-7efa-ab3b-4a0444039561",
+    "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "doctorId": "019c0982-2dda-7177-8f1f-6d1205a92f16",
+    "date": "2026-02-05",
+    "startTime": "09:00",
+    "endTime": "09:30",
+    "status": "Pending",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-777e-a8e5-94da0c6e56a1",
+    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
+    "doctorId": "019c0982-2dda-7177-8f1f-6d1205a92f16",
+    "date": "2026-02-06",
+    "startTime": "10:00",
+    "endTime": "10:30",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-7820-b022-cd755e767379",
+    "patientId": "019c0982-2dda-7507-a87f-033390f126ba",
+    "doctorId": "019c0982-2dda-70e0-b007-4908751d9e99",
+    "date": "2026-02-07",
+    "startTime": "09:30",
+    "endTime": "10:00",
+    "status": "completed",
+    "examination": {
+      "diagnosis": "Hypertension",
+      "prescription": "Medication A",
+      "notes": "Monitor blood pressure daily"
+    }
+  },
+  {
+    "id": "019c1a1f-f00f-79a8-8ce5-409e5c06a47e",
+    "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "doctorId": "019c0982-2dda-70e0-b007-4908751d9e99",
+    "date": "2026-02-07",
+    "startTime": "11:00",
+    "endTime": "11:20",
+    "status": "Canceled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-7ee9-ade6-f40840461857",
+    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
+    "doctorId": "019c0982-2dda-70e0-b007-4908751d9e99",
+    "date": "2026-02-07",
+    "startTime": "12:00",
+    "endTime": "12:20",
+    "status": "completed",
+    "examination": {
+      "diagnosis": "Fractured arm",
+      "prescription": "Cast and rest",
+      "notes": "Follow-up in 6 weeks"
+    }
+  },
+  {
+    "id": "019c1a1f-f00f-7fa2-85e2-e7ca96fef75d",
+    "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "doctorId": "019c0982-2dda-79bf-b020-09d933744f77",
+    "date": "2026-02-08",
+    "startTime": "08:30",
+    "endTime": "09:00",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-7753-96d8-57c9b75c163a",
+    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
+    "doctorId": "019c0982-2dda-79bf-b020-09d933744f77",
+    "date": "2026-02-08",
+    "startTime": "09:30",
+    "endTime": "10:00",
+    "status": "completed",
+    "examination": {
+      "diagnosis": "Flu",
+      "prescription": "Medication B",
+      "notes": "Rest and hydrate"
+    }
+  },
+  {
+    "id": "019c1a1f-f00f-792c-9d20-604410547bc9",
+    "patientId": "019c0982-2dda-7507-a87f-033390f126ba",
+    "doctorId": "019c0982-2dda-72e4-968a-a24cb383849c",
+    "date": "2026-02-09",
+    "startTime": "11:15",
+    "endTime": "11:30",
+    "status": "Pending",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-7616-8299-f9203c081339",
+    "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "doctorId": "019c0982-2dda-72e4-968a-a24cb383849c",
+    "date": "2026-02-09",
+    "startTime": "12:00",
+    "endTime": "12:15",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-716b-a0e2-c782a4b2aa0d",
+    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
+    "doctorId": "019c0982-2dda-72e4-968a-a24cb383849c",
+    "date": "2026-02-09",
+    "startTime": "13:00",
+    "endTime": "13:15",
+    "status": "completed",
+    "examination": {
+      "diagnosis": "Cavity",
+      "prescription": "Fillings",
+      "notes": null
+    }
+  },
+  {
+    "id": "019c1a1f-f00f-741e-a9b8-6b69c0f1d5c8",
+    "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "doctorId": "019c0982-2dda-73a0-bf5c-f9b8b4d7b249",
+    "date": "2026-02-10",
+    "startTime": "09:00",
+    "endTime": "09:20",
+    "status": "Pending",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-7a97-8fcc-58b5769cd455",
+    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
+    "doctorId": "019c0982-2dda-73a0-bf5c-f9b8b4d7b249",
+    "date": "2026-02-10",
+    "startTime": "10:00",
+    "endTime": "10:20",
+    "status": "Canceled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-7cae-8680-8edd45a2d1b9",
+    "patientId": "019c0982-2dda-7507-a87f-033390f126ba",
+    "doctorId": "019c0982-2dda-73a0-bf5c-f9b8b4d7b249",
+    "date": "2026-02-10",
+    "startTime": "12:30",
+    "endTime": "12:50",
+    "status": "Canceled",
+    "examination": {
+      "diagnosis": "Cavity",
+      "prescription": "Fillings",
+      "notes": null
+    }
+  }
+]

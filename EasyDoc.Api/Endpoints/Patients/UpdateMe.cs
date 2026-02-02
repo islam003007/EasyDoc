@@ -1,6 +1,7 @@
 ﻿using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Patients.Commands;
+using Microsoft.AspNetCore.Mvc;
 using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Patients;
@@ -19,7 +20,7 @@ public class UpdateMe : IEndpoint
 
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        return app.MapPatch("/me", async (Request request,
+        return app.MapPatch("/me", async ([FromBody] Request request,
             ICommandHandler<UpdateMeCommand> handler,
             CancellationToken cancellationToken) =>
         {

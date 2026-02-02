@@ -2,6 +2,7 @@
 using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Appointments.Commands;
+using Microsoft.AspNetCore.Mvc;
 using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Appointments;
@@ -9,9 +10,7 @@ namespace EasyDoc.Api.Endpoints.Appointments;
 public class Create : IEndpoint
 {
     public Feature Feature => Feature.Appointments;
-
     public bool IsAdminEndpoint => false;
-
     public class Request
     {
         public Guid DoctorId { get; set; }
@@ -21,7 +20,7 @@ public class Create : IEndpoint
 
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        return app.MapPost("", async (Request request,
+        return app.MapPost("", async ([FromBody]Request request,
             ICommandHandler<CreateAppointmentCommand, Guid> handler,
             CancellationToken cancellationToken) =>
         {
