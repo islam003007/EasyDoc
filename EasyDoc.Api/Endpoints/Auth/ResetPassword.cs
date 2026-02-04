@@ -6,7 +6,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Auth;
 
-public class ResetPassword : IEndpoint
+internal class ResetPassword : IEndpoint
 {
     public Feature Feature => Feature.Auth;
     public bool IsAdminEndpoint => false;

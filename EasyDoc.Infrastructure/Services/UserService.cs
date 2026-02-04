@@ -1,4 +1,5 @@
-﻿using EasyDoc.Application.Abstractions.Data;
+﻿using EasyDoc.Application.Abstractions.Authentication;
+using EasyDoc.Application.Abstractions.Data;
 using EasyDoc.Application.Abstractions.Exceptions;
 using EasyDoc.Application.Errors;
 using EasyDoc.Infrastructure.Data.Identity;
@@ -12,16 +13,19 @@ namespace EasyDoc.Infrastructure.Services;
 internal class UserService : IUserService // some of the methods in this service are supposed to run in a db transaction.
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ISignInService _signInService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly UserNotificationService _userNotificationService;
 
     public UserService(UserManager<ApplicationUser> userManager,
         IUnitOfWork unitOfWork,
-        UserNotificationService userNotificationService)
+        UserNotificationService userNotificationService,
+        ISignInService signInService)
     {
         _userManager = userManager;
         _unitOfWork = unitOfWork;
         _userNotificationService = userNotificationService;
+        _signInService = signInService;
     }
 
     public async Task<Result<Guid>> CreateUserAsync(string email, string password, string role)
@@ -58,32 +62,33 @@ internal class UserService : IUserService // some of the methods in this service
         if (user == null)
             return Result.Failure(UserErrors.NotFound(userId));
 
-        var lockoutResult = await LockUserOutAsync(user);
+        user.SetDeletedState(true);
 
-        if (!lockoutResult.IsSuccess)
-            return lockoutResult;
+        await _signInService.SignOutAsync();
 
         return Result.Success();
     }
 
-    public async Task<Result> DeleteUserPermanentAsync(Guid userId)
-    {
-        if (_unitOfWork.CurrentTransaction == null)
-            throw new TransactionRequiredException();
+    //THIS METHOD WAS REMOVED AS IT BREAKS DOMAIN RULES
 
-        ApplicationUser? user = await _userManager.FindByIdAsync(userId.ToString());
+    //public async Task<Result> DeleteUserPermanentAsync(Guid userId)
+    //{
+    //    if (_unitOfWork.CurrentTransaction == null)
+    //        throw new TransactionRequiredException();
 
-        if (user == null)
-            return Result.Failure(UserErrors.NotFound(userId));
+    //    ApplicationUser? user = await _userManager.FindByIdAsync(userId.ToString());
 
-        var result = await _userManager.DeleteAsync(user);
+    //    if (user == null)
+    //        return Result.Failure(UserErrors.NotFound(userId));
 
-        if (!result.Succeeded)
-            return ToFailureResult(result);
+    //    var result = await _userManager.DeleteAsync(user);
 
-        return Result.Success();
+    //    if (!result.Succeeded)
+    //        return ToFailureResult(result);
 
-    }
+    //    return Result.Success();
+
+    //}
 
     private async Task<Result> LockUserOutAsync(ApplicationUser user)
     {

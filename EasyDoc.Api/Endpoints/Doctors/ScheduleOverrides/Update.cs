@@ -6,7 +6,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Doctors.ScheduleOverrides;
 
-public class Update : IEndpoint
+internal class Update : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
     public bool IsAdminEndpoint => false;

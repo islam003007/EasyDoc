@@ -126,36 +126,39 @@ internal class DoctorsService
 
 
     }
-    public async Task<Result> DeleteDoctorPermanentAsync(Guid doctorId, CancellationToken cancellationToken = default)
-    {
-        await using (var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken))
-        {
-            Doctor? doctorProfile = await _doctorRepository.GetByIdAsync(doctorId, cancellationToken);
 
-            if (doctorProfile == null)
-                return Result.Failure(DoctorErrors.NotFound(doctorId));
+    //THIS METHOD WAS REMOVED AS IT BREAKS DOMAIN RULES
 
-            await _doctorRepository.DeleteAsync(doctorProfile, cancellationToken);
+    //public async Task<Result> DeleteDoctorPermanentAsync(Guid doctorId, CancellationToken cancellationToken = default)
+    //{
+    //    await using (var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken))
+    //    {
+    //        Doctor? doctorProfile = await _doctorRepository.GetByIdAsync(doctorId, cancellationToken);
 
-            var result = await _userService.DeleteUserPermanentAsync(doctorProfile.UserId);
+    //        if (doctorProfile == null)
+    //            return Result.Failure(DoctorErrors.NotFound(doctorId));
 
-            if (!result.IsSuccess)
-            {
-                if (!result.IsSuccess && result.Error.Code == UserErrors.NotFoundCode)
-                    throw new AppException("Users.NotFound.ByDoctor",
-                        $"The user belonging to the doctor with the Id {doctorId} was not found",
-                        new { PatientId = doctorId });
+    //        await _doctorRepository.DeleteAsync(doctorProfile, cancellationToken);
 
-                return result;
-            }
+    //        var result = await _userService.DeleteUserPermanentAsync(doctorProfile.UserId);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+    //        if (!result.IsSuccess)
+    //        {
+    //            if (!result.IsSuccess && result.Error.Code == UserErrors.NotFoundCode)
+    //                throw new AppException("Users.NotFound.ByDoctor",
+    //                    $"The user belonging to the doctor with the Id {doctorId} was not found",
+    //                    new { PatientId = doctorId });
 
-            await transaction.CommitAsync(cancellationToken);
+    //            return result;
+    //        }
 
-            return Result.Success();
-        }
-    }
+    //        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+    //        await transaction.CommitAsync(cancellationToken);
+
+    //        return Result.Success();
+    //    }
+    //}
     public async Task<Result> DeleteDoctorSoftAsync(Guid doctorId, CancellationToken cancellationToken = default)
     {
         await using (var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken))

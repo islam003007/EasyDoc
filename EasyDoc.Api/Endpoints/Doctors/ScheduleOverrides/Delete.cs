@@ -5,7 +5,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Doctors.ScheduleOverrides;
 
-public class Delete : IEndpoint
+internal class Delete : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
     public bool IsAdminEndpoint => false;

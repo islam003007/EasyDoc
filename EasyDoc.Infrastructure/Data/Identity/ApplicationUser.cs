@@ -5,6 +5,7 @@ namespace EasyDoc.Infrastructure.Data.Identity;
 
 public class ApplicationUser : IdentityUser<Guid>
 {
+    public bool IsDeleted { get; private set; } = false;
     private ApplicationUser() // for ef core
     {
         
@@ -19,5 +20,10 @@ public class ApplicationUser : IdentityUser<Guid>
     {
         Guard.Against.NullOrWhiteSpace(email);
         Email = email;
+    }
+
+    public void SetDeletedState(bool isDeleted)
+    {
+        IsDeleted = isDeleted;
     }
 }

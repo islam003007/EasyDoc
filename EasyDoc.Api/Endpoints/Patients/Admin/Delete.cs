@@ -7,7 +7,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Patients.Admin;
 
-public class Delete : IEndpoint
+internal class Delete : IEndpoint
 {
     public Feature Feature => Feature.Patients;
 

@@ -24,6 +24,9 @@ internal class SignInService : ISignInService
         if (user is null)
             return Result.Failure(AuthErrors.LoginFailed);
 
+        if (user.IsDeleted)
+            return Result.Failure(UserErrors.Deleted);
+
         var loginResult = await _signInManager.PasswordSignInAsync(user.UserName!,
             password,
             isPersistent: true,

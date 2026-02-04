@@ -38,8 +38,9 @@ internal class GetPatientsQueryHandler : IQueryHandler<GetPatientsQuery, IReadOn
             .Join(_dbContext.UserReadModels,
             p => p.UserId,
             u => u.UserId,
-            (p, u) => new AdminPatientResponse(p.Id, u.UserId, p.PersonName, p.PhoneNumber.Value, p.IsDeleted, u.Email))
-            .OrderBy(d => d.Id)
+            (p, u) => new { p, u})
+            .OrderBy(x => x.p.Id)
+            .Select(x => new AdminPatientResponse(x.p.Id, x.u.UserId, x.p.PersonName, x.p.PhoneNumber.Value, x.p.IsDeleted, x.u.Email))
             .Skip((query.PageNumber - 1) * query.PageSize)
             .Take(query.PageSize)
             .ToListAsync(cancellationToken);

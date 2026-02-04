@@ -1,4 +1,5 @@
-﻿using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Constants;
+using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Patients.Commands;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Patients;
 
-public class UpdateMe : IEndpoint
+internal class UpdateMe : IEndpoint
 {
     public Feature Feature => Feature.Patients;
 
@@ -30,6 +31,6 @@ public class UpdateMe : IEndpoint
 
             return result.Match(Results.NoContent, CustomResults.Problem);
 
-        }).RequireAuthorization();
+        }).RequireAuthorization(Policies.PatientsOnly);
     }
 }

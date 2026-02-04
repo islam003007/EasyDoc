@@ -18,6 +18,6 @@ public static class OptionalHelper
         if (value is not null)
             return new Optional<T>(value);
 
-        return Optional<T>.NotProvided();
+        return Optional<T>.NotProvided;
     }
 }

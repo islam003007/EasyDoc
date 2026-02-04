@@ -7,23 +7,17 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Doctors.Admin;
 
-public class Delete : IEndpoint
+internal class Delete : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
     public bool IsAdminEndpoint => true;
-    public class Request
-    {
-        public bool IsSoftDelete { get; set; } = true;
-    }
-
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
         return app.MapDelete("/{id}", async (Guid id,
-            [FromBody] Request request,
             ICommandHandler<DeleteDoctorCommand> handler,
             CancellationToken cancellationToken) =>
         {
-            var command = new DeleteDoctorCommand(id, request.IsSoftDelete);
+            var command = new DeleteDoctorCommand(id);
 
             var result = await handler.HandleAsync(command, cancellationToken);
 

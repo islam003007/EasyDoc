@@ -1,12 +1,14 @@
 ﻿using EasyDoc.Application.Abstractions.Data;
 using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.Errors;
 using EasyDoc.SharedKernel;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace EasyDoc.Application.CQRS.Doctors.Queries.ScheduleOverrides;
 
-public record GetDoctorScheduleOverridesQuery(Guid DoctorId) : IQuery<IReadOnlyCollection<DoctorScheduleOverrideResponse>>;
+public record GetDoctorScheduleOverridesQuery(Guid DoctorId) : IQuery<IReadOnlyList<DoctorScheduleOverrideResponse>>;
 
 public record class DoctorScheduleOverrideResponse(Guid Id, DateOnly Date, bool IsAvaiable, TimeOnly? StartTime, TimeOnly? EndTime);
 
@@ -20,7 +22,7 @@ internal class GetDoctorScheduleOverridesQueryValidator : AbstractValidator<GetD
 }
 
 internal class GetDoctorScheduleOverridesQueryHandler : IQueryHandler<GetDoctorScheduleOverridesQuery,
-    IReadOnlyCollection<DoctorScheduleOverrideResponse>>
+    IReadOnlyList<DoctorScheduleOverrideResponse>>
 {
     private readonly IReadOnlyApplicationDbContext _dbContext;
 
@@ -29,12 +31,22 @@ internal class GetDoctorScheduleOverridesQueryHandler : IQueryHandler<GetDoctorS
         _dbContext = dbContext;
     }
 
-    public async Task<Result<IReadOnlyCollection<DoctorScheduleOverrideResponse>>> HandleAsync(GetDoctorScheduleOverridesQuery query, CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<DoctorScheduleOverrideResponse>>> HandleAsync(GetDoctorScheduleOverridesQuery query,
+        CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Doctors
+        var doctorWithOverrides = await _dbContext.Doctors
             .Where(d => d.Id == query.DoctorId)
-            .SelectMany(d => d.ScheduleOverrides)
-            .Select(s => new DoctorScheduleOverrideResponse(s.Id, s.Date, s.IsAvailable, s.StartTime, s.EndTime))
-            .ToListAsync(cancellationToken);
+            .Select(d => new
+            {
+                Overrides = d.ScheduleOverrides
+                    .Select(s => new DoctorScheduleOverrideResponse(
+                        s.Id, s.Date, s.IsAvailable, s.StartTime, s.EndTime))
+                    .ToList()
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+
+        return doctorWithOverrides is not null ?
+            doctorWithOverrides.Overrides :
+            Result.Failure<IReadOnlyList<DoctorScheduleOverrideResponse>>(DoctorErrors.NotFound(query.DoctorId));
     }
 }

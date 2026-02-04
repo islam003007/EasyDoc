@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace EasyDoc.Application.CQRS.Doctors.Commands.Admin;
 
-public record DeleteDoctorCommand(Guid DoctorId, bool IsSoftDelete = true) : ICommand;
+public record DeleteDoctorCommand(Guid DoctorId) : ICommand;
 
 internal class DeleteDoctorCommandValidator : AbstractValidator<DeleteDoctorCommand>
 {
@@ -26,9 +26,6 @@ internal class DeleteDoctorCommandHandler : ICommandHandler<DeleteDoctorCommand>
     }
     public Task<Result> HandleAsync(DeleteDoctorCommand command, CancellationToken cancellationToken = default)
     {
-        if (command.IsSoftDelete)
-            return _doctorsService.DeleteDoctorSoftAsync(command.DoctorId, cancellationToken);
-        else
-            return _doctorsService.DeleteDoctorPermanentAsync(command.DoctorId, cancellationToken);
+        return _doctorsService.DeleteDoctorSoftAsync(command.DoctorId, cancellationToken);
     }
 }

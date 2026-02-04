@@ -5,7 +5,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Auth;
 
-public class ResendConfirmationEmail : IEndpoint
+internal class ResendConfirmationEmail : IEndpoint
 {
     public Feature Feature => Feature.Auth;
     public bool IsAdminEndpoint => false;

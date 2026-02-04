@@ -6,7 +6,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Auth;
 
-public class Login : IEndpoint
+internal class Login : IEndpoint
 {
     public Feature Feature => Feature.Auth;
     public bool IsAdminEndpoint => false;

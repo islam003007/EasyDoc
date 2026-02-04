@@ -1,6 +1,8 @@
-﻿using EasyDoc.Application.Abstractions.Messaging;
+﻿using EasyDoc.Application.Abstractions.Data;
+using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Abstractions.Utils;
 using EasyDoc.Application.Dtos;
+using EasyDoc.Application.Extensions;
 using EasyDoc.Application.Services;
 using EasyDoc.Domain.Constants;
 using EasyDoc.SharedKernel;
@@ -23,7 +25,7 @@ public record RegisterDoctorCommand(string Email,
 
 internal class RegisterDoctorCommandValidator : AbstractValidator<RegisterDoctorCommand>
 {
-    public RegisterDoctorCommandValidator(IPhoneNumberService phoneNumberService)
+    public RegisterDoctorCommandValidator(IPhoneNumberService phoneNumberService, IReadOnlyApplicationDbContext dbContext)
     {
         // Email Validation
         RuleFor(x => x.Email)
@@ -51,10 +53,12 @@ internal class RegisterDoctorCommandValidator : AbstractValidator<RegisterDoctor
             .NotEmpty();
 
         RuleFor(x => x.DepartmentId)
-            .NotEmpty();
+            .NotEmpty()
+            .MustBeValidDepartmentId(dbContext);
 
         RuleFor(x => x.CityId)
-            .NotEmpty();
+            .NotEmpty()
+            .MustBeValidCityId(dbContext);
 
         RuleFor(x => x.ClinicAddress)
             .NotEmpty();

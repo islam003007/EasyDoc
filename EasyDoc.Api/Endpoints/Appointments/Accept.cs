@@ -7,7 +7,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Appointments;
 
-public class Accept : IEndpoint
+internal class Accept : IEndpoint
 {
     public Feature Feature => Feature.Appointments;
     public bool IsAdminEndpoint => false;

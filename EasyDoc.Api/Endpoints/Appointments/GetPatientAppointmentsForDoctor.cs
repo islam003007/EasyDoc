@@ -1,4 +1,5 @@
-﻿using EasyDoc.Api.Constants;
+﻿
+using EasyDoc.Api.Constants;
 using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Constants;
@@ -8,23 +9,24 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Appointments;
 
-internal class GetPatientAppointments : IEndpoint
+internal class GetPatientAppointmentsForDoctor : IEndpoint
 {
     public Feature Feature => Feature.Appointments;
     public bool IsAdminEndpoint => false;
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        return app.MapGet("/patient/me", async (IQueryHandler<GetPatientAppointmentsQuery, IReadOnlyList<AppointmentResponse>> handler,
+        return app.MapGet("/patients/{patientId}", async (Guid patientId,
+            IQueryHandler<GetPatientAppointmentsForDoctorQuery, IReadOnlyList<AppointmentResponse>> handler,
             CancellationToken cancellationToken,
             int PageNumber = 1,
             int PageSize = PageConstants.DefaultPageSize) =>
         {
-            var query = new GetPatientAppointmentsQuery(PageNumber, PageSize);
+            var query = new GetPatientAppointmentsForDoctorQuery(patientId, PageNumber, PageSize);
 
             var result = await handler.HandleAsync(query, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
 
-        }).RequireAuthorization(Policies.PatientsOnly);
+        }).RequireAuthorization(Policies.DoctorsOnly);
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using EasyDoc.Api.Constants;
+﻿using EasyDoc.Api.Constants;
 using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Patients.Queries.Admin;
@@ -8,7 +7,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Patients.Admin;
 
-public class GetById : IEndpoint
+internal class GetById : IEndpoint
 {
     public Feature Feature => Feature.Patients;
 

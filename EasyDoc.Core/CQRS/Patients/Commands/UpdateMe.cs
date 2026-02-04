@@ -1,6 +1,11 @@
-﻿using EasyDoc.Application.Abstractions.Messaging;
+﻿using EasyDoc.Application.Abstractions.Authentication;
+using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Abstractions.Utils;
+using EasyDoc.Application.Dtos;
+using EasyDoc.Application.Extensions;
+using EasyDoc.Application.Services;
 using EasyDoc.Domain.Constants;
+using EasyDoc.SharedKernel;
 using FluentValidation;
 
 namespace EasyDoc.Application.CQRS.Patients.Commands;
@@ -16,5 +21,24 @@ internal class UpdateMeCommandValidator : AbstractValidator<UpdateMeCommand>
 
         RuleFor(x => x.PhoneNumber)
             .MustBeValidPhoneNumber(phoneNumberService);
+    }
+}
+
+internal class UpdateMeCommandHaneler : ICommandHandler<UpdateMeCommand>
+{
+    private readonly PatientService _patientService;
+    private readonly IUserContext _userContext;
+
+    public UpdateMeCommandHaneler(PatientService patientService, IUserContext userContext)
+    {
+        _patientService = patientService;
+        _userContext = userContext;
+    }
+
+    public Task<Result> HandleAsync(UpdateMeCommand command, CancellationToken cancellationToken = default)
+    {
+        var request = new UpdatePatientRequest(_userContext.PatientId, command.PersonName, command.PhoneNumber);
+
+        return _patientService.UpdatePatientAsync(request, cancellationToken);
     }
 }

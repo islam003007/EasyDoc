@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EasyDoc.Infrastructure.Services;
 
+// TODO: sometimes search produces last names with higher order than first names. fix that.
 internal class DoctorSearchService : IDoctorSearchService
 {
     private readonly ApplicationDbContext _context;

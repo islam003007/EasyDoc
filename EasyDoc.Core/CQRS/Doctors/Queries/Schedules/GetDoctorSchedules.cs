@@ -1,5 +1,7 @@
 ﻿using EasyDoc.Application.Abstractions.Data;
 using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.CQRS.Doctors.Queries.ScheduleOverrides;
+using EasyDoc.Application.Errors;
 using EasyDoc.SharedKernel;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -31,10 +33,19 @@ internal class GetDoctorSchedulesQueryHandler : IQueryHandler<GetDoctorSchedules
     public async Task<Result<IReadOnlyList<DoctorScheduleResponse>>> HandleAsync(GetDoctorSchedulesQuery query,
         CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Doctors
+        var doctorWithSchedules = await _dbContext.Doctors
             .Where(d => d.Id == query.DoctorId)
-            .SelectMany(d => d.Schedules)
-            .Select(s => new DoctorScheduleResponse(s.Id, s.DayOfWeek, s.StartTime, s.EndTime))
-            .ToListAsync(cancellationToken);
+            .Select(d => new
+            {
+                Schedules = d.Schedules
+                    .Select(s => new DoctorScheduleResponse(
+                        s.Id, s.DayOfWeek, s.StartTime, s.EndTime))
+                    .ToList()
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+
+        return doctorWithSchedules is not null ?
+            doctorWithSchedules.Schedules :
+            Result.Failure<IReadOnlyList<DoctorScheduleResponse>>(DoctorErrors.NotFound(query.DoctorId));
     }
 }

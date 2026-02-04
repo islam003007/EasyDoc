@@ -24,7 +24,7 @@ internal class GetDoctorsQueryValidator : AbstractValidator<GetDoctorsQuery>
     }
 }
 
-public record GetDoctorsResponse(Guid Id, string PersonName, string? ProfilePictureUrl);
+public record GetDoctorsResponse(Guid Id, string PersonName, string? ProfilePictureUrl, Guid DepartmentId, Guid CityId);
 
 internal class GetDoctorsQueryHandler : IQueryHandler<GetDoctorsQuery, IReadOnlyList<GetDoctorsResponse>>
 {
@@ -54,7 +54,11 @@ internal class GetDoctorsQueryHandler : IQueryHandler<GetDoctorsQuery, IReadOnly
                                         .OrderBy(d => d.Id)
                                         .Skip((query.PageNumber - 1) * query.PageSize)
                                         .Take(query.PageSize)
-                                        .Select((doctor) => new GetDoctorsResponse(doctor.Id, doctor.PersonName, doctor.ProfilePictureUrl))
+                                        .Select((doctor) => new GetDoctorsResponse(doctor.Id,
+                                        doctor.PersonName,
+                                        doctor.ProfilePictureUrl,
+                                        doctor.DepartmentId,
+                                        doctor.CityId))
                                         .ToListAsync(cancellationToken);
 
         // TODO: apply global filter and use IgnoreQueryFilters for admin only. apply other filters if needed.

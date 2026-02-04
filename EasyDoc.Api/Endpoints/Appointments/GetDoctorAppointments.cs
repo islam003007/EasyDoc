@@ -9,13 +9,13 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Appointments;
 
-public class GetDoctorAppointments : IEndpoint
+internal class GetDoctorAppointments : IEndpoint
 {
     public Feature Feature => Feature.Appointments;
     public bool IsAdminEndpoint => false;
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        return app.MapGet("/doctor", async (IQueryHandler<GetDoctorAppointmentsQuery, IReadOnlyList<AppointmentResponse>> handler,
+        return app.MapGet("/doctor/me", async (IQueryHandler<GetDoctorAppointmentsQuery, IReadOnlyList<AppointmentResponse>> handler,
             CancellationToken cancellationToken,
             int PageNumber = 1,
             int PageSize = PageConstants.DefaultPageSize) =>

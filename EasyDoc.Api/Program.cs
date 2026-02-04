@@ -17,7 +17,7 @@ builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddOpenApi();
 
 Log.Logger = new LoggerConfiguration()
-    .ConfigureLogging()
+    .ConfigureLogging(builder.Configuration)
     .CreateLogger();
 
 builder.Host.UseSerilog();

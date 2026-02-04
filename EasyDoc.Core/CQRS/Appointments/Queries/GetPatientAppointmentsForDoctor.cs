@@ -1,6 +1,7 @@
 ﻿using EasyDoc.Application.Abstractions.Authentication;
 using EasyDoc.Application.Abstractions.Data;
 using EasyDoc.Application.Abstractions.Messaging;
+using EasyDoc.Application.Constants;
 using EasyDoc.Application.CQRS.Appointments.Queries.Common;
 using EasyDoc.Application.Errors;
 using EasyDoc.Domain.Entities.AppointmentAggregate;
@@ -10,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EasyDoc.Application.CQRS.Appointments.Queries;
 
-public record GetPatientAppointmentsForDoctorQuery(Guid PatientId) : IQuery<IReadOnlyList<AppointmentResponse>>;
+public record GetPatientAppointmentsForDoctorQuery(Guid PatientId, int PageNumber = 1, int PageSize = 10) : IQuery<IReadOnlyList<AppointmentResponse>>;
 
 internal class GetPatientAppointmentsForDoctorQueryValidator : AbstractValidator<GetPatientAppointmentsForDoctorQuery>
 {
@@ -18,6 +19,12 @@ internal class GetPatientAppointmentsForDoctorQueryValidator : AbstractValidator
     {
         RuleFor(x => x.PatientId)
             .NotEmpty();
+
+        RuleFor(x => x.PageSize)
+            .GreaterThanOrEqualTo(1);
+
+        RuleFor(x => x.PageSize)
+            .InclusiveBetween(1, PageConstants.MaxPageSize);
     }
 }
 
@@ -47,6 +54,8 @@ internal class GetPatientAppointmentsForDoctorQueryHandler : IQueryHandler<GetPa
 
         var appointments = await _dbContext.Appointments
                                         .Where(a => a.PatientId == query.PatientId && a.Status == AppointmentStatus.completed)
+                                        .Skip((query.PageNumber - 1) * query.PageSize)
+                                        .Take(query.PageSize)
                                         .Select(AppointmentMapper.ToAppointmentResponse)
                                         .ToListAsync(cancellationToken);
 

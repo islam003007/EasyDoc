@@ -1,6 +1,8 @@
-﻿using EasyDoc.Application.Abstractions.Messaging;
+﻿using EasyDoc.Application.Abstractions.Data;
+using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Abstractions.Utils;
 using EasyDoc.Application.Dtos;
+using EasyDoc.Application.Extensions;
 using EasyDoc.Application.Services;
 using EasyDoc.Domain.Constants;
 using EasyDoc.SharedKernel;
@@ -20,7 +22,7 @@ public record UpdateDoctorCommand(Guid DoctorId,
 
 internal class UpdateDoctorCommandValidator : AbstractValidator<UpdateDoctorCommand>
 {
-    public UpdateDoctorCommandValidator(IPhoneNumberService phoneNumberService)
+    public UpdateDoctorCommandValidator(IPhoneNumberService phoneNumberService, IReadOnlyApplicationDbContext dbContext)
     {
         RuleFor(x => x.DoctorId)
             .NotEmpty();
@@ -34,20 +36,20 @@ internal class UpdateDoctorCommandValidator : AbstractValidator<UpdateDoctorComm
             .MustBeValidPhoneNumber(phoneNumberService);
 
         RuleFor(x => x.CityId)
-            .NotEmpty().When(x => x != null).WithMessage("City Id must not be empty if provided.");
+            .NotEmpty().When(x => x != null).WithMessage("City Id must not be empty if provided.")
+            .MustBeValidCityId(dbContext);
 
         RuleFor(x => x.ClinicAddress)
-            .NotEmpty().When(x => x != null).WithMessage("Clinic address Id must not be empty if provided.");
+            .NotEmpty().When(x => x != null).WithMessage("Clinic address must not be empty if provided.");
 
         RuleFor(x => x.DefaultAppointmentTimeInMinutes)
             .InclusiveBetween(AppointmentConstants.MinAppointmentTimeInMinutes, AppointmentConstants.MaxAppointmentTimeInMinutes);
 
         RuleFor(x => x.Description)
-            .Must(x => x.Value == null || String.IsNullOrWhiteSpace(x.Value)).WithMessage("Description Id must not be empty if provided.");
+            .Must(x => x.Value == null || !String.IsNullOrWhiteSpace(x.Value)).WithMessage("Description must not be empty if provided.");
 
         RuleFor(x => x.ProfilePictureUrl)
-            .Must(x => x.Value == null || String.IsNullOrWhiteSpace(x.Value)).WithMessage("profile Picture Url must not be empty if provided.");
-
+            .Must(x => x.Value == null || !String.IsNullOrWhiteSpace(x.Value)).WithMessage("profile Picture Url must not be empty if provided.");
     }
 }
 

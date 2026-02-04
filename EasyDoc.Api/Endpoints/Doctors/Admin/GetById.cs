@@ -6,7 +6,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Doctors.Admin;
 
-public class GetById : IEndpoint
+internal class GetById : IEndpoint
 {
     public Feature Feature => Feature.Doctors;
     public bool IsAdminEndpoint => true;

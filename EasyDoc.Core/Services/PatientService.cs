@@ -107,36 +107,38 @@ internal class PatientService
         }
     }
 
-    public async Task<Result> DeletePatientPermanentAsync(Guid patientId, CancellationToken cancellationToken = default)
-    {
-        await using (var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken))
-        {
-            Patient? patient = await _patientRepository.GetByIdAsync(patientId, cancellationToken);
+    //THIS METHOD WAS REMOVED AS IT BREAKS DOMAIN RULES
+    
+    //public async Task<Result> DeletePatientPermanentAsync(Guid patientId, CancellationToken cancellationToken = default)
+    //{
+    //    await using (var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken))
+    //    {
+    //        Patient? patient = await _patientRepository.GetByIdAsync(patientId, cancellationToken);
 
-            if (patient is null)
-                return Result.Failure(PatientErrors.NotFound(patientId));
+    //        if (patient is null)
+    //            return Result.Failure(PatientErrors.NotFound(patientId));
 
-            await _patientRepository.DeleteAsync(patient, cancellationToken);
+    //        await _patientRepository.DeleteAsync(patient, cancellationToken);
 
-            var result = await _userService.DeleteUserPermanentAsync(patient.UserId);
+    //        var result = await _userService.DeleteUserPermanentAsync(patient.UserId);
 
-            if (!result.IsSuccess)
-            {
-                if (!result.IsSuccess && result.Error.Code == UserErrors.NotFoundCode)
-                    throw new AppException("Users.NotFound.ByPatient",
-                        $"The user belonging to the Patient with the Id {patient.Id} was not found",
-                        new { PatientId = patient.Id });
+    //        if (!result.IsSuccess)
+    //        {
+    //            if (!result.IsSuccess && result.Error.Code == UserErrors.NotFoundCode)
+    //                throw new AppException("Users.NotFound.ByPatient",
+    //                    $"The user belonging to the Patient with the Id {patient.Id} was not found",
+    //                    new { PatientId = patient.Id });
 
-                return result;
-            }
+    //            return result;
+    //        }
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+    //        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            await transaction.CommitAsync(cancellationToken);
+    //        await transaction.CommitAsync(cancellationToken);
 
-            return Result.Success();
-        }
-    }
+    //        return Result.Success();
+    //    }
+    //}
 
     private string NormalizePhoneNumber(string phoneNumber)
     {

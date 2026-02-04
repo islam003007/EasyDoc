@@ -1,4 +1,5 @@
-﻿using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Constants;
+using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands;
 using EasyDoc.SharedKernel;
@@ -50,6 +51,7 @@ internal class UpdateMe : IEndpoint
             var result = await handler.HandleAsync(command, cancellationToken);
 
             return result.Match(Results.NoContent, CustomResults.Problem);
-        }).RequireAuthorization();
+
+        }).RequireAuthorization(Policies.DoctorsOnly);
     }
 }

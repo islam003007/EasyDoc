@@ -1,8 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using EasyDoc.Domain.Constants;
-using EasyDoc.Domain.Entities.AppointmentAggregate;
 using EasyDoc.Domain.Exceptions;
-using System.Numerics;
 
 namespace EasyDoc.Domain.Entities.DoctorAggregate;
 

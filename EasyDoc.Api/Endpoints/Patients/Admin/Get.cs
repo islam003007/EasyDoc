@@ -8,7 +8,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Patients.Admin;
 
-public class Get : IEndpoint
+internal class Get : IEndpoint
 {
     public Feature Feature => Feature.Patients;
 

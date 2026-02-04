@@ -12,7 +12,7 @@ namespace EasyDoc.Application.CQRS.Appointments.Queries;
 public record GetPatientAppointmentsQuery(int PageNumber = 1, int PageSize = PageConstants.DefaultPageSize)
     : IQuery<IReadOnlyList<AppointmentResponse>>;
 
-internal class GetPatientAppointmentsQueryValidator : AbstractValidator<GetDoctorAppointmentsQuery>
+internal class GetPatientAppointmentsQueryValidator : AbstractValidator<GetPatientAppointmentsQuery>
 {
     public GetPatientAppointmentsQueryValidator()
     {
@@ -24,7 +24,7 @@ internal class GetPatientAppointmentsQueryValidator : AbstractValidator<GetDocto
     }
 }
 
-internal class GetPatientAppointmentsQueryHandler : IQueryHandler<GetDoctorAppointmentsQuery, IReadOnlyList<AppointmentResponse>>
+internal class GetPatientAppointmentsQueryHandler : IQueryHandler<GetPatientAppointmentsQuery, IReadOnlyList<AppointmentResponse>>
 {
     private readonly IReadOnlyApplicationDbContext _dbContext;
     private readonly IUserContext _userContext;
@@ -35,11 +35,13 @@ internal class GetPatientAppointmentsQueryHandler : IQueryHandler<GetDoctorAppoi
         _userContext = userContext;
     }
 
-    public async Task<Result<IReadOnlyList<AppointmentResponse>>> HandleAsync(GetDoctorAppointmentsQuery query, CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<AppointmentResponse>>> HandleAsync(GetPatientAppointmentsQuery query, CancellationToken cancellationToken = default)
     {
         var patientId = _userContext.PatientId;
 
         var appointments = await _dbContext.Appointments.Where(a => a.PatientId == patientId)
+                                                        .Skip((query.PageNumber - 1) * query.PageSize)
+                                                        .Take(query.PageSize)
                                                         .Select(AppointmentMapper.ToAppointmentResponse)
                                                         .ToListAsync(cancellationToken);
 

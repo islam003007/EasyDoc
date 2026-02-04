@@ -40,6 +40,8 @@ internal class GetDoctorAppointmentQueryHandler : IQueryHandler<GetDoctorAppoint
         var doctorId = _userContext.DoctorId;
 
         var appointments = await _dbContext.Appointments.Where(a => a.DoctorId == doctorId)
+                                                        .Skip((query.PageNumber - 1) * query.PageSize)
+                                                        .Take(query.PageSize)
                                                         .Select(AppointmentMapper.ToAppointmentResponse)
                                                         .ToListAsync(cancellationToken);
 

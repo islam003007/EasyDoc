@@ -6,7 +6,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Patients;
 
-public class Register : IEndpoint
+internal class Register : IEndpoint
 {
     public Feature Feature => Feature.Patients;
 

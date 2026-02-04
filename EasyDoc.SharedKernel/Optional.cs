@@ -10,9 +10,9 @@ public struct Optional<TValue>
         IsProvided = true;
     }
 
-    public static Optional<TValue> NotProvided() => default;
+    public static readonly Optional<TValue> NotProvided = default;
 
-    public static Optional<TValue> NullValue = new Optional<TValue>(default);
+    public static readonly Optional<TValue> NullValue = new Optional<TValue>(default);
     public void IfProvided(Action<TValue> action)
     {
         if (IsProvided)

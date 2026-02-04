@@ -1,5 +1,6 @@
 ﻿using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Abstractions.Utils;
+using EasyDoc.Application.Extensions;
 using EasyDoc.Domain.Constants;
 using FluentValidation;
 

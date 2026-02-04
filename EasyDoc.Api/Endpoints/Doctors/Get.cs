@@ -12,8 +12,6 @@ internal class Get : IEndpoint
     public bool IsAdminEndpoint => false;
     public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
     {
-        Console.WriteLine("mapping doctors/get");
-
         return app.MapGet("", async (IQueryHandler<GetDoctorsQuery, IReadOnlyList<GetDoctorsResponse>> handler,
             CancellationToken cancellationToken,
             Guid? cityId,

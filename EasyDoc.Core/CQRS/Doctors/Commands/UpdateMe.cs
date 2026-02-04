@@ -4,6 +4,7 @@ using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Abstractions.Utils;
 using EasyDoc.Application.Dtos;
 using EasyDoc.Application.Errors;
+using EasyDoc.Application.Extensions;
 using EasyDoc.Application.Services;
 using EasyDoc.Domain.Constants;
 using EasyDoc.SharedKernel;

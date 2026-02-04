@@ -5,7 +5,7 @@ using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Auth;
 
-public class ForgotPassord : IEndpoint
+internal class ForgotPassord : IEndpoint
 {
     public Feature Feature => Feature.Auth;
     public bool IsAdminEndpoint => false;

@@ -1,11 +1,12 @@
-﻿using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Constants;
+using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Patients.Queries;
 using Web.Api.Infrastructure;
 
 namespace EasyDoc.Api.Endpoints.Patients;
 
-public class GetMe : IEndpoint
+internal class GetMe : IEndpoint
 {
     public Feature Feature => Feature.Patients;
 
@@ -22,6 +23,6 @@ public class GetMe : IEndpoint
 
             return result.Match(Results.Ok, CustomResults.Problem);
 
-        }).RequireAuthorization();
+        }).RequireAuthorization(Policies.PatientsOnly);
     }
 }
