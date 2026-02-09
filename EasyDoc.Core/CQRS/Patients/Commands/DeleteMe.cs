@@ -11,15 +11,22 @@ internal class DeleteMeCommandHandler : ICommandHandler<DeleteMeCommand>
 {
     private readonly PatientService _patientService;
     private readonly IUserContext _userContext;
+    private readonly ISignInService _signInService;
 
-    public DeleteMeCommandHandler(PatientService patientService, IUserContext userContext)
+    public DeleteMeCommandHandler(PatientService patientService, IUserContext userContext, ISignInService signInService)
     {
         _patientService = patientService;
         _userContext = userContext;
+        _signInService = signInService;
     }
 
-    public Task<Result> HandleAsync(DeleteMeCommand command, CancellationToken cancellationToken = default)
+    public async Task<Result> HandleAsync(DeleteMeCommand command, CancellationToken cancellationToken = default)
     {
-        return _patientService.DeletePatientSoftAsync(_userContext.PatientId, cancellationToken);
+        var result = await _patientService.DeletePatientSoftAsync(_userContext.PatientId, cancellationToken);
+
+        if (result.IsSuccess)
+            await _signInService.SignOutAsync();
+
+        return result;
     }
 }

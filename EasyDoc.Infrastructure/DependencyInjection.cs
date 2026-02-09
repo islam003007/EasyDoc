@@ -35,8 +35,8 @@ public static class DependencyInjection
 
         services.AddScoped<IUserContext, UserContext>();
 
-        services.AddOptions<EmailOptions>()
-            .Bind(configuration.GetSection("Email"))
+        services.AddOptions<MailTrapOptions>()
+            .Bind(configuration.GetSection("MailTrap"))
             .Validate(o => !String.IsNullOrEmpty(o.From),
                         "Email from Address must be provided")
             .ValidateOnStart();

@@ -26,7 +26,7 @@ internal class Create : IEndpoint
         {
             var command = new CreateAppointmentCommand(request.DoctorId, request.Date, request.StartTime);
 
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.HandleAsync(command, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
 

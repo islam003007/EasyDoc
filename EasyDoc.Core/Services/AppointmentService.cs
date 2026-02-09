@@ -66,6 +66,13 @@ internal partial class AppointmentService
         if (doctor is null)
             return Result.Failure<Guid>(DoctorErrors.NotFound(request.DoctorId));
 
+        var appointmentSpecification = new AppointmentByDoctorAndPatientSpecification(request.DoctorId, request.PatientId, request.Date);
+
+        var patientAlreadyHasAppointment = await _appointmentRepository.AnyAsync(appointmentSpecification, cancellationToken);
+
+        if (patientAlreadyHasAppointment)
+            return Result.Failure<Guid>(AppointmentErrors.PatientHasAppointment);
+
         var endTime = request.StartTime.AddMinutes(doctor.DefaultAppointmentTimeInMinutes); // end time is calculated dynamically
 
         if (endTime < request.StartTime)
@@ -101,7 +108,7 @@ internal partial class AppointmentService
     }
 
     private enum AppointmentDecision { Accept, Cancel }
-    private async Task<Result> ResolvePendingAppoinmentAsync(Guid appointmentId, Guid doctorId, AppointmentDecision decision,
+    private async Task<Result> ResolvePendingAppoinmentAsync(Guid doctorId, Guid appointmentId, AppointmentDecision decision,
         CancellationToken cancellationToken = default)
     {
         Appointment? appointment = await _appointmentRepository.GetByIdAsync(appointmentId, cancellationToken);
@@ -134,7 +141,7 @@ internal partial class AppointmentService
     {   // Serializable isolation level is required for scheduling
         await using (var transaction = await _unitOfWork.BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken)) 
         {
-            var appointmentSpecification = new AppointmentByDoctorIdAndDateTimeSpecification(doctorId,
+            var appointmentSpecification = new AppointmentsOverlapSpecification(doctorId,
                 date,
                 startTime,
                 endTime);

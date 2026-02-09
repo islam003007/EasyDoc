@@ -44,7 +44,7 @@ internal class CreateDoctorScheduleOverrideCommandHandler : ICommandHandler<Crea
         _userContext = userContext;
     }
 
-    public async Task<Result<Guid>> Handle(CreateDoctorScheduleOverrideCommand command, CancellationToken cancellationToken = default)
+    public async Task<Result<Guid>> HandleAsync(CreateDoctorScheduleOverrideCommand command, CancellationToken cancellationToken = default)
     {
         var doctorId = _userContext.DoctorId;
 

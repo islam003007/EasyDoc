@@ -1,7 +1,11 @@
 ﻿using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Abstractions.Utils;
+using EasyDoc.Application.CQRS.Appointments.Commands;
+using EasyDoc.Application.Dtos;
 using EasyDoc.Application.Extensions;
+using EasyDoc.Application.Services;
 using EasyDoc.Domain.Constants;
+using EasyDoc.SharedKernel;
 using FluentValidation;
 
 namespace EasyDoc.Application.CQRS.Patients.Commands;
@@ -33,7 +37,24 @@ internal class RegisterPatientCommandValidator : AbstractValidator<RegisterPatie
 
         RuleFor(x => x.PhoneNumber)
             .NotEmpty()
-            .MustBeValidPhoneNumber(phoneNumberService); // TODO: use libphonenumber for phone validation
+            .MustBeValidPhoneNumber(phoneNumberService);
 
+    }
+}
+
+internal class RegisterPatientCommandHandler : ICommandHandler<RegisterPatientCommand, Guid>
+{
+    private readonly PatientService _patientService;
+
+    public RegisterPatientCommandHandler(PatientService patientService)
+    {
+        _patientService = patientService;
+    }
+
+    public Task<Result<Guid>> HandleAsync(RegisterPatientCommand command, CancellationToken cancellationToken = default)
+    {
+        var request = new CreatePatientRequest(command.Email, command.Password, command.PersonName, command.PhoneNumber);
+
+        return _patientService.CreatePatientAsync(request, cancellationToken);
     }
 }

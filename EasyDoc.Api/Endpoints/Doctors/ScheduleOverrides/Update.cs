@@ -1,4 +1,5 @@
-﻿using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Constants;
+using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands.ScheduleOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,6 @@ internal class Update : IEndpoint
 
             return result.Match(Results.NoContent, CustomResults.Problem);
 
-        }).RequireAuthorization();
+        }).RequireAuthorization(Policies.DoctorsOnly);
     }
 }

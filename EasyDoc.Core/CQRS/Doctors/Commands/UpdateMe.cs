@@ -29,6 +29,9 @@ internal class UpdateMeCommandValidator : AbstractValidator<UpdateMeCommand>
 
         RuleFor(x => x.PhoneNumber)
             .MustBeValidPhoneNumber(phoneNumberService);
+
+        RuleFor(x => x.DefaultAppointmentTimeInMinutes)
+            .GreaterThanOrEqualTo(AppointmentConstants.MinAppointmentTimeInMinutes);
     }
 }
 
@@ -44,7 +47,7 @@ internal class UpdateMeCommandHandler : ICommandHandler<UpdateMeCommand>
     }
     public async Task<Result> HandleAsync(UpdateMeCommand command, CancellationToken cancellationToken = default)
     {
-        var doctorId = _userContext.UserId;
+        var doctorId = _userContext.DoctorId;
 
         var updateRequest = new UpdateDoctorRequest(doctorId,
             command.PersonName,

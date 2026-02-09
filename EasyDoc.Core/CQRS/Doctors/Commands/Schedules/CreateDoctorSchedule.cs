@@ -43,7 +43,7 @@ internal class CreateDoctorScheduleCommandHandler : ICommandHandler<CreateDoctor
         _doctorService = doctorService;
         _userContext = userContext;
     }
-    public async Task<Result<Guid>> Handle(CreateDoctorScheduleCommand command, CancellationToken cancellationToken = default)
+    public async Task<Result<Guid>> HandleAsync(CreateDoctorScheduleCommand command, CancellationToken cancellationToken = default)
     {
         var doctorId = _userContext.DoctorId;
 

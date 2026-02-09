@@ -41,13 +41,13 @@ internal static class ValidationDecorator
             _innerHandler = innerHandler;
             _validators = validators;
         }
-        public async Task<Result<TResponse>> Handle(TCommand command, CancellationToken cancellationToken = default)
+        public async Task<Result<TResponse>> HandleAsync(TCommand command, CancellationToken cancellationToken = default)
         {
             ValidationFailure[] failures = await ValidateAsync(command, _validators);
 
             if (failures.Length == 0)
             {
-                return await _innerHandler.Handle(command, cancellationToken);
+                return await _innerHandler.HandleAsync(command, cancellationToken);
             }
 
             return Result.Failure<TResponse>(createValidationError(failures));

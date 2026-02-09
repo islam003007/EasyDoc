@@ -3,9 +3,9 @@ using EasyDoc.Domain.Entities.AppointmentAggregate;
 
 namespace EasyDoc.Application.Specifications;
 
-internal class AppointmentByDoctorIdAndDateTimeSpecification : Specification<Appointment>
+internal class AppointmentsOverlapSpecification : Specification<Appointment>
 {
-    public AppointmentByDoctorIdAndDateTimeSpecification(Guid doctorId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
+    public AppointmentsOverlapSpecification(Guid doctorId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
     {
         Query
             .Where(a => a.DoctorId == doctorId)

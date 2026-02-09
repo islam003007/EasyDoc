@@ -14,6 +14,6 @@ public static class AuthErrors
         "You were locked out for trying to log in too many times, try again after a few minutes");
     public static Error EmailNotConfirmed => Error.Problem(EmailNotConfirmedCode, "Please Confirm your email before loging in");
     public static Error LoginFailed = Error.Problem(LoginFailedCode, "Login Failed");
-    public static Error InvalidToken = Error.Problem(InvalidTokenCode, "The token you provided was invalid");
+    public static Error InvalidToken = Error.Problem(InvalidTokenCode, "The token you provided is invalid");
     public static Error EmailAlreadyConfirmed => Error.Problem(EmailAlreadyConfirmedCode, "Your email was already confirmed");
 }

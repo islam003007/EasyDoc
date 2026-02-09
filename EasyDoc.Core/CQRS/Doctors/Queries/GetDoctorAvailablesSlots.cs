@@ -18,6 +18,11 @@ internal class GetDoctorAvailableSlotsQueryValidator : AbstractValidator<GetDoct
     {
         RuleFor(x => x.DoctorId)
             .NotEmpty();
+
+        RuleFor(x => x.Date)
+            .NotEmpty()
+            .Must(d => d >= DateOnly.FromDateTime(DateTime.Today)).WithMessage("The date connot be in the past");
+
     }
 }
 
@@ -30,6 +35,9 @@ internal class GetDoctorAvailableSlotsQueryHandler : IQueryHandler<GetDoctorAvai
     }
     public async Task<Result<IReadOnlyList<SlotResponse>>> HandleAsync(GetDoctorAvailableSlotsQuery query, CancellationToken cancellationToken = default)
     {
+        if (query.Date < DateOnly.FromDateTime(DateTime.Now))
+            return new List<SlotResponse>();
+
         var doctor = await _dbcontext.Doctors.Where(d => d.Id == query.DoctorId)
             .Include(d => d.Schedules.Where(s => s.DayOfWeek == query.Date.DayOfWeek))
             .Include(d => d.ScheduleOverrides.Where(s => s.Date == query.Date))
@@ -51,7 +59,7 @@ internal class GetDoctorAvailableSlotsQueryHandler : IQueryHandler<GetDoctorAvai
         if (scheduleOverride is not null)
         {
             if (!scheduleOverride.IsAvailable)
-                return new();
+                return new List<SlotResponse>();
 
             shiftStart = scheduleOverride.StartTime!.Value;
             shiftEnd = scheduleOverride.EndTime!.Value;
@@ -63,7 +71,7 @@ internal class GetDoctorAvailableSlotsQueryHandler : IQueryHandler<GetDoctorAvai
         }
         else
         {
-            return new();
+            return new List<SlotResponse>();
         }
 
         return CalculateAvailableSlots(shiftStart,
@@ -76,7 +84,7 @@ internal class GetDoctorAvailableSlotsQueryHandler : IQueryHandler<GetDoctorAvai
     private static List<SlotResponse> CalculateAvailableSlots(TimeOnly shiftStart,
         TimeOnly shiftEnd,
         long defaultAppointmentTimeInMinutes,
-        IReadOnlyList<Appointment> appointments) // APPOITNMENTS MUST BE ORDERED HERE OR THIS Will FAIL.
+        IReadOnlyList<Appointment> appointments) // APPOINTMENTS MUST BE ORDERED HERE OR THIS Will FAIL.
     {
         TimeOnly currentStartTime = shiftStart;
         TimeOnly currentEndTime = shiftStart;

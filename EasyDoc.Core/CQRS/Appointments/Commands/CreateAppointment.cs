@@ -38,7 +38,7 @@ internal class CreateAppointmentCommandHandler : ICommandHandler<CreateAppointme
         _userContext = userContext;
     }
 
-    public async Task<Result<Guid>> Handle(CreateAppointmentCommand command, CancellationToken cancellationToken = default)
+    public async Task<Result<Guid>> HandleAsync(CreateAppointmentCommand command, CancellationToken cancellationToken = default)
     {
         var patientId = _userContext.PatientId;
 

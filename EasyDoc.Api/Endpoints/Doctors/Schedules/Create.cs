@@ -1,4 +1,5 @@
-﻿using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Constants;
+using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands.Schedules;
 using Microsoft.AspNetCore.Mvc;
@@ -25,10 +26,10 @@ internal class Create : IEndpoint
         {
             var command = new CreateDoctorScheduleCommand(request.dayOfWeek, request.startTime, request.endTime);
 
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.HandleAsync(command, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
 
-        }).RequireAuthorization();
+        }).RequireAuthorization(Policies.DoctorsOnly);
     }
 }

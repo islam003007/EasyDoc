@@ -12,6 +12,7 @@ internal class AppointmentErrors
     public const string NotScheduledCode = "Appointments.NotScheduled";
     public const string DoctorMismatchCode = "Appointments.DoctorMismatch";
     public const string AppointmentRequiredCode = "Appointments.Required";
+    public const string PatientHasAppointmentCode = "Appointments.PatientHasAppointment";
 
     public static readonly Error DoctorNotAvailable =
         Error.Problem(DoctorNotAvailableCode, "The doctor is not available for the requested date and time");
@@ -25,4 +26,6 @@ internal class AppointmentErrors
     public static readonly Error DoctorMismatch = Error.Problem(DoctorMismatchCode, "An appointment may only be acted upon by its owning doctor");
     public static readonly Error AppointmentRequired = Error.Problem(AppointmentRequiredCode,
         "You can only access a patient's past appointments if you currently have a scheduled appointment with the patient");
+    public static readonly Error PatientHasAppointment = Error.Conflict(PatientHasAppointmentCode,
+        "The patient Already has an appointment for the same day with the same doctor");
 }

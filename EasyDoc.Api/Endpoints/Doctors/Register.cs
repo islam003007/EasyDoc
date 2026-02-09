@@ -46,7 +46,7 @@ internal class Register : IEndpoint
                 request.ProfilePictureUrl,
                 request.DefaultAppointmentTimeInMinutes);
 
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.HandleAsync(command, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
         });

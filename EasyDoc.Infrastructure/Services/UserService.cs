@@ -64,8 +64,6 @@ internal class UserService : IUserService // some of the methods in this service
 
         user.SetDeletedState(true);
 
-        await _signInService.SignOutAsync();
-
         return Result.Success();
     }
 
@@ -159,7 +157,7 @@ internal class UserService : IUserService // some of the methods in this service
     {
         var user = await _userManager.FindByEmailAsync(email);
 
-        if (user is not null && await _userManager.IsEmailConfirmedAsync(user)) // to not reveal that that the email doesn't exist or not confirmed.
+        if (user is not null && await _userManager.IsEmailConfirmedAsync(user)) // Return success otherwise, to not reveal that that the email doesn't exist or not confirmed.
             await _userNotificationService.SendPassordResetAsync(user);
 
         return Result.Success();
@@ -169,7 +167,7 @@ internal class UserService : IUserService // some of the methods in this service
     {
         var user = await _userManager.FindByEmailAsync(email);
 
-        if (user is null || await _userManager.IsEmailConfirmedAsync(user))
+        if (user is null || !await _userManager.IsEmailConfirmedAsync(user))
             return Result.Failure(AuthErrors.InvalidToken); // to not reveal that the user doesn't exist or is not confirmed.
 
         try

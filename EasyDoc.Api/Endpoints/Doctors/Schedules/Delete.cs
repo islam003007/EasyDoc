@@ -1,4 +1,5 @@
-﻿using EasyDoc.Api.Extensions;
+﻿using EasyDoc.Api.Constants;
+using EasyDoc.Api.Extensions;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.CQRS.Doctors.Commands.Schedules;
 using Web.Api.Infrastructure;
@@ -21,6 +22,6 @@ internal class Delete : IEndpoint
 
             return result.Match(Results.NoContent, CustomResults.Problem);
 
-        }).RequireAuthorization();
+        }).RequireAuthorization(Policies.DoctorsOnly);
     }
 }

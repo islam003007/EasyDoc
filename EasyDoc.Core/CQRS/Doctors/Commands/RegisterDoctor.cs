@@ -84,7 +84,7 @@ internal class RegisterDoctorCommandHandler : ICommandHandler<RegisterDoctorComm
         _doctorService = doctorService;
     }
 
-    public Task<Result<Guid>> Handle(RegisterDoctorCommand command, CancellationToken cancellationToken = default)
+    public Task<Result<Guid>> HandleAsync(RegisterDoctorCommand command, CancellationToken cancellationToken = default)
     {
         var request = new CreateDoctorRequest(command.Email,
             command.Password,

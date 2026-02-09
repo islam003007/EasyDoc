@@ -1,21 +1,27 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EasyDoc.SharedKernel;
 
 // this type is supposed be created via the factory methods only.
-public readonly record struct Result
+public readonly struct Result
 {
-    public Error Error { get; private init; }
+    public Error Error =>
+        _error is null
+        ? throw new InvalidOperationException("Uninitialized Result.")
+        : _error;
     public bool IsSuccess { get; }
+
+    private readonly Error _error;
     private Result(bool isSuccess, Error? error = default)
     {
-        if (isSuccess == (error is not null && error != Error.None))
-        {
-            throw new ArgumentException("Invalid Result: Either error must null or isSuccess must be false", nameof(error));
-        }
+        if (isSuccess && error is not null && error != Error.None)
+            throw new ArgumentException("Success result cannot have an error.", nameof(error));
+
+        if (!isSuccess && (error is null || error == Error.None))
+            throw new ArgumentException("Failure result must have an error.", nameof(error));
 
         IsSuccess = isSuccess;
-        Error = error is null ? Error.None : error;
+        _error = error is null ? Error.None : error;
     }
 
     public static Result<TValue> Success<TValue>(TValue value) => value is not null ? new(value, true) :
@@ -27,26 +33,31 @@ public readonly record struct Result
 }
 
 
-public readonly record struct Result<TValue>
+public readonly struct Result<TValue>
 {
-    private readonly TValue _value;
-
-    public Error Error { get; private init; }
+    private readonly TValue? _value;
+    public Error Error =>
+       _error is null
+       ? throw new InvalidOperationException("Uninitialized Result.")
+       : _error;
     public bool IsSuccess { get; }
+
+    private readonly Error _error;
     internal Result(TValue value, bool isSuccess, Error? error = default)
     {
-        if (isSuccess == (error is not null && error != Error.None))
-        {
-            throw new ArgumentException("Invalid Result: Either error must null or isSuccess must be false", nameof(error));
-        }
+        if (isSuccess && error is not null && error != Error.None)
+            throw new ArgumentException("Success result cannot have an error.", nameof(error));
+
+        if (!isSuccess && (error is null || error == Error.None))
+            throw new ArgumentException("Failure result must have an error.", nameof(error));
 
         _value = value;
         IsSuccess = isSuccess;
-        Error = error is null ? Error.None : error;
+        _error = error is null ? Error.None : error;
     }
 
     public TValue Value => IsSuccess
-    ? _value
+    ? _value!
     : throw new InvalidOperationException("Cannot access Value of a failure result.");
 
     public static implicit operator Result<TValue>(TValue value) => value is not null ?
