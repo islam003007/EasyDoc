@@ -7,13 +7,9 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddWeb();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
-
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 Log.Logger = new LoggerConfiguration()
@@ -29,7 +25,7 @@ await SeederRunner.WipeDatabaseAsync(app.Services);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi(); // TODO: swagger ui, apply migrations
+    app.MapOpenApi();
     await SeederRunner.SeedDevelopment(app.Services);
 
     app.UseSwaggerUI(c =>
@@ -44,6 +40,8 @@ await SeederRunner.SeedProduction(app.Services);
 app.UseCustomRequestLogging();
 
 app.UseExceptionHandler();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
