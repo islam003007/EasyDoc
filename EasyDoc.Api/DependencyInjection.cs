@@ -12,8 +12,6 @@ namespace EasyDoc.Api
     {
         public static IServiceCollection AddWeb(this IServiceCollection services) 
         {
-            services.AddControllers();
-
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
