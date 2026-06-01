@@ -14,7 +14,7 @@ public static class LoggerExtenstions
             .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
             .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)
             .WriteTo.Console()
-            .WriteTo.Seq(config["Seq:Url"] ?? throw new InvalidOperationException("Seq:Url is not configured")); // TODO: ADD SEQ
+            .WriteTo.Seq(config["Seq:Url"] ?? throw new InvalidOperationException("Seq:Url is not configured"));
     }
 
     public static IApplicationBuilder UseCustomRequestLogging(this IApplicationBuilder app)
@@ -23,10 +23,8 @@ public static class LoggerExtenstions
         {
             options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
             {
-                diagnosticContext.Set("requestPath", httpContext.Request.Path);
-                diagnosticContext.Set("requestMethod", httpContext.Request.Method);
-                diagnosticContext.Set("requestId", httpContext.TraceIdentifier);
-                diagnosticContext.Set("traceId", Activity.Current?.TraceId);
+                diagnosticContext.Set("RequestId", httpContext.TraceIdentifier);
+                diagnosticContext.Set("TraceId", Activity.Current?.TraceId);
             };
         });
     }

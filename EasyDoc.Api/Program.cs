@@ -20,8 +20,6 @@ builder.Host.UseSerilog();
 
 var app = builder.Build();
 
-await SeederRunner.WipeDatabaseAsync(app.Services);
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

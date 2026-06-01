@@ -6,6 +6,7 @@ using EasyDoc.Infrastructure.Data;
 using EasyDoc.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace EasyDoc.Api
 {
@@ -79,7 +80,8 @@ namespace EasyDoc.Api
             {
                 configure.CustomizeProblemDetails = context =>
                 {
-                    context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
+                    context.ProblemDetails.Extensions.TryAdd("RequestId", context.HttpContext.TraceIdentifier);
+                    context.ProblemDetails.Extensions.TryAdd("TraceId", Activity.Current?.TraceId);
                 };
             });
 
