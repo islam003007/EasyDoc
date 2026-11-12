@@ -6,8 +6,6 @@ using EasyDoc.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Mailtrap;
-using EasyDoc.Infrastructure.Options;
 using EasyDoc.Application.Abstractions.Utils;
 using EasyDoc.Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -35,23 +33,11 @@ public static class DependencyInjection
 
         services.AddScoped<IUserContext, UserContext>();
 
-        services.AddOptions<MailTrapOptions>()
-            .Bind(configuration.GetSection("MailTrap"))
-            .Validate(o => !String.IsNullOrEmpty(o.From),
-                        "Email from Address must be provided")
-            .ValidateOnStart();
-
-        services.AddMailtrapClient(options =>
-        {
-            options.ApiToken = configuration["MailTrap:ApiToken"] ??
-            throw new InvalidOperationException("MailTrap:ApiToken is not configured.");
-        });
-
         services.AddSingleton<IPhoneNumberService, PhoneNumberService>();
 
         services.AddScoped<IDoctorSearchService, DoctorSearchService>();
 
-        services.AddScoped<IEmailSender, MailTrapEmailSender>();
+        services.AddScoped<IEmailSender, LogEmailSender>();
         services.AddScoped<IEmailSender<ApplicationUser>, IdentityEmailSender>();
 
         services.AddScoped<ISignInService, SignInService>();

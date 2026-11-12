@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build-and-test:
@@ -14,14 +15,6 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
-
-      - name: Configure Mailtrap GitHub Packages feed
-        run: |
-          dotnet nuget add source https://nuget.pkg.github.com/mailtrap/index.json \
-            --name github-mailtrap \
-            --username "${{ github.actor }}" \
-            --password "${{ secrets.MAILTRAP_PACKAGES_TOKEN }}" \
-            --store-password-in-clear-text
 
       - name: Restore
         run: dotnet restore EasyDoc.sln

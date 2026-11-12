@@ -80,24 +80,22 @@ EasyDoc is primarily a **learning and portfolio project**, showcasing:
 
 > ⚠️ The project is still a work in progress. The API has not been fully tested, so running it locally is **not yet recommended**.  
 
-When ready for local development, the project uses **User Secrets** to manage connection strings and other sensitive configuration:
+When ready for local development, the project uses **User Secrets** to manage the SQL Server connection string:
 
 ```bash
 dotnet user-secrets init
 dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YourConnectionStringHere"
-dotnet user-secrets set "MailTrap:ApiToken" "YourMailTrapApiTokenHere"
 ```
 
 ## Email Sending
 
-This project depends on the [Mailtrap .NET SDK](https://github.com/mailtrap/mailtrap-dotnet) to test sending emails. 
+The project uses a **log-only email sender** in development. It writes the email subject, recipient,
+and body (including confirmation and password-reset links) to the application logs. No external email
+service, API token, or package feed is required.
 
-**Note:** This package is published on GitHub Packages and requires a Personal Access Token (PAT) with `read:packages` to restore.
-
-To install it:
-
-1. Visit the Mailtrap .NET SDK repo: [https://github.com/mailtrap/mailtrap-dotnet](https://github.com/mailtrap/mailtrap-dotnet)
-2. Follow their instructions to add the NuGet feed and restore the package.
+For production, replace `LogEmailSender` with a real provider. The FalkElTawfik project has a
+Resend-based sender that can be adapted, or you can point an SMTP sender at a local Mailpit container
+for a visual sandbox inbox.
 
 ---
 
@@ -110,8 +108,7 @@ input sanitization, and Double Metaphone keys) without requiring SQL Server:
 dotnet test EasyDoc.UnitTests/EasyDoc.UnitTests.csproj
 ```
 
-CI restores the Mailtrap package from GitHub Packages. Add a classic GitHub PAT with
-`read:packages` as the `MAILTRAP_PACKAGES_TOKEN` repository secret before enabling the workflow.
+CI restores from nuget.org and runs the unit tests; no GitHub Packages token is required.
 
 ---
 
