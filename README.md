@@ -101,6 +101,20 @@ To install it:
 
 ---
 
+## Testing
+
+The unit test project covers the search normalization primitives (Arabic normalization,
+input sanitization, and Double Metaphone keys) without requiring SQL Server:
+
+```bash
+dotnet test EasyDoc.UnitTests/EasyDoc.UnitTests.csproj
+```
+
+CI restores the Mailtrap package from GitHub Packages. Add a classic GitHub PAT with
+`read:packages` as the `MAILTRAP_PACKAGES_TOKEN` repository secret before enabling the workflow.
+
+---
+
 ## License
 
 Some files are licensed under the **Apache 2.0 License**. Refer to the respective files for license details.  

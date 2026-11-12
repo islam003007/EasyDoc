@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Configure Mailtrap GitHub Packages feed
+        run: |
+          dotnet nuget add source https://nuget.pkg.github.com/mailtrap/index.json \
+            --name github-mailtrap \
+            --username "${{ github.actor }}" \
+            --password "${{ secrets.MAILTRAP_PACKAGES_TOKEN }}" \
+            --store-password-in-clear-text
+
+      - name: Restore
+        run: dotnet restore EasyDoc.sln
+
+      - name: Build
+        run: dotnet build EasyDoc.sln --no-restore
+
+      - name: Test
+        run: dotnet test EasyDoc.UnitTests/EasyDoc.UnitTests.csproj --no-build --nologo
