@@ -5,4 +5,5 @@ public interface IUserContext
     public Guid UserId { get; }
     public Guid DoctorId { get; }
     public Guid PatientId { get; }
+    public IReadOnlyCollection<string> Roles { get; }
 }

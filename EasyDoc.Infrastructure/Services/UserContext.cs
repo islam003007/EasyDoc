@@ -53,4 +53,11 @@ internal class UserContext : IUserContext
             return patientProfileId;
         }
     }
+
+    public IReadOnlyCollection<string> Roles =>
+        _httpContextAccessor.HttpContext?.User?.FindAll(ClaimTypes.Role)
+            .Select(claim => claim.Value)
+            .Distinct()
+            .ToArray()
+        ?? Array.Empty<string>();
 }

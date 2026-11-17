@@ -44,6 +44,9 @@ namespace EasyDoc.Domain.Entities.AppointmentAggregate
             Status = AppointmentStatus.Canceled; 
         }
 
+        public bool CanBeCanceledByPatient() =>
+            Status is AppointmentStatus.Pending or AppointmentStatus.Scheduled;
+
         public void SetExamination(Examination examination)
         {
             Guard.Against.Null(examination, nameof(examination));

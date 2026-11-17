@@ -10,7 +10,9 @@ public record AppointmentResponse(Guid Id,
     TimeOnly StartTime,
     TimeOnly EndTime,
     AppointmentStatus Status,
-    Examination? Examination);
+    Examination? Examination,
+    string? PatientName = null,
+    string? DoctorName = null);
 
 public static class AppointmentMapper
 {
@@ -22,5 +24,7 @@ public static class AppointmentMapper
             appointment.StartTime,
             appointment.EndTime,
             appointment.Status,
-            appointment.Examination);
+            appointment.Examination,
+            null,
+            null);
 }

@@ -6,7 +6,8 @@ public enum Feature
     Users,
     Patients,
     Doctors,
-    Appointments
+    Appointments,
+    Lookups
 }
 
 public interface IEndpoint

@@ -2,6 +2,7 @@
 using EasyDoc.Api.Endpoints;
 using EasyDoc.Api.ExceptionHandlers;
 using EasyDoc.Application.Constants;
+using EasyDoc.Application.Options;
 using EasyDoc.Infrastructure.Data;
 using EasyDoc.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -12,8 +13,10 @@ namespace EasyDoc.Api
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddWeb(this IServiceCollection services) 
+        public static IServiceCollection AddWeb(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<DemoOptions>(configuration.GetSection("Demo"));
+
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;

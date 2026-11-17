@@ -47,7 +47,6 @@ public static class ApplicationDbContextSeed // TODO: error handling and a trans
             new("Beni Suef"),
             new("Minya"),
             new("Asyut"),
-            new("Sohag"),
             new("Qena"),
             new("Luxor"),
             new("Aswan"),
@@ -66,18 +65,18 @@ public static class ApplicationDbContextSeed // TODO: error handling and a trans
 
     }
 
-    private static async Task SeedCities(ApplicationDbContext dbContext) // Only sohag cities right now
+    private static async Task SeedCities(ApplicationDbContext dbContext) // Demo cities
     {
         if (await dbContext.Cities.AnyAsync()) return;
-        Guid sohagGovenorateId = await dbContext.Governorates.Where(g => g.Name == "Sohag").Select(g => g.Id).FirstAsync();
+        Guid cairoGovernorateId = await dbContext.Governorates.Where(g => g.Name == "Cairo").Select(g => g.Id).FirstAsync();
         IEnumerable<City> cities = new List<City>
         {
-            new City("Sohag", sohagGovenorateId),
-            new City("Girga", sohagGovenorateId),
-            new City("Saqultah", sohagGovenorateId),
-            new City("Akhmim", sohagGovenorateId),
-            new City("Tahta", sohagGovenorateId),
-            new City("Dar El Salam", sohagGovenorateId),
+            new City("Cairo", cairoGovernorateId),
+            new City("Giza", cairoGovernorateId),
+            new City("Alexandria", cairoGovernorateId),
+            new City("Mansoura", cairoGovernorateId),
+            new City("Aswan", cairoGovernorateId),
+            new City("Hurghada", cairoGovernorateId),
         };
 
         await dbContext.Cities.AddRangeAsync(cities);

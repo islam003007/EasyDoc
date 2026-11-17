@@ -4,7 +4,9 @@
 
 It is a **doctor scheduling application** where patients can search for doctors and book appointments based on availability. Think of it like an e-commerce platform for healthcare scheduling.
 
-> ⚠️ **Work in Progress:** The project is not yet fully complete, and the API has not been fully tested. Use for learning or demonstration purposes only.  
+> **Portfolio demo:** The API and role-based client are built for demonstration with seeded
+> data. Public registration, real email delivery, uploads, and production hardening are
+> intentionally out of scope.
 
 ---
 
@@ -78,9 +80,10 @@ EasyDoc is primarily a **learning and portfolio project**, showcasing:
 
 ## Getting Started
 
-> ⚠️ The project is still a work in progress. The API has not been fully tested, so running it locally is **not yet recommended**.  
+> The demo client uses seeded, confirmed accounts and a one-click demo login. You do not need to
+> use the email confirmation flow to try it.
 
-When ready for local development, the project uses **User Secrets** to manage the SQL Server connection string:
+For local development, the project uses **User Secrets** to manage the SQL Server connection string:
 
 ```bash
 dotnet user-secrets init
@@ -118,13 +121,11 @@ Some files are licensed under the **Apache 2.0 License**. Refer to the respectiv
 
 ---
 
-## Future Work / Roadmap
+## Demo scope
 
-- Complete all API endpoints and services  
-- Add full test coverage  
-- Expand search algorithm for advanced filtering  
-- Optionally integrate Docker for local development  
-- Polish API documentation with Swagger  
+The demo uses seeded, confirmed accounts and a generated data set. Public registration, real email
+delivery, uploads, and production hardening are intentionally outside this build; the API keeps
+their domain boundaries in place for a future production pass.
 
 ---
 
@@ -133,3 +134,23 @@ Some files are licensed under the **Apache 2.0 License**. Refer to the respectiv
 - Designed for **interviews and portfolio demonstration**   
 - Read and write separation is key to enforce clean architecture principles  
 - Generic repository **enforces writes only via aggregate roots** without overengineering.
+
+## Demo frontend
+
+`EasyDoc.Web/` is the role-based portfolio client: React 19 + TypeScript + Vite, TanStack Query,
+and custom CSS. It has patient, doctor, and administrator flows and uses one-click seeded sessions;
+no password is rendered in the browser.
+
+```bash
+cd EasyDoc.Web
+npm install
+npm run dev
+# http://localhost:5174
+```
+
+The Vite proxy sends `/api` to `http://localhost:5215` with the prefix stripped. Use
+`VITE_API_TARGET` to override the API target. See `EasyDoc.Web/README.md` for flows and build notes.
+
+Demo login is enabled only with `Demo:Enabled=true` (true in
+`appsettings.Development.json`). The seeded demo profiles are patient `sara@example.com`,
+doctor `ahmed@example.com`, and `admin@example.com`.

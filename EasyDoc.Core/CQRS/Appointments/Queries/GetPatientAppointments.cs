@@ -39,11 +39,24 @@ internal class GetPatientAppointmentsQueryHandler : IQueryHandler<GetPatientAppo
     {
         var patientId = _userContext.PatientId;
 
-        var appointments = await _dbContext.Appointments.Where(a => a.PatientId == patientId)
-                                                        .Skip((query.PageNumber - 1) * query.PageSize)
-                                                        .Take(query.PageSize)
-                                                        .Select(AppointmentMapper.ToAppointmentResponse)
-                                                        .ToListAsync(cancellationToken);
+        var appointments = await (from a in _dbContext.Appointments
+                                  join d in _dbContext.Doctors on a.DoctorId equals d.Id
+                                  where a.PatientId == patientId
+                                  orderby a.Date descending, a.StartTime descending
+                                  select new AppointmentResponse(
+                                      a.Id,
+                                      a.PatientId,
+                                      a.DoctorId,
+                                      a.Date,
+                                      a.StartTime,
+                                      a.EndTime,
+                                      a.Status,
+                                      a.Examination,
+                                      null,
+                                      d.PersonName))
+                                  .Skip((query.PageNumber - 1) * query.PageSize)
+                                  .Take(query.PageSize)
+                                  .ToListAsync(cancellationToken);
 
         return appointments;
     }

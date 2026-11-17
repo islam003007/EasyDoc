@@ -49,6 +49,28 @@ internal partial class AppointmentService
 
     public Task<Result> CancelAppointentAsync(Guid doctorId, Guid appointmentId, CancellationToken cancellationToken = default)
         => ResolvePendingAppoinmentAsync(doctorId, appointmentId, AppointmentDecision.Cancel, cancellationToken);
+
+    public async Task<Result> CancelAppointmentByPatientAsync(Guid patientId,
+        Guid appointmentId,
+        CancellationToken cancellationToken = default)
+    {
+        Appointment? appointment = await _appointmentRepository.GetByIdAsync(appointmentId, cancellationToken);
+
+        if (appointment == null)
+            return Result.Failure(AppointmentErrors.NotFound(appointmentId));
+
+        if (appointment.PatientId != patientId)
+            return Result.Failure(AppointmentErrors.PatientMismatch);
+
+        if (!appointment.CanBeCanceledByPatient())
+            return Result.Failure(AppointmentErrors.NotCancelable);
+
+        appointment.Cancel();
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Success();
+    }
     public Task<Result> AcceptAppointmentAsync(Guid doctorId, Guid appointmentId, CancellationToken cancellationToken = default)
         => ResolvePendingAppoinmentAsync(doctorId, appointmentId, AppointmentDecision.Accept, cancellationToken);
 
