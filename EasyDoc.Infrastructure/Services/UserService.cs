@@ -2,7 +2,9 @@
 using EasyDoc.Application.Abstractions.Data;
 using EasyDoc.Application.Abstractions.Exceptions;
 using EasyDoc.Application.Errors;
+using EasyDoc.Application.Options;
 using EasyDoc.Infrastructure.Data.Identity;
+using Microsoft.Extensions.Options;
 using EasyDoc.SharedKernel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
@@ -16,16 +18,19 @@ internal class UserService : IUserService // some of the methods in this service
     private readonly ISignInService _signInService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly UserNotificationService _userNotificationService;
+    private readonly IOptions<DemoOptions> _demoOptions;
 
     public UserService(UserManager<ApplicationUser> userManager,
         IUnitOfWork unitOfWork,
         UserNotificationService userNotificationService,
-        ISignInService signInService)
+        ISignInService signInService,
+        IOptions<DemoOptions> demoOptions)
     {
         _userManager = userManager;
         _unitOfWork = unitOfWork;
         _userNotificationService = userNotificationService;
         _signInService = signInService;
+        _demoOptions = demoOptions;
     }
 
     public async Task<Result<Guid>> CreateUserAsync(string email, string password, string role)
@@ -45,9 +50,21 @@ internal class UserService : IUserService // some of the methods in this service
         if (!roleResult.Succeeded)
             return ToFailureResult<Guid>(roleResult);
 
-        // Not checked so that the whole transaction doesn't fail becuase of the email failure. The user can later request another email.
-        // outbox pattern would solve this.
-        await _userNotificationService.SendEmailConfirmationAsync(user);  
+        if (_demoOptions.Value.AutoConfirmRegistrations)
+        {
+            // Demo-only path: no real inbox exists behind the log-only sender.
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmation = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (!confirmation.Succeeded)
+                return ToFailureResult<Guid>(confirmation);
+        }
+        else
+        {
+            // Not checked so that the whole transaction doesn't fail because of the email failure. The user can later request another email.
+            // outbox pattern would solve this.
+            await _userNotificationService.SendEmailConfirmationAsync(user);
+        }
 
         return user.Id;
     }

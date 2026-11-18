@@ -4,9 +4,9 @@
 
 It is a **doctor scheduling application** where patients can search for doctors and book appointments based on availability. Think of it like an e-commerce platform for healthcare scheduling.
 
-> **Portfolio demo:** The API and role-based client are built for demonstration with seeded
-> data. Public registration, real email delivery, uploads, and production hardening are
-> intentionally out of scope.
+> **Portfolio demo:** The API and Friendly Care client use seeded clinic records. Demo seats open
+> in one click; patient email/password registration is available with demo auto-confirm. Real email
+> delivery, uploads, payments, doctor self-registration and production hardening are out of scope.
 
 ---
 
@@ -123,9 +123,10 @@ Some files are licensed under the **Apache 2.0 License**. Refer to the respectiv
 
 ## Demo scope
 
-The demo uses seeded, confirmed accounts and a generated data set. Public registration, real email
-delivery, uploads, and production hardening are intentionally outside this build; the API keeps
-their domain boundaries in place for a future production pass.
+The demo uses seeded clinic records and demo seats. Patient email/password self-registration is
+available and auto-confirms in Development so the flow works without a real inbox. Doctor/admin
+accounts remain seeded. Real email delivery, uploads, payments and production hardening remain
+outside this build.
 
 ---
 
@@ -138,8 +139,9 @@ their domain boundaries in place for a future production pass.
 ## Demo frontend
 
 `EasyDoc.Web/` is the role-based portfolio client: React 19 + TypeScript + Vite, TanStack Query,
-and custom CSS. It has patient, doctor, and administrator flows and uses one-click seeded sessions;
-no password is rendered in the browser.
+and custom CSS. Its Friendly Care theme uses the pink/blue EasyDoc mark, Plus Jakarta Sans and IBM
+Plex Sans Arabic. It has patient, doctor and administrator flows, one-click demo seats, standard
+patient password sign-in and patient self-registration.
 
 ```bash
 cd EasyDoc.Web
