@@ -34,28 +34,27 @@ internal class GetDoctorsQueryHandler : IQueryHandler<GetDoctorsQuery, IReadOnly
     public async Task<Result<IReadOnlyList<AdminDoctorResponse>>> HandleAsync(GetDoctorsQuery query, CancellationToken cancellationToken = default)
     {
         // The admin list intentionally has no IsVisible filter.
-        var doctors = await _dbContext.DoctorDetails
-            .Join(_dbContext.UserReadModels,
-                doctorDetails => doctorDetails.UserId,
-                user => user.UserId,
-                (doctorDetails, user) => new AdminDoctorResponse(
-                    doctorDetails.Id,
-                    doctorDetails.UserId,
-                    doctorDetails.PersonName,
-                    doctorDetails.PhoneNumber,
-                    doctorDetails.Department,
-                    doctorDetails.City,
-                    doctorDetails.ClinicAddress,
-                    doctorDetails.Description,
-                    doctorDetails.ProfilePictureUrl,
-                    doctorDetails.IdCardPictureUrl,
-                    doctorDetails.DefaultAppointmentTimeInMinutes,
-                    doctorDetails.IsVisible,
-                    user.Email))
-            .OrderBy(doctor => doctor.PersonName)
-            .Skip((query.PageNumber - 1) * query.PageSize)
-            .Take(query.PageSize)
-            .ToListAsync(cancellationToken);
+        var doctors = await (from doctorDetails in _dbContext.DoctorDetails
+                             join user in _dbContext.UserReadModels
+                                 on doctorDetails.UserId equals user.UserId
+                             orderby doctorDetails.PersonName
+                             select new AdminDoctorResponse(
+                                 doctorDetails.Id,
+                                 doctorDetails.UserId,
+                                 doctorDetails.PersonName,
+                                 doctorDetails.PhoneNumber,
+                                 doctorDetails.Department,
+                                 doctorDetails.City,
+                                 doctorDetails.ClinicAddress,
+                                 doctorDetails.Description,
+                                 doctorDetails.ProfilePictureUrl,
+                                 doctorDetails.IdCardPictureUrl,
+                                 doctorDetails.DefaultAppointmentTimeInMinutes,
+                                 doctorDetails.IsVisible,
+                                 user.Email))
+                             .Skip((query.PageNumber - 1) * query.PageSize)
+                             .Take(query.PageSize)
+                             .ToListAsync(cancellationToken);
 
         return doctors;
     }
