@@ -17,6 +17,11 @@ public class DoctorSchedule: BaseEntity
     }
     private DoctorSchedule() { }
 
+    public void SetDayOfWeek(DayOfWeek dayOfWeek)
+    {
+        DayOfWeek = dayOfWeek;
+    }
+
     public void SetTime(TimeOnly startTime, TimeOnly endTime)
     {
         Guard.Against.Default(startTime, nameof(StartTime));

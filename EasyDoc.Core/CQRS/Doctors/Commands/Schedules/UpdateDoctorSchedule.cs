@@ -9,7 +9,7 @@ using FluentValidation;
 
 namespace EasyDoc.Application.CQRS.Doctors.Commands.Schedules;
 
-public record UpdateDoctorScheduleCommand(Guid ScheduleId, TimeOnly StartTime, TimeOnly EndTime) : ICommand;
+public record UpdateDoctorScheduleCommand(Guid ScheduleId, DayOfWeek DayOfWeek, TimeOnly StartTime, TimeOnly EndTime) : ICommand;
 
 
 internal class UpdateDoctorScheduleCommandValidator : AbstractValidator<UpdateDoctorScheduleCommand>
@@ -47,7 +47,7 @@ internal class UpdateDoctorScheduleCommandHandler : ICommandHandler<UpdateDoctor
     {
         var doctorId = _userContext.DoctorId;
 
-        var request = new UpdateDoctorScheduleRequest(doctorId, command.ScheduleId, command.StartTime, command.EndTime);
+        var request = new UpdateDoctorScheduleRequest(doctorId, command.ScheduleId, command.DayOfWeek, command.StartTime, command.EndTime);
 
         var result = await _doctorsService.UpdateDoctorScheduleAsync(request, cancellationToken);
 

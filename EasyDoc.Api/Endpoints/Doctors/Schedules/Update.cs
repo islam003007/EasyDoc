@@ -13,6 +13,7 @@ internal class Update : IEndpoint
     public bool IsAdminEndpoint => false;
     public class Request
     {
+        public DayOfWeek dayOfWeek { get; set; }
         public TimeOnly startTime {  get; set; }
         public TimeOnly endTime { get; set; }
     }
@@ -24,7 +25,7 @@ internal class Update : IEndpoint
             ICommandHandler<UpdateDoctorScheduleCommand> handler,
             CancellationToken cancellationToken) =>
         {
-            var command = new UpdateDoctorScheduleCommand(scheduleId, request.startTime, request.endTime);
+            var command = new UpdateDoctorScheduleCommand(scheduleId, request.dayOfWeek, request.startTime, request.endTime);
 
             var result = await handler.HandleAsync(command, cancellationToken);
 

@@ -298,8 +298,12 @@ internal class DoctorsService
         DoctorSchedule? schedule = doctor.Schedules.FirstOrDefault(s => s.Id == request.ScheduleId); // same extra check as before.
 
         if (schedule is null)
-            return Result.Failure(DoctorErrors.ScheduleOverrideNotFound(request.ScheduleId));
+            return Result.Failure(DoctorErrors.ScheduleNotFound(request.ScheduleId));
 
+        if (doctor.Schedules.Any(s => s.Id != schedule.Id && s.DayOfWeek == request.DayOfWeek))
+            return Result.Failure(DoctorErrors.DuplicateSchedule(request.DoctorId, request.DayOfWeek));
+
+        schedule.SetDayOfWeek(request.DayOfWeek);
         schedule.SetTime(request.StartTime, request.EndTime);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -321,6 +325,10 @@ internal class DoctorsService
         if (scheduleOverride is null)
             return Result.Failure(DoctorErrors.ScheduleOverrideNotFound(request.ScheduleOverrideId));
 
+        if (doctor.ScheduleOverrides.Any(s => s.Id != scheduleOverride.Id && s.Date == request.Date))
+            return Result.Failure(DoctorErrors.DuplicateScheduleOverride(request.DoctorId, request.Date));
+
+        scheduleOverride.SetDate(request.Date);
         scheduleOverride.SetTime(request.IsAvailable, request.StartTime, request.EndTime);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

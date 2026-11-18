@@ -13,6 +13,7 @@ internal class Update : IEndpoint
     public bool IsAdminEndpoint => false;
     public class Request
     {
+        public DateOnly Date { get; set; }
         public bool IsAvailable { get; set; }
         public TimeOnly? StartTime { get; set; }
         public TimeOnly? EndTime { get; set; }
@@ -25,7 +26,7 @@ internal class Update : IEndpoint
             ICommandHandler<UpdateDoctorScheduleOverrideCommand> handler,
             CancellationToken cancellationToken) =>
         {
-            var command = new UpdateDoctorScheduleOverrideCommand(scheduleOverrideId, request.IsAvailable, request.StartTime, request.EndTime);
+            var command = new UpdateDoctorScheduleOverrideCommand(scheduleOverrideId, request.Date, request.IsAvailable, request.StartTime, request.EndTime);
 
             var result = await handler.HandleAsync(command, cancellationToken);
 

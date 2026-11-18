@@ -18,6 +18,12 @@ public class DoctorScheduleOverride: BaseEntity
         Date = date;
     }
     private DoctorScheduleOverride() { }
+    public void SetDate(DateOnly date)
+    {
+        Guard.Against.Default(date, nameof(date));
+        Date = date;
+    }
+
     public void SetTime(bool isAvailable, TimeOnly? startTime, TimeOnly? endTime)
     {
         if (isAvailable)

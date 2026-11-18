@@ -9,12 +9,16 @@ using FluentValidation;
 
 namespace EasyDoc.Application.CQRS.Doctors.Commands.ScheduleOverrides;
 
-public record UpdateDoctorScheduleOverrideCommand(Guid ScheduleOverrideId, bool IsAvailable, TimeOnly? StartTime, TimeOnly? EndTime) : ICommand;
+public record UpdateDoctorScheduleOverrideCommand(Guid ScheduleOverrideId, DateOnly Date, bool IsAvailable, TimeOnly? StartTime, TimeOnly? EndTime) : ICommand;
 
 internal class UpdateDoctorScheduleOverrideCommandValidator : AbstractValidator<UpdateDoctorScheduleOverrideCommand>
 {
     public UpdateDoctorScheduleOverrideCommandValidator()
     {
+        RuleFor(x => x.Date)
+            .NotEmpty()
+            .WithMessage("Date is required.");
+
         RuleFor(x => x.StartTime)
             .NotEmpty().When(x => x.IsAvailable).WithMessage("Start time Can't be empty when IsAvailable is marked false");
 
@@ -43,6 +47,7 @@ internal class UpdateDoctorScheduleOverrideCommandHandler : ICommandHandler<Upda
 
         var request = new UpdateDoctorScheduleOverrideRequest(doctorId,
             command.ScheduleOverrideId,
+            command.Date,
             command.IsAvailable,
             command.StartTime,
             command.EndTime);

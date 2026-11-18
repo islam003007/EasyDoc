@@ -1,3 +1,3 @@
 ﻿namespace EasyDoc.Application.Dtos;
 
-internal record UpdateDoctorScheduleRequest(Guid DoctorId, Guid ScheduleId, TimeOnly StartTime, TimeOnly EndTime);
+internal record UpdateDoctorScheduleRequest(Guid DoctorId, Guid ScheduleId, DayOfWeek DayOfWeek, TimeOnly StartTime, TimeOnly EndTime);

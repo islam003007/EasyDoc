@@ -85,8 +85,9 @@ reset/reseeded because the seeder skips populated tables.
 
 ## Tests
 
-- 63 unit tests pass locally, including reschedule domain/validator tests, availability helpers and
-  seed-consistency checks.
+- 65 unit tests pass locally, including reschedule domain/validator tests, availability helpers,
+  schedule-edit domain tests and seed-consistency checks.
 - Live checks: demo/standard login, admin visibility (no full-table refetch), booking/cancel,
-  reschedule, visit records, patient history, admin doctor edit and profile/schedule edit screens.
+  reschedule, visit records, patient history, admin doctor edit, profile edits and schedule-window/
+  override edit persistence.
 - No database-backed integration suite yet.
