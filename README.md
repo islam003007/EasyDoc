@@ -155,4 +155,16 @@ The Vite proxy sends `/api` to `http://localhost:5215` with the prefix stripped.
 
 Demo login is enabled only with `Demo:Enabled=true` (true in
 `appsettings.Development.json`). The seeded demo profiles are patient `sara@example.com`,
-doctor `ahmed@example.com`, and `admin@example.com`.
+doctor `ahmed@example.com`, and the sandbox administrator `admin@example.com`.
+
+### Demo security model
+
+This is a deliberately open portfolio sandbox, not the production authorization model.
+
+- Demo authentication is a separate endpoint from the normal login and is disabled by default.
+  Set `Demo:Enabled=true` only in a dedicated demo environment with a separate demo database.
+- The demo admin is a seeded sandbox seat. It can inspect directories and toggle doctor visibility;
+  the UI exposes no delete, payment, infrastructure, or other destructive operations.
+- Patient self-registration writes only to the demo database. Do not enter real patient information.
+- Demo data may be reset. Production must keep `Demo:Enabled=false` and use the regular
+  cookie/role policies.

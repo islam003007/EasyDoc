@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="EasyDoc.UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="CQRS\Auth\Commands\UpdateMyPassword\" />
     <Folder Include="CQRS\Auth\Commands\UpdateMyEmail\" />
   </ItemGroup>

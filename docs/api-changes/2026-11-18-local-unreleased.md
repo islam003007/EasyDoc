@@ -17,12 +17,24 @@ push. The demo frontend is in `EasyDoc.Web/`.
 | GET | `/admin/doctors?pageNumber=&pageSize=` | admin | Doctor list including invisible profiles. |
 | GET | `/appointments` | patient | Existing appointment creation route remains unchanged. |
 | POST | `/appointments/{appointmentId}/cancel/patient` | patient | Patient-owned cancellation; only pending/scheduled; 404/403/409 problem paths. |
+| PATCH | `/admin/doctors/{id}` | admin | Partial doctor update. Visibility-only requests now validate correctly. |
 
 ## Response additions
 
 - Appointment responses add `patientName` and `doctorName` (nullable).
 - Admin doctor list is ordered and includes non-visible doctors.
 - Appointment statuses remain the existing numeric/string enum representation.
+
+## Admin visibility fix
+
+- `PATCH /admin/doctors/{id}` previously failed with a validation error for a visibility-only
+  request because optional field rules were conditioned on the command object rather than the
+  property (`When(x => x != null)`). All optional admin doctor rules now check the property, and
+  the nullable appointment-duration range rule runs only when a duration is supplied.
+- The same optional-field condition bug was fixed for doctor registration description/profile
+  picture fields.
+- Added validator regression tests. The admin UI toggle now writes the new visibility and the
+  patient directory reflects it.
 
 ## Configuration
 
@@ -41,7 +53,8 @@ push. The demo frontend is in `EasyDoc.Web/`.
 
 ## Tests
 
-- 38 unit tests pass locally (with `DOTNET_ROLL_FORWARD=Major` when only .NET 10 is installed).
+- 40 unit tests pass locally (with `DOTNET_ROLL_FORWARD=Major` when only .NET 10 is installed).
+- Admin doctor show/hide was verified against the live local API, including restoring the record.
 - No database-backed integration suite yet.
 
 ## Frontend
@@ -50,3 +63,6 @@ push. The demo frontend is in `EasyDoc.Web/`.
 search/booking/appointments, schedules and admin visibility, with the Friendly Care pink/blue logo
 theme, standard patient password login and patient self-registration. Demo mode auto-confirms new
 patient accounts so the client can immediately sign in. Doctor/admin registration remains absent.
+The polish pass raises functional type to at least 12px, removes raw account/record IDs and
+cookie/session implementation copy from the UI, and labels the admin as an intentional sandbox
+review seat with a clear demo-environment notice.

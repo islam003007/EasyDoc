@@ -28,22 +28,23 @@ internal class UpdateDoctorCommandValidator : AbstractValidator<UpdateDoctorComm
             .NotEmpty();
 
         RuleFor(x => x.PersonName)
-           .NotEmpty().When(x => x != null).WithMessage("Person name must not be empty if provided.")
+           .NotEmpty().When(x => x.PersonName is not null).WithMessage("Person name must not be empty if provided.")
            .MaximumLength(ProfileConstants.PersonNameMaxLength).WithMessage("Person Name should have at most 150 characters");
 
         RuleFor(x => x.PhoneNumber)
-            .NotEmpty().When(x => x != null).WithMessage("Phone number must not be empty if provided.")
+            .NotEmpty().When(x => x.PhoneNumber is not null).WithMessage("Phone number must not be empty if provided.")
             .MustBeValidPhoneNumber(phoneNumberService);
 
         RuleFor(x => x.CityId)
-            .NotEmpty().When(x => x != null).WithMessage("City Id must not be empty if provided.")
+            .NotEmpty().When(x => x.CityId is not null).WithMessage("City Id must not be empty if provided.")
             .MustBeValidCityId(dbContext);
 
         RuleFor(x => x.ClinicAddress)
-            .NotEmpty().When(x => x != null).WithMessage("Clinic address must not be empty if provided.");
+            .NotEmpty().When(x => x.ClinicAddress is not null).WithMessage("Clinic address must not be empty if provided.");
 
         RuleFor(x => x.DefaultAppointmentTimeInMinutes)
-            .InclusiveBetween(AppointmentConstants.MinAppointmentTimeInMinutes, AppointmentConstants.MaxAppointmentTimeInMinutes);
+            .InclusiveBetween(AppointmentConstants.MinAppointmentTimeInMinutes, AppointmentConstants.MaxAppointmentTimeInMinutes)
+            .When(x => x.DefaultAppointmentTimeInMinutes.HasValue);
 
         RuleFor(x => x.Description)
             .Must(x => x.Value == null || !String.IsNullOrWhiteSpace(x.Value)).WithMessage("Description must not be empty if provided.");

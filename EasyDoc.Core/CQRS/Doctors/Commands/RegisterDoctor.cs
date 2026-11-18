@@ -67,10 +67,10 @@ internal class RegisterDoctorCommandValidator : AbstractValidator<RegisterDoctor
             .InclusiveBetween(AppointmentConstants.MinAppointmentTimeInMinutes, AppointmentConstants.MaxAppointmentTimeInMinutes);
 
         RuleFor(x => x.Description)
-           .NotEmpty().When(x => x != null).WithMessage("Description must not be empty if provided.");
+           .NotEmpty().When(x => x.Description is not null).WithMessage("Description must not be empty if provided.");
 
         RuleFor(x => x.ProfilePictureUrl)
-           .NotEmpty().When(x => x != null).WithMessage("Profile picture url must not be empty if provided.");
+           .NotEmpty().When(x => x.ProfilePictureUrl is not null).WithMessage("Profile picture url must not be empty if provided.");
 
     }
 }

@@ -31,7 +31,8 @@ internal class UpdateMeCommandValidator : AbstractValidator<UpdateMeCommand>
             .MustBeValidPhoneNumber(phoneNumberService);
 
         RuleFor(x => x.DefaultAppointmentTimeInMinutes)
-            .GreaterThanOrEqualTo(AppointmentConstants.MinAppointmentTimeInMinutes);
+            .GreaterThanOrEqualTo(AppointmentConstants.MinAppointmentTimeInMinutes)
+            .When(x => x.DefaultAppointmentTimeInMinutes.HasValue);
     }
 }
 
