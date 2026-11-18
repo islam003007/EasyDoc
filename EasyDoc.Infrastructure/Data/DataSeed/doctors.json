@@ -9,7 +9,7 @@
         "departmentId": "019c0982-2dda-700e-ba8a-a8a762e995fa",
         "cityId": "019c0982-2dda-7bff-8796-c1e9180bb97d",
         "defaultAppointmentTimeInMinutes": 30,
-        "description": "Senior cardiologist",
+        "description": "Senior cardiologist with a focus on hypertension and preventive heart care",
         "profilePictureUrl": "PLACE_DOCTOR_AHMED_PROFILE_URL",
         "isVisible": true,
         "Schedules": [
@@ -29,7 +29,7 @@
         "ScheduleOverrides": [
             {
                 "id": "019c1a1f-f00e-7f01-9bbb-9c90e194a08a",
-                "date": "2026-02-13",
+                "date": "2026-12-14",
                 "isAvailable": false,
                 "startTime": null,
                 "endTime": null
@@ -46,7 +46,7 @@
         "departmentId": "019c0982-2dda-7f88-990a-150e35890315",
         "cityId": "019c0982-2dda-724f-8fda-bf5402b64803",
         "defaultAppointmentTimeInMinutes": 20,
-        "description": "Orthopedics specialist",
+        "description": "Orthopedics specialist treating sports injuries and joint pain",
         "profilePictureUrl": "PLACE_DOCTOR_KAREEM_PROFILE_URL",
         "isVisible": true,
         "Schedules": [
@@ -66,10 +66,10 @@
         "ScheduleOverrides": [
             {
                 "id": "019c1a1f-f00e-7fd0-839a-70ab615a02b1",
-                "date": "2026-02-14",
+                "date": "2026-11-24",
                 "isAvailable": true,
                 "startTime": "09:00",
-                "endTime": "12:00"
+                "endTime": "13:00"
             }
         ]
     },
@@ -83,7 +83,7 @@
         "departmentId": "019c0982-2dda-740b-abfa-400ed6383d3d",
         "cityId": "019c0982-2dda-78d5-8acd-eb4c5ac8a8c9",
         "defaultAppointmentTimeInMinutes": 25,
-        "description": "Pediatrics consultant",
+        "description": "Pediatrics consultant for newborn, child and adolescent care",
         "profilePictureUrl": "PLACE_DOCTOR_LAYLA_PROFILE_URL",
         "isVisible": true,
         "Schedules": [
@@ -103,7 +103,7 @@
         "ScheduleOverrides": [
             {
                 "id": "019c1a1f-f00e-7b4c-9486-5c15fa66a72b",
-                "date": "2026-02-13",
+                "date": "2026-11-20",
                 "isAvailable": false,
                 "startTime": null,
                 "endTime": null
@@ -120,7 +120,7 @@
         "departmentId": "019c0982-2dda-7524-a3ac-43afcd55a50d",
         "cityId": "019c0982-2dda-7471-9280-3683dda5f922",
         "defaultAppointmentTimeInMinutes": 15,
-        "description": "Dentist",
+        "description": "Dentist offering preventive dental care and restorative treatment",
         "profilePictureUrl": "PLACE_DOCTOR_MOHAMED_PROFILE_URL",
         "isVisible": true,
         "Schedules": [
@@ -140,10 +140,10 @@
         "ScheduleOverrides": [
             {
                 "id": "019c1a1f-f00f-7bc0-9542-097f006dbf75",
-                "date": "2026-02-16",
+                "date": "2026-12-02",
                 "isAvailable": true,
-                "startTime": "11:00",
-                "endTime": "14:00"
+                "startTime": "12:00",
+                "endTime": "16:00"
             }
         ]
     },
@@ -157,7 +157,7 @@
         "departmentId": "019c0982-2dda-7180-9417-0fd56f2a9ed8",
         "cityId": "019c0982-2dda-75b1-862e-b7244f9b3b74",
         "defaultAppointmentTimeInMinutes": 20,
-        "description": "Surgeon",
+        "description": "General surgeon for post-operative reviews and minor procedures",
         "profilePictureUrl": "PLACE_DOCTOR_YOUSSEF_PROFILE_URL",
         "isVisible": false,
         "Schedules": [
@@ -177,10 +177,154 @@
         "ScheduleOverrides": [
             {
                 "id": "019c1a1f-f00f-7424-863e-2ace8e79cd50",
-                "date": "2026-02-17",
+                "date": "2026-12-04",
+                "isAvailable": true,
+                "startTime": "14:00",
+                "endTime": "18:00"
+            }
+        ]
+    },
+    {
+        "id": "019c1a1f-f10a-7001-8a01-6f2c1d3e4b01",
+        "userId": "019c1a1f-f10a-7002-8a02-7a3d2e4f5c02",
+        "personName": "Nour Abdelrahman",
+        "phoneNumber": "+201526789012",
+        "idCardPictureUrl": "PLACE_DOCTOR_NOUR_IDCARD_URL",
+        "clinicAddress": "88 Marina Blvd, Hurghada",
+        "departmentId": "019c0982-2dda-76eb-8ddd-042b77f90a6b",
+        "cityId": "019c0982-2dda-7ea6-9ba8-577f5758b5b1",
+        "defaultAppointmentTimeInMinutes": 45,
+        "description": "Ophthalmology consultant for cataract, dry-eye and vision checks",
+        "profilePictureUrl": "PLACE_DOCTOR_NOUR_PROFILE_URL",
+        "isVisible": true,
+        "Schedules": [
+            {
+                "id": "019c1a1f-f10b-7101-9a01-100000000001",
+                "dayOfWeek": "Monday",
+                "startTime": "09:00",
+                "endTime": "13:00"
+            },
+            {
+                "id": "019c1a1f-f10b-7102-9a02-200000000002",
+                "dayOfWeek": "Wednesday",
+                "startTime": "09:00",
+                "endTime": "13:00"
+            },
+            {
+                "id": "019c1a1f-f10b-7103-9a03-300000000003",
+                "dayOfWeek": "Saturday",
+                "startTime": "10:00",
+                "endTime": "14:00"
+            }
+        ],
+        "ScheduleOverrides": [
+            {
+                "id": "019c1a1f-f10b-7104-9a04-400000000004",
+                "date": "2026-11-21",
                 "isAvailable": false,
                 "startTime": null,
                 "endTime": null
+            },
+            {
+                "id": "019c1a1f-f10b-7105-9a05-500000000005",
+                "date": "2026-12-05",
+                "isAvailable": true,
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ]
+    },
+    {
+        "id": "019c1a1f-f10a-7003-8a03-8b4e3f506d03",
+        "userId": "019c1a1f-f10a-7004-8a04-9c5f40617e04",
+        "personName": "هناء محمود",
+        "phoneNumber": "+201527890123",
+        "idCardPictureUrl": "PLACE_DOCTOR_HANA_IDCARD_URL",
+        "clinicAddress": "24 El Haram St, Giza",
+        "departmentId": "019c0982-2dda-740b-abfa-400ed6383d3d",
+        "cityId": "019c0982-2dda-724f-8fda-bf5402b64803",
+        "defaultAppointmentTimeInMinutes": 30,
+        "description": "Pediatric consultant with an interest in childhood asthma and infections",
+        "profilePictureUrl": "PLACE_DOCTOR_HANA_PROFILE_URL",
+        "isVisible": true,
+        "Schedules": [
+            {
+                "id": "019c1a1f-f10b-7106-9a06-600000000006",
+                "dayOfWeek": "Sunday",
+                "startTime": "10:00",
+                "endTime": "14:00"
+            },
+            {
+                "id": "019c1a1f-f10b-7107-9a07-700000000007",
+                "dayOfWeek": "Tuesday",
+                "startTime": "10:00",
+                "endTime": "14:00"
+            },
+            {
+                "id": "019c1a1f-f10b-7108-9a08-800000000008",
+                "dayOfWeek": "Thursday",
+                "startTime": "10:00",
+                "endTime": "14:00"
+            }
+        ],
+        "ScheduleOverrides": [
+            {
+                "id": "019c1a1f-f10b-7109-9a09-900000000009",
+                "date": "2026-11-22",
+                "isAvailable": false,
+                "startTime": null,
+                "endTime": null
+            },
+            {
+                "id": "019c1a1f-f10b-710a-9a0a-a0000000000a",
+                "date": "2026-12-06",
+                "isAvailable": true,
+                "startTime": "11:00",
+                "endTime": "15:00"
+            }
+        ]
+    },
+    {
+        "id": "019c1a1f-f10a-7005-8a05-0d6041728f05",
+        "userId": "019c1a1f-f10a-7006-8a06-1e7152839006",
+        "personName": "طارق عادل",
+        "phoneNumber": "+201528901234",
+        "idCardPictureUrl": "PLACE_DOCTOR_TAREK_IDCARD_URL",
+        "clinicAddress": "5 El Nasr Rd, Cairo",
+        "departmentId": "019c0982-2dda-7180-9417-0fd56f2a9ed8",
+        "cityId": "019c0982-2dda-7bff-8796-c1e9180bb97d",
+        "defaultAppointmentTimeInMinutes": 45,
+        "description": "General surgeon for hernia, wound and follow-up consultations",
+        "profilePictureUrl": "PLACE_DOCTOR_TAREK_PROFILE_URL",
+        "isVisible": false,
+        "Schedules": [
+            {
+                "id": "019c1a1f-f10b-710b-9a0b-b0000000000b",
+                "dayOfWeek": "Monday",
+                "startTime": "13:00",
+                "endTime": "17:00"
+            },
+            {
+                "id": "019c1a1f-f10b-710c-9a0c-c0000000000c",
+                "dayOfWeek": "Wednesday",
+                "startTime": "13:00",
+                "endTime": "17:00"
+            }
+        ],
+        "ScheduleOverrides": [
+            {
+                "id": "019c1a1f-f10b-710d-9a0d-d0000000000d",
+                "date": "2026-11-30",
+                "isAvailable": false,
+                "startTime": null,
+                "endTime": null
+            },
+            {
+                "id": "019c1a1f-f10b-710e-9a0e-e0000000000e",
+                "date": "2026-12-09",
+                "isAvailable": true,
+                "startTime": "14:00",
+                "endTime": "18:00"
             }
         ]
     }

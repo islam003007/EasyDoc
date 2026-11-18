@@ -1,152 +1,444 @@
 [
   {
-    "id": "019c1a1f-f00f-7efa-ab3b-4a0444039561",
-    "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
-    "doctorId": "019c0982-2dda-7177-8f1f-6d1205a92f16",
-    "date": "2026-02-12",
-    "startTime": "09:00",
-    "endTime": "09:30",
-    "status": "Pending",
-    "examination": null
-  },
-  {
-    "id": "019c1a1f-f00f-777e-a8e5-94da0c6e56a1",
-    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
-    "doctorId": "019c0982-2dda-7177-8f1f-6d1205a92f16",
-    "date": "2026-02-13",
-    "startTime": "10:00",
-    "endTime": "10:30",
-    "status": "Scheduled",
-    "examination": null
-  },
-  {
-    "id": "019c1a1f-f00f-7820-b022-cd755e767379",
+    "id": "019c1a1f-f10d-7306-8c06-6e7f80910206",
     "patientId": "019c0982-2dda-7507-a87f-033390f126ba",
-    "doctorId": "019c0982-2dda-70e0-b007-4908751d9e99",
-    "date": "2026-01-31",
-    "startTime": "09:30",
-    "endTime": "10:00",
+    "doctorId": "019c0982-2dda-72e4-968a-a24cb383849c",
+    "date": "2026-11-04",
+    "startTime": "11:00",
+    "endTime": "11:15",
     "status": "completed",
     "examination": {
-      "diagnosis": "Hypertension",
-      "prescription": "Medication A",
-      "notes": "Monitor blood pressure daily"
+      "diagnosis": "Dental caries, upper right molar",
+      "prescription": "Composite filling; chlorhexidine mouthwash",
+      "notes": "Bite checked after restoration. Schedule a routine review in six months."
     }
   },
   {
     "id": "019c1a1f-f00f-79a8-8ce5-409e5c06a47e",
     "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "doctorId": "019c0982-2dda-7177-8f1f-6d1205a92f16",
+    "date": "2026-11-09",
+    "startTime": "09:00",
+    "endTime": "09:30",
+    "status": "completed",
+    "examination": {
+      "diagnosis": "Hypertension follow-up",
+      "prescription": "Amlodipine 5 mg once daily; continue low-sodium diet",
+      "notes": "Blood pressure 138/86. Home readings twice daily; recheck in four weeks."
+    }
+  },
+  {
+    "id": "019c1a1f-f10d-730a-8c0a-a2132435460a",
+    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
+    "doctorId": "019c0982-2dda-73a0-bf5c-f9b8b4d7b249",
+    "date": "2026-11-10",
+    "startTime": "10:00",
+    "endTime": "10:20",
+    "status": "completed",
+    "examination": {
+      "diagnosis": "Post-operative wound review",
+      "prescription": "Continue cephalexin for three days; keep dressing dry",
+      "notes": "Wound edges healthy with no discharge. Suture removal next week."
+    }
+  },
+  {
+    "id": "019c1a1f-f10d-730e-8c0e-e6576879800e",
+    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
+    "doctorId": "019c1a1f-f10a-7001-8a01-6f2c1d3e4b01",
+    "date": "2026-11-11",
+    "startTime": "09:30",
+    "endTime": "10:15",
+    "status": "completed",
+    "examination": {
+      "diagnosis": "Allergic conjunctivitis",
+      "prescription": "Olopatadine eye drops twice daily for seven days",
+      "notes": "Avoid rubbing the eyes. Review if vision changes or pain develops."
+    }
+  },
+  {
+    "id": "019c1a1f-f10d-7318-8c18-806f70819218",
+    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
+    "doctorId": "019c1a1f-f10a-7005-8a05-0d6041728f05",
+    "date": "2026-11-11",
+    "startTime": "15:00",
+    "endTime": "15:45",
+    "status": "completed",
+    "examination": {
+      "diagnosis": "Post-operative wound review",
+      "prescription": "Continue analgesia; keep incision clean and dry",
+      "notes": "Incision healing well with no signs of infection. Return in two weeks."
+    }
+  },
+  {
+    "id": "019c1a1f-f00f-7820-b022-cd755e767379",
+    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
     "doctorId": "019c0982-2dda-70e0-b007-4908751d9e99",
-    "date": "2026-01-31",
+    "date": "2026-11-12",
+    "startTime": "14:00",
+    "endTime": "14:20",
+    "status": "completed",
+    "examination": {
+      "diagnosis": "Lumbar muscle strain",
+      "prescription": "Naproxen 250 mg twice daily for five days; paracetamol as needed",
+      "notes": "Physiotherapy advised. Avoid heavy lifting for two weeks."
+    }
+  },
+  {
+    "id": "019c1a1f-f10d-7304-8c04-4c5d6e7f8004",
+    "patientId": "019c1a1f-f10c-7204-8b04-6d7e8f901004",
+    "doctorId": "019c0982-2dda-72e4-968a-a24cb383849c",
+    "date": "2026-11-12",
+    "startTime": "14:00",
+    "endTime": "14:15",
+    "status": "Canceled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7302-8c02-2a3b4c5d6e02",
+    "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "doctorId": "019c0982-2dda-79bf-b020-09d933744f77",
+    "date": "2026-11-13",
+    "startTime": "11:00",
+    "endTime": "11:25",
+    "status": "Canceled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-730c-8c0c-c4354657680c",
+    "patientId": "019c1a1f-f10c-7202-8b02-4b5c6d7e8f02",
+    "doctorId": "019c0982-2dda-73a0-bf5c-f9b8b4d7b249",
+    "date": "2026-11-13",
+    "startTime": "13:00",
+    "endTime": "13:20",
+    "status": "Canceled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-7cae-8680-8edd45a2d1b9",
+    "patientId": "019c1a1f-f10c-7202-8b02-4b5c6d7e8f02",
+    "doctorId": "019c0982-2dda-79bf-b020-09d933744f77",
+    "date": "2026-11-16",
+    "startTime": "10:00",
+    "endTime": "10:25",
+    "status": "completed",
+    "examination": {
+      "diagnosis": "Acute viral fever",
+      "prescription": "Paracetamol 15 mg/kg every six hours as needed; oral fluids",
+      "notes": "Temperature 38.6 C. Return if fever lasts more than three days or breathing worsens."
+    }
+  },
+  {
+    "id": "019c1a1f-f00f-7ee9-ade6-f40840461857",
+    "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "doctorId": "019c0982-2dda-7177-8f1f-6d1205a92f16",
+    "date": "2026-11-16",
+    "startTime": "12:00",
+    "endTime": "12:30",
+    "status": "Canceled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7310-8c10-087980910a10",
+    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
+    "doctorId": "019c1a1f-f10a-7003-8a03-8b4e3f506d03",
+    "date": "2026-11-17",
+    "startTime": "12:00",
+    "endTime": "12:30",
+    "status": "completed",
+    "examination": {
+      "diagnosis": "Acute otitis media, right ear",
+      "prescription": "Amoxicillin 40 mg/kg/day in two doses for seven days; paracetamol",
+      "notes": "Right tympanic membrane bulging. Review in 48 hours if there is no improvement."
+    }
+  },
+  {
+    "id": "019c1a1f-f10d-731d-8c1d-d5b4c5d6e7b2",
+    "patientId": "019c1a1f-f10c-7202-8b02-4b5c6d7e8f02",
+    "doctorId": "019c0982-2dda-70e0-b007-4908751d9e99",
+    "date": "2026-11-17",
     "startTime": "11:00",
     "endTime": "11:20",
     "status": "Canceled",
     "examination": null
   },
   {
-    "id": "019c1a1f-f00f-7ee9-ade6-f40840461857",
-    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
-    "doctorId": "019c0982-2dda-70e0-b007-4908751d9e99",
-    "date": "2026-01-31",
-    "startTime": "12:00",
-    "endTime": "12:20",
-    "status": "completed",
-    "examination": {
-      "diagnosis": "Fractured arm",
-      "prescription": "Cast and rest",
-      "notes": "Follow-up in 6 weeks"
-    }
-  },
-  {
-    "id": "019c1a1f-f00f-7fa2-85e2-e7ca96fef75d",
+    "id": "019c1a1f-f10d-7319-8c19-917081920a19",
     "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
-    "doctorId": "019c0982-2dda-79bf-b020-09d933744f77",
-    "date": "2026-02-16",
-    "startTime": "09:25",
-    "endTime": "10:25",
-    "status": "Scheduled",
+    "doctorId": "019c1a1f-f10a-7005-8a05-0d6041728f05",
+    "date": "2026-11-18",
+    "startTime": "16:00",
+    "endTime": "16:45",
+    "status": "Canceled",
     "examination": null
   },
   {
-    "id": "019c1a1f-f00f-7753-96d8-57c9b75c163a",
-    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
-    "doctorId": "019c0982-2dda-79bf-b020-09d933744f77",
-    "date": "2026-02-01",
-    "startTime": "09:30",
-    "endTime": "10:00",
-    "status": "completed",
-    "examination": {
-      "diagnosis": "Flu",
-      "prescription": "Medication B",
-      "notes": "Rest and hydrate"
-    }
-  },
-  {
-    "id": "019c1a1f-f00f-792c-9d20-604410547bc9",
-    "patientId": "019c0982-2dda-7507-a87f-033390f126ba",
-    "doctorId": "019c0982-2dda-72e4-968a-a24cb383849c",
-    "date": "2026-02-16",
-    "startTime": "11:15",
-    "endTime": "11:30",
-    "status": "Pending",
-    "examination": null
-  },
-  {
-    "id": "019c1a1f-f00f-7616-8299-f9203c081339",
+    "id": "019c1a1f-f10d-7307-8c07-7f8091021307",
     "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
     "doctorId": "019c0982-2dda-72e4-968a-a24cb383849c",
-    "date": "2026-02-16",
+    "date": "2026-11-19",
     "startTime": "12:00",
     "endTime": "12:15",
     "status": "Scheduled",
     "examination": null
   },
   {
-    "id": "019c1a1f-f00f-716b-a0e2-c782a4b2aa0d",
-    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
-    "doctorId": "019c0982-2dda-72e4-968a-a24cb383849c",
-    "date": "2026-02-02",
-    "startTime": "13:00",
-    "endTime": "13:15",
-    "status": "completed",
-    "examination": {
-      "diagnosis": "Cavity",
-      "prescription": "Fillings",
-      "notes": null
-    }
-  },
-  {
-    "id": "019c1a1f-f00f-741e-a9b8-6b69c0f1d5c8",
+    "id": "019c1a1f-f00f-7efa-ab3b-4a0444039561",
     "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
-    "doctorId": "019c0982-2dda-73a0-bf5c-f9b8b4d7b249",
-    "date": "2026-02-10",
-    "startTime": "09:00",
-    "endTime": "09:20",
+    "doctorId": "019c0982-2dda-7177-8f1f-6d1205a92f16",
+    "date": "2026-11-23",
+    "startTime": "10:00",
+    "endTime": "10:30",
     "status": "Pending",
     "examination": null
   },
   {
-    "id": "019c1a1f-f00f-7a97-8fcc-58b5769cd455",
-    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
-    "doctorId": "019c0982-2dda-73a0-bf5c-f9b8b4d7b249",
-    "date": "2026-02-03",
+    "id": "019c1a1f-f00f-792c-9d20-604410547bc9",
+    "patientId": "019c0982-2dda-7507-a87f-033390f126ba",
+    "doctorId": "019c0982-2dda-7177-8f1f-6d1205a92f16",
+    "date": "2026-11-23",
+    "startTime": "11:00",
+    "endTime": "11:30",
+    "status": "Pending",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-731a-8c1a-a281920a1b1a",
+    "patientId": "019c0982-2dda-7507-a87f-033390f126ba",
+    "doctorId": "019c1a1f-f10a-7005-8a05-0d6041728f05",
+    "date": "2026-11-23",
+    "startTime": "14:00",
+    "endTime": "14:45",
+    "status": "Pending",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-7616-8299-f9203c081339",
+    "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "doctorId": "019c0982-2dda-70e0-b007-4908751d9e99",
+    "date": "2026-11-24",
+    "startTime": "09:30",
+    "endTime": "09:50",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7311-8c11-1980910a1b11",
+    "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "doctorId": "019c1a1f-f10a-7003-8a03-8b4e3f506d03",
+    "date": "2026-11-24",
     "startTime": "10:00",
-    "endTime": "10:20",
+    "endTime": "10:30",
     "status": "Canceled",
     "examination": null
   },
   {
-    "id": "019c1a1f-f00f-7cae-8680-8edd45a2d1b9",
+    "id": "019c1a1f-f10d-730b-8c0b-b3243546570b",
     "patientId": "019c0982-2dda-7507-a87f-033390f126ba",
     "doctorId": "019c0982-2dda-73a0-bf5c-f9b8b4d7b249",
-    "date": "2026-02-03",
-    "startTime": "12:30",
-    "endTime": "12:50",
-    "status": "Canceled",
-    "examination": {
-      "diagnosis": "Cavity",
-      "prescription": "Fillings",
-      "notes": null
-    }
+    "date": "2026-11-24",
+    "startTime": "09:00",
+    "endTime": "09:20",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-777e-a8e5-94da0c6e56a1",
+    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
+    "doctorId": "019c0982-2dda-7177-8f1f-6d1205a92f16",
+    "date": "2026-11-25",
+    "startTime": "10:00",
+    "endTime": "10:30",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-730f-8c0f-f7687980910f",
+    "patientId": "019c1a1f-f10c-7204-8b04-6d7e8f901004",
+    "doctorId": "019c1a1f-f10a-7001-8a01-6f2c1d3e4b01",
+    "date": "2026-11-25",
+    "startTime": "11:00",
+    "endTime": "11:45",
+    "status": "Pending",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-741e-a9b8-6b69c0f1d5c8",
+    "patientId": "019c0982-2dda-7507-a87f-033390f126ba",
+    "doctorId": "019c0982-2dda-70e0-b007-4908751d9e99",
+    "date": "2026-11-26",
+    "startTime": "15:00",
+    "endTime": "15:20",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7301-8c01-1f2e3d4c5b01",
+    "patientId": "019c1a1f-f10c-7204-8b04-6d7e8f901004",
+    "doctorId": "019c0982-2dda-79bf-b020-09d933744f77",
+    "date": "2026-11-27",
+    "startTime": "10:00",
+    "endTime": "10:25",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-730d-8c0d-d5465768790d",
+    "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "doctorId": "019c1a1f-f10a-7001-8a01-6f2c1d3e4b01",
+    "date": "2026-11-30",
+    "startTime": "10:00",
+    "endTime": "10:45",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-7a97-8fcc-58b5769cd455",
+    "patientId": "019c1a1f-f10c-7204-8b04-6d7e8f901004",
+    "doctorId": "019c0982-2dda-70e0-b007-4908751d9e99",
+    "date": "2026-12-01",
+    "startTime": "10:00",
+    "endTime": "10:20",
+    "status": "Pending",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-7fa2-85e2-e7ca96fef75d",
+    "patientId": "019c1a1f-f10c-7202-8b02-4b5c6d7e8f02",
+    "doctorId": "019c0982-2dda-7177-8f1f-6d1205a92f16",
+    "date": "2026-12-02",
+    "startTime": "14:00",
+    "endTime": "14:30",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7305-8c05-5d6e7f809105",
+    "patientId": "019c0982-2dda-7716-bb95-55bb2a8363eb",
+    "doctorId": "019c0982-2dda-72e4-968a-a24cb383849c",
+    "date": "2026-12-02",
+    "startTime": "13:00",
+    "endTime": "13:15",
+    "status": "Pending",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7309-8c09-910213243509",
+    "patientId": "019c0982-2dda-72e9-947e-0209b831e05d",
+    "doctorId": "019c0982-2dda-73a0-bf5c-f9b8b4d7b249",
+    "date": "2026-12-04",
+    "startTime": "14:30",
+    "endTime": "14:50",
+    "status": "Pending",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7300-8c00-0e1d2c3b4a00",
+    "patientId": "019c0982-2dda-7507-a87f-033390f126ba",
+    "doctorId": "019c1a1f-f10a-7001-8a01-6f2c1d3e4b01",
+    "date": "2026-12-05",
+    "startTime": "10:00",
+    "endTime": "10:45",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7312-8c12-2a091a1b2c12",
+    "patientId": "019c1a1f-f10c-7202-8b02-4b5c6d7e8f02",
+    "doctorId": "019c1a1f-f10a-7003-8a03-8b4e3f506d03",
+    "date": "2026-12-06",
+    "startTime": "11:00",
+    "endTime": "11:30",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f00f-7753-96d8-57c9b75c163a",
+    "patientId": "019c1a1f-f10c-7204-8b04-6d7e8f901004",
+    "doctorId": "019c0982-2dda-7177-8f1f-6d1205a92f16",
+    "date": "2026-12-07",
+    "startTime": "12:00",
+    "endTime": "12:30",
+    "status": "Pending",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7303-8c03-3b4c5d6e7f03",
+    "patientId": "019c0982-2dda-7507-a87f-033390f126ba",
+    "doctorId": "019c0982-2dda-79bf-b020-09d933744f77",
+    "date": "2026-12-07",
+    "startTime": "11:00",
+    "endTime": "11:25",
+    "status": "Pending",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7313-8c13-3b1a2b3c4d13",
+    "patientId": "019c1a1f-f10c-7204-8b04-6d7e8f901004",
+    "doctorId": "019c1a1f-f10a-7003-8a03-8b4e3f506d03",
+    "date": "2026-12-08",
+    "startTime": "10:30",
+    "endTime": "11:00",
+    "status": "Pending",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-731b-8c1b-b3920a1b2c1b",
+    "patientId": "019c1a1f-f10c-7204-8b04-6d7e8f901004",
+    "doctorId": "019c1a1f-f10a-7005-8a05-0d6041728f05",
+    "date": "2026-12-09",
+    "startTime": "15:00",
+    "endTime": "15:45",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7308-8c08-809102132408",
+    "patientId": "019c1a1f-f10c-7202-8b02-4b5c6d7e8f02",
+    "doctorId": "019c0982-2dda-72e4-968a-a24cb383849c",
+    "date": "2026-12-10",
+    "startTime": "11:30",
+    "endTime": "11:45",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7300-8c00-0e1d2c3b4b00",
+    "patientId": "019c1a1f-f10c-7202-8b02-4b5c6d7e8f02",
+    "doctorId": "019c0982-2dda-79bf-b020-09d933744f77",
+    "date": "2026-12-11",
+    "startTime": "09:30",
+    "endTime": "09:55",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7314-8c14-4c2b3c4d5e14",
+    "patientId": "019c0982-2dda-7507-a87f-033390f126ba",
+    "doctorId": "019c1a1f-f10a-7003-8a03-8b4e3f506d03",
+    "date": "2026-12-15",
+    "startTime": "11:00",
+    "endTime": "11:30",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-7315-8c15-5d3c4d5e6f15",
+    "patientId": "019c1a1f-f10c-7202-8b02-4b5c6d7e8f02",
+    "doctorId": "019c1a1f-f10a-7001-8a01-6f2c1d3e4b01",
+    "date": "2026-12-16",
+    "startTime": "10:00",
+    "endTime": "10:45",
+    "status": "Scheduled",
+    "examination": null
+  },
+  {
+    "id": "019c1a1f-f10d-731c-8c1c-c4a3b4c5d6a1",
+    "patientId": "019c1a1f-f10c-7202-8b02-4b5c6d7e8f02",
+    "doctorId": "019c1a1f-f10a-7005-8a05-0d6041728f05",
+    "date": "2026-12-16",
+    "startTime": "13:00",
+    "endTime": "13:45",
+    "status": "Scheduled",
+    "examination": null
   }
 ]

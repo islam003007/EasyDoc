@@ -47,6 +47,7 @@ internal class GetDoctorAvailableSlotsQueryHandler : IQueryHandler<GetDoctorAvai
             return Result.Failure<IReadOnlyList<SlotResponse>>(DoctorErrors.NotFound(query.DoctorId));
 
         var appointments = await _dbcontext.Appointments.Where(a => a.DoctorId == query.DoctorId && a.Date == query.Date)
+                                                        .Where(a => a.Status == AppointmentStatus.Pending || a.Status == AppointmentStatus.Scheduled)
                                                         .OrderBy(a => a.StartTime)
                                                         .ToListAsync();
 

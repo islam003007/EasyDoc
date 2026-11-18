@@ -17,6 +17,7 @@ push. The demo frontend is in `EasyDoc.Web/`.
 | GET | `/admin/doctors?pageNumber=&pageSize=` | admin | Doctor list including invisible profiles. |
 | GET | `/appointments` | patient | Existing appointment creation route remains unchanged. |
 | POST | `/appointments/{appointmentId}/cancel/patient` | patient | Patient-owned cancellation; only pending/scheduled; 404/403/409 problem paths. |
+| PATCH | `/appointments/{appointmentId}/reschedule` | patient | Move a pending/scheduled visit to an available doctor slot; returns the visit to Pending. |
 | PATCH | `/admin/doctors/{id}` | admin | Partial doctor update. Visibility-only requests now validate correctly. |
 
 ## Response additions
@@ -51,12 +52,6 @@ push. The demo frontend is in `EasyDoc.Web/`.
 - Clinic addresses in the seeded data match the renamed cities.
 - The admin doctor list ordering bug was fixed so EF translates it correctly.
 
-## Tests
-
-- 40 unit tests pass locally (with `DOTNET_ROLL_FORWARD=Major` when only .NET 10 is installed).
-- Admin doctor show/hide was verified against the live local API, including restoring the record.
-- No database-backed integration suite yet.
-
 ## Frontend
 
 `EasyDoc.Web/` is a local addition, not an API change: role-based patient/doctor/admin UI,
@@ -66,3 +61,32 @@ patient accounts so the client can immediately sign in. Doctor/admin registratio
 The polish pass raises functional type to at least 12px, removes raw account/record IDs and
 cookie/session implementation copy from the UI, and labels the admin as an intentional sandbox
 review seat with a clear demo-environment notice.
+
+
+## Reschedule workflow
+
+`PATCH /appointments/{appointmentId}/reschedule` accepts `{ date, startTime }`, uses the signed-in
+patient, validates the doctor’s schedule/override, calculates the end time from the doctor’s visit
+duration, excludes the moving appointment from overlap checks, and uses a serializable transaction.
+A scheduled visit moves back to Pending so the doctor must accept the new time. The overlap and
+available-slot queries were also corrected to ignore completed/canceled appointments.
+
+New client surfaces: visit-record modals for patient/doctor, doctor patient-history view, visit
+rescheduling, editable doctor schedule windows/overrides, admin doctor edit and patient detail,
+and patient/doctor profile editing. Admin/account deletes remain unexposed.
+
+## Expanded seed
+
+The Development seed now has 8 doctors (6 visible, 2 hidden), 5 patients and 41 appointments:
+10 pending, 16 scheduled, 8 completed and 7 canceled, with 26 upcoming active visits. Completed
+visits include realistic diagnosis/prescription/notes. Schedules/overrides cover every weekday and
+11 date overrides; all locations are Egyptian and no Sohag reference remains. The local DB must be
+reset/reseeded because the seeder skips populated tables.
+
+## Tests
+
+- 63 unit tests pass locally, including reschedule domain/validator tests, availability helpers and
+  seed-consistency checks.
+- Live checks: demo/standard login, admin visibility (no full-table refetch), booking/cancel,
+  reschedule, visit records, patient history, admin doctor edit and profile/schedule edit screens.
+- No database-backed integration suite yet.

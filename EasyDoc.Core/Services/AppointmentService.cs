@@ -95,31 +95,11 @@ internal partial class AppointmentService
         if (patientAlreadyHasAppointment)
             return Result.Failure<Guid>(AppointmentErrors.PatientHasAppointment);
 
-        var endTime = request.StartTime.AddMinutes(doctor.DefaultAppointmentTimeInMinutes); // end time is calculated dynamically
-
-        if (endTime < request.StartTime)
+        if (!TryResolveEndTime(doctor, request.StartTime, out var endTime))
             return Result.Failure<Guid>(AppointmentErrors.CrossedMidnight);
 
-        var scheduleOverride = doctor.ScheduleOverrides.FirstOrDefault(s => s.Date == request.Date);
-
-        var schedule = doctor.Schedules.FirstOrDefault(s => s.DayOfWeek == request.Date.DayOfWeek);
-
-        if (scheduleOverride is not null)
-        {
-            if (!scheduleOverride.IsAvailable || request.StartTime < scheduleOverride.StartTime || endTime > scheduleOverride.EndTime)
-                return Result.Failure<Guid>(AppointmentErrors.DoctorNotAvailable); 
-        }
-
-        else if (schedule is not null)
-        {
-            if (request.StartTime < schedule.StartTime || endTime > schedule.EndTime)
-                return Result.Failure<Guid>(AppointmentErrors.DoctorNotAvailable);
-        }
-
-        else
-        {
+        if (!IsWithinAvailability(doctor, request.Date, request.StartTime, endTime))
             return Result.Failure<Guid>(AppointmentErrors.DoctorNotAvailable);
-        }
 
         return await ScheduleAppointmentAsync(request.PatientId,
             request.DoctorId,
@@ -127,6 +107,88 @@ internal partial class AppointmentService
             request.StartTime,
             endTime,
             cancellationToken);
+    }
+
+    public async Task<Result> RescheduleAppointmentAsync(RescheduleAppointmentRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        Appointment? appointment = await _appointmentRepository.GetByIdAsync(request.AppointmentId, cancellationToken);
+
+        if (appointment is null)
+            return Result.Failure(AppointmentErrors.NotFound(request.AppointmentId));
+
+        if (appointment.PatientId != request.PatientId)
+            return Result.Failure(AppointmentErrors.PatientMismatch);
+
+        if (!appointment.CanBeRescheduledByPatient())
+            return Result.Failure(AppointmentErrors.NotReschedulable);
+
+        if (!IsInTheFuture(request.Date, request.StartTime))
+            return Result.Failure(AppointmentErrors.PastDate);
+
+        Doctor? doctor = await _doctorRepository.FirstOrDefaultAsync(
+            new DoctorWithAllSchedulesSpecification(appointment.DoctorId), cancellationToken);
+
+        if (doctor is null)
+            return Result.Failure(DoctorErrors.NotFound(appointment.DoctorId));
+
+        if (!TryResolveEndTime(doctor, request.StartTime, out var endTime))
+            return Result.Failure(AppointmentErrors.CrossedMidnight);
+
+        if (!IsWithinAvailability(doctor, request.Date, request.StartTime, endTime))
+            return Result.Failure(AppointmentErrors.DoctorNotAvailable);
+
+        // Serializable isolation level is required for scheduling. The appointment being moved is
+        // excluded so rescheduling to the same time does not conflict with itself.
+        await using (var transaction = await _unitOfWork.BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken))
+        {
+            var appointmentSpecification = new AppointmentsOverlapSpecification(doctor.Id,
+                request.Date,
+                request.StartTime,
+                endTime,
+                request.AppointmentId);
+
+            if (await _appointmentRepository.AnyAsync(appointmentSpecification, cancellationToken))
+                return Result.Failure(AppointmentErrors.DoctorAlreadyBooked);
+
+            appointment.Reschedule(request.Date, request.StartTime, endTime);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            await transaction.CommitAsync(cancellationToken);
+
+            return Result.Success();
+        }
+    }
+
+    internal static bool TryResolveEndTime(Doctor doctor, TimeOnly startTime, out TimeOnly endTime)
+    {
+        endTime = startTime.AddMinutes(doctor.DefaultAppointmentTimeInMinutes);
+
+        return endTime >= startTime;
+    }
+
+    internal static bool IsInTheFuture(DateOnly date, TimeOnly startTime) =>
+        new DateTime(date, startTime, DateTimeKind.Utc) > DateTime.UtcNow;
+
+    internal static bool IsWithinAvailability(Doctor doctor, DateOnly date, TimeOnly startTime, TimeOnly endTime)
+    {
+        var scheduleOverride = doctor.ScheduleOverrides.FirstOrDefault(s => s.Date == date);
+
+        if (scheduleOverride is not null)
+        {
+            return scheduleOverride.IsAvailable
+                && scheduleOverride.StartTime.HasValue
+                && scheduleOverride.EndTime.HasValue
+                && startTime >= scheduleOverride.StartTime.Value
+                && endTime <= scheduleOverride.EndTime.Value;
+        }
+
+        var schedule = doctor.Schedules.FirstOrDefault(s => s.DayOfWeek == date.DayOfWeek);
+
+        return schedule is not null
+            && startTime >= schedule.StartTime
+            && endTime <= schedule.EndTime;
     }
 
     private enum AppointmentDecision { Accept, Cancel }

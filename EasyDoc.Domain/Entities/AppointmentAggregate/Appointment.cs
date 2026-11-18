@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using EasyDoc.Domain.Constants;
+using EasyDoc.Domain.Exceptions;
 using EasyDoc.Domain.Gaurds;
 
 namespace EasyDoc.Domain.Entities.AppointmentAggregate
@@ -46,6 +47,34 @@ namespace EasyDoc.Domain.Entities.AppointmentAggregate
 
         public bool CanBeCanceledByPatient() =>
             Status is AppointmentStatus.Pending or AppointmentStatus.Scheduled;
+
+        public bool CanBeRescheduledByPatient() =>
+            Status is AppointmentStatus.Pending or AppointmentStatus.Scheduled;
+
+        // All guards run before any state is changed so a rejected reschedule leaves the
+        // appointment exactly as it was. Moving a scheduled visit back to Pending is intentional:
+        // the doctor has to accept the new time.
+        public void Reschedule(DateOnly date, TimeOnly startTime, TimeOnly endTime)
+        {
+            Guard.Against.Default(date, nameof(date));
+            Guard.Against.Default(startTime, nameof(startTime));
+            Guard.Against.Default(endTime, nameof(endTime));
+            Guard.Against.StartTimeAfterEndTime(startTime, endTime);
+            Guard.Against.OutOfRange(endTime,
+                nameof(endTime),
+                startTime.AddMinutes(AppointmentConstants.MinAppointmentTimeInMinutes),
+                startTime.AddMinutes(AppointmentConstants.MaxAppointmentTimeInMinutes));
+
+            if (!CanBeRescheduledByPatient())
+                throw new DomainRuleException("Appointments.NotReschedulable",
+                    "Only pending or scheduled appointments can be rescheduled.",
+                    new { AppointmentId = Id, Status });
+
+            Date = date;
+            StartTime = startTime;
+            EndTime = endTime;
+            Status = AppointmentStatus.Pending;
+        }
 
         public void SetExamination(Examination examination)
         {

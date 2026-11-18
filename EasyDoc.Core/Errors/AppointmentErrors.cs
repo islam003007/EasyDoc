@@ -11,6 +11,8 @@ internal class AppointmentErrors
     public const string NotPendingCode = "Appointments.NotPending";
     public const string NotScheduledCode = "Appointments.NotScheduled";
     public const string NotCancelableCode = "Appointments.NotCancelable";
+    public const string NotReschedulableCode = "Appointments.NotReschedulable";
+    public const string PastDateCode = "Appointments.PastDate";
     public const string DoctorMismatchCode = "Appointments.DoctorMismatch";
     public const string PatientMismatchCode = "Appointments.PatientMismatch";
     public const string AppointmentRequiredCode = "Appointments.Required";
@@ -26,9 +28,13 @@ internal class AppointmentErrors
     public static readonly Error NotScheduled =
         Error.Conflict(NotScheduledCode, "The requested appointment cannot be modified because it is either completed, canceled, or still pending.");
     public static readonly Error DoctorMismatch = Error.Problem(DoctorMismatchCode, "An appointment may only be acted upon by its owning doctor");
-    public static readonly Error PatientMismatch = Error.Problem(PatientMismatchCode, "An appointment may only be canceled by its owning patient");
+    public static readonly Error PatientMismatch = Error.Problem(PatientMismatchCode, "An appointment may only be acted upon by its owning patient");
     public static readonly Error NotCancelable =
         Error.Conflict(NotCancelableCode, "The requested appointment has already been completed or canceled.");
+    public static readonly Error NotReschedulable =
+        Error.Conflict(NotReschedulableCode, "Only pending or scheduled appointments can be rescheduled.");
+    public static readonly Error PastDate =
+        Error.Problem(PastDateCode, "A rescheduled appointment date and time must be in the future.");
     public static readonly Error AppointmentRequired = Error.Problem(AppointmentRequiredCode,
         "You can only access a patient's past appointments if you currently have a scheduled appointment with the patient");
     public static readonly Error PatientHasAppointment = Error.Conflict(PatientHasAppointmentCode,
