@@ -52,4 +52,4 @@ service-level `IsInTheFuture` guard was added for defense in depth.
   - past creation: `400`
   - active same-day duplicate: `409` with the corrected message
   - rebooking a canceled same-day visit: `200`, then canceled cleanly
-- Frontend unit tests: **39 passed** at the time of this note; the suite is still growing.
+- Frontend unit and component tests: **49 passed** after the auth/booking guard pass.
