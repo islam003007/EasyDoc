@@ -20,6 +20,9 @@ internal class GetPatientAppointmentsForDoctorQueryValidator : AbstractValidator
         RuleFor(x => x.PatientId)
             .NotEmpty();
 
+        RuleFor(x => x.PageNumber)
+            .GreaterThanOrEqualTo(1);
+
         RuleFor(x => x.PageSize)
             .GreaterThanOrEqualTo(1);
 
@@ -47,7 +50,7 @@ internal class GetPatientAppointmentsForDoctorQueryHandler : IQueryHandler<GetPa
 
         var allowed = await _dbContext.Appointments.AnyAsync(a => a.DoctorId == doctorId &&
         a.PatientId == query.PatientId &&
-        a.Status == AppointmentStatus.Scheduled, cancellationToken);
+        a.Status != AppointmentStatus.Canceled, cancellationToken);
 
         if (!allowed)
             return Result.Failure<IReadOnlyList<AppointmentResponse>>(AppointmentErrors.AppointmentRequired);

@@ -1,6 +1,7 @@
 ﻿using EasyDoc.Application.Abstractions.Data;
 using EasyDoc.Application.Abstractions.Messaging;
 using EasyDoc.Application.Errors;
+using EasyDoc.Application.Services;
 using EasyDoc.Domain.Entities.AppointmentAggregate;
 using EasyDoc.SharedKernel;
 using FluentValidation;
@@ -21,7 +22,7 @@ internal class GetDoctorAvailableSlotsQueryValidator : AbstractValidator<GetDoct
 
         RuleFor(x => x.Date)
             .NotEmpty()
-            .Must(d => d >= DateOnly.FromDateTime(DateTime.Today)).WithMessage("The date connot be in the past");
+            .Must(d => d >= ClinicClock.Today).WithMessage("The date cannot be in the past.");
 
     }
 }
@@ -35,7 +36,7 @@ internal class GetDoctorAvailableSlotsQueryHandler : IQueryHandler<GetDoctorAvai
     }
     public async Task<Result<IReadOnlyList<SlotResponse>>> HandleAsync(GetDoctorAvailableSlotsQuery query, CancellationToken cancellationToken = default)
     {
-        if (query.Date < DateOnly.FromDateTime(DateTime.Now))
+        if (query.Date < ClinicClock.Today)
             return new List<SlotResponse>();
 
         var doctor = await _dbcontext.Doctors.Where(d => d.Id == query.DoctorId)
@@ -62,8 +63,11 @@ internal class GetDoctorAvailableSlotsQueryHandler : IQueryHandler<GetDoctorAvai
             if (!scheduleOverride.IsAvailable)
                 return new List<SlotResponse>();
 
-            shiftStart = scheduleOverride.StartTime!.Value;
-            shiftEnd = scheduleOverride.EndTime!.Value;
+            if (scheduleOverride.StartTime is null || scheduleOverride.EndTime is null)
+                return new List<SlotResponse>();
+
+            shiftStart = scheduleOverride.StartTime.Value;
+            shiftEnd = scheduleOverride.EndTime.Value;
         }
         else if (schedule is not null)
         {
@@ -75,18 +79,25 @@ internal class GetDoctorAvailableSlotsQueryHandler : IQueryHandler<GetDoctorAvai
             return new List<SlotResponse>();
         }
 
-        return CalculateAvailableSlots(shiftStart,
+        return CalculateAvailableSlots(query.Date,
+            shiftStart,
             shiftEnd,
             doctor.DefaultAppointmentTimeInMinutes,
-            appointments);
+            appointments,
+            ClinicClock.Now);
     }
 
-    // this method could be part of the domain. it is just safer here without having to assume that the right data is included and sorted.
-    private static List<SlotResponse> CalculateAvailableSlots(TimeOnly shiftStart,
+    // Kept internal so slot generation and past-slot filtering can be unit tested without a database.
+    internal static List<SlotResponse> CalculateAvailableSlots(DateOnly date,
+        TimeOnly shiftStart,
         TimeOnly shiftEnd,
         long defaultAppointmentTimeInMinutes,
-        IReadOnlyList<Appointment> appointments) // APPOINTMENTS MUST BE ORDERED HERE OR THIS Will FAIL.
+        IReadOnlyList<Appointment> appointments, // APPOINTMENTS MUST BE ORDERED BY START TIME.
+        DateTime clinicNow)
     {
+        if (defaultAppointmentTimeInMinutes <= 0 || shiftEnd <= shiftStart)
+            return new List<SlotResponse>();
+
         TimeOnly currentStartTime = shiftStart;
         TimeOnly currentEndTime = shiftStart;
         var appointmentIndex = 0;
@@ -112,7 +123,9 @@ internal class GetDoctorAvailableSlotsQueryHandler : IQueryHandler<GetDoctorAvai
                 continue;
             }
 
-            timeSlots.Add(new (currentStartTime, currentEndTime));
+            if (new DateTime(date, currentStartTime) > clinicNow)
+                timeSlots.Add(new(currentStartTime, currentEndTime));
+
             currentStartTime = currentEndTime;
         }
 

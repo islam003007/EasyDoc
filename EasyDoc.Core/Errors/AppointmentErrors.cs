@@ -34,9 +34,9 @@ internal class AppointmentErrors
     public static readonly Error NotReschedulable =
         Error.Conflict(NotReschedulableCode, "Only pending or scheduled appointments can be rescheduled.");
     public static readonly Error PastDate =
-        Error.Problem(PastDateCode, "A rescheduled appointment date and time must be in the future.");
+        Error.Problem(PastDateCode, "An appointment date and time must be in the future.");
     public static readonly Error AppointmentRequired = Error.Problem(AppointmentRequiredCode,
-        "You can only access a patient's past appointments if you currently have a scheduled appointment with the patient");
+        "You can only access a patient's history when you have an appointment record with them.");
     public static readonly Error PatientHasAppointment = Error.Conflict(PatientHasAppointmentCode,
-        "The patient Already has an appointment for the same day with the same doctor");
+        "The patient already has an appointment with this doctor on this day.");
 }

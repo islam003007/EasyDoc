@@ -16,6 +16,9 @@ internal class GetPatientAppointmentsQueryValidator : AbstractValidator<GetPatie
 {
     public GetPatientAppointmentsQueryValidator()
     {
+        RuleFor(x => x.PageNumber)
+            .GreaterThanOrEqualTo(1);
+
         RuleFor(x => x.PageSize)
             .GreaterThanOrEqualTo(1);
 

@@ -88,6 +88,9 @@ internal partial class AppointmentService
         if (doctor is null)
             return Result.Failure<Guid>(DoctorErrors.NotFound(request.DoctorId));
 
+        if (!ClinicClock.IsInTheFuture(request.Date, request.StartTime))
+            return Result.Failure<Guid>(AppointmentErrors.PastDate);
+
         var appointmentSpecification = new AppointmentByDoctorAndPatientSpecification(request.DoctorId, request.PatientId, request.Date);
 
         var patientAlreadyHasAppointment = await _appointmentRepository.AnyAsync(appointmentSpecification, cancellationToken);
@@ -123,8 +126,17 @@ internal partial class AppointmentService
         if (!appointment.CanBeRescheduledByPatient())
             return Result.Failure(AppointmentErrors.NotReschedulable);
 
-        if (!IsInTheFuture(request.Date, request.StartTime))
+        if (!ClinicClock.IsInTheFuture(request.Date, request.StartTime))
             return Result.Failure(AppointmentErrors.PastDate);
+
+        var duplicateSpecification = new AppointmentByDoctorAndPatientSpecification(
+            appointment.DoctorId,
+            appointment.PatientId,
+            request.Date,
+            appointment.Id);
+
+        if (await _appointmentRepository.AnyAsync(duplicateSpecification, cancellationToken))
+            return Result.Failure(AppointmentErrors.PatientHasAppointment);
 
         Doctor? doctor = await _doctorRepository.FirstOrDefaultAsync(
             new DoctorWithAllSchedulesSpecification(appointment.DoctorId), cancellationToken);
@@ -169,7 +181,7 @@ internal partial class AppointmentService
     }
 
     internal static bool IsInTheFuture(DateOnly date, TimeOnly startTime) =>
-        new DateTime(date, startTime, DateTimeKind.Utc) > DateTime.UtcNow;
+        ClinicClock.IsInTheFuture(date, startTime);
 
     internal static bool IsWithinAvailability(Doctor doctor, DateOnly date, TimeOnly startTime, TimeOnly endTime)
     {
@@ -207,9 +219,16 @@ internal partial class AppointmentService
             return Result.Failure(AppointmentErrors.NotPending);
 
         if (decision == AppointmentDecision.Accept)
+        {
+            if (!ClinicClock.IsInTheFuture(appointment.Date, appointment.StartTime))
+                return Result.Failure(AppointmentErrors.PastDate);
+
             appointment.Accept();
+        }
         else
+        {
             appointment.Cancel();
+        }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
