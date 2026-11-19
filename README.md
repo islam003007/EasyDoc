@@ -4,7 +4,7 @@
 
 It is a **doctor scheduling application** where patients can search for doctors and book appointments based on availability. Think of it like an e-commerce platform for healthcare scheduling.
 
-> **Portfolio demo:** The API and Friendly Care client use seeded clinic records. Demo seats open
+> **Portfolio demo:** The API and its frontend clients use seeded clinic records. Demo seats open
 > in one click; patient email/password registration is available with demo auto-confirm. Real email
 > delivery, uploads, payments, doctor self-registration and production hardening are out of scope.
 
@@ -136,22 +136,13 @@ outside this build.
 - Read and write separation is key to enforce clean architecture principles  
 - Generic repository **enforces writes only via aggregate roots** without overengineering.
 
-## Demo frontend
+## Frontend
 
-`EasyDoc.Web/` is the role-based portfolio client: React 19 + TypeScript + Vite, TanStack Query,
-and custom CSS. Its Friendly Care theme uses the pink/blue EasyDoc mark, Plus Jakarta Sans and IBM
-Plex Sans Arabic. It has patient, doctor and administrator flows, one-click demo seats, standard
-patient password sign-in and patient self-registration.
+The React clients live in a separate repository:
+[EasyDoc.Frontend](https://github.com/islam003007/EasyDoc.Frontend).
 
-```bash
-cd EasyDoc.Web
-npm install
-npm run dev
-# http://localhost:5174
-```
-
-The Vite proxy sends `/api` to `http://localhost:5215` with the prefix stripped. Use
-`VITE_API_TARGET` to override the API target. See `EasyDoc.Web/README.md` for flows and build notes.
+- `EasyDoc.Web/` — Friendly Care, `http://localhost:5174`
+- `EasyDoc.Web2/` — Open Hours, `http://localhost:5175`
 
 Demo login is enabled only with `Demo:Enabled=true` (true in
 `appsettings.Development.json`). The seeded demo profiles are patient `sara@example.com`,

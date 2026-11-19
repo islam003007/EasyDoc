@@ -1,7 +1,7 @@
-# EasyDoc — local API changes (not yet in `origin/main`)
+# EasyDoc — API changes (2026-11-18)
 
-Baseline: `5731d10` (`origin/main`). These changes are local-only and should be reviewed before
-push. The demo frontend is in `EasyDoc.Web/`.
+Baseline: `5731d10` (`origin/main`). The React clients live in the separate
+[EasyDoc.Frontend](https://github.com/islam003007/EasyDoc.Frontend) repository.
 
 ## API surface
 
@@ -52,16 +52,6 @@ push. The demo frontend is in `EasyDoc.Web/`.
 - Clinic addresses in the seeded data match the renamed cities.
 - The admin doctor list ordering bug was fixed so EF translates it correctly.
 
-## Frontend
-
-`EasyDoc.Web/` is a local addition, not an API change: role-based patient/doctor/admin UI,
-search/booking/appointments, schedules and admin visibility, with the Friendly Care pink/blue logo
-theme, standard patient password login and patient self-registration. Demo mode auto-confirms new
-patient accounts so the client can immediately sign in. Doctor/admin registration remains absent.
-The polish pass raises functional type to at least 12px, removes raw account/record IDs and
-cookie/session implementation copy from the UI, and labels the admin as an intentional sandbox
-review seat with a clear demo-environment notice.
-
 
 ## Reschedule workflow
 
@@ -71,9 +61,6 @@ duration, excludes the moving appointment from overlap checks, and uses a serial
 A scheduled visit moves back to Pending so the doctor must accept the new time. The overlap and
 available-slot queries were also corrected to ignore completed/canceled appointments.
 
-New client surfaces: visit-record modals for patient/doctor, doctor patient-history view, visit
-rescheduling, editable doctor schedule windows/overrides, admin doctor edit and patient detail,
-and patient/doctor profile editing. Admin/account deletes remain unexposed.
 
 ## Expanded seed
 
