@@ -9,6 +9,7 @@ obj/
 **/secrets.json
 .env
 .env.*
+northflank.env
 
 # Databases
 *.mdf
