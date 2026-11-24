@@ -9,6 +9,7 @@ obj/
 **/secrets.json
 .env
 .env.*
+!.env.example
 northflank.env
 
 # Databases

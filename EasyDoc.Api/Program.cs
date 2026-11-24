@@ -1,4 +1,5 @@
 using EasyDoc.Api;
+using EasyDoc.Api.Constants;
 using EasyDoc.Api.Extensions;
 using EasyDoc.Application;
 using EasyDoc.Infrastructure;
@@ -20,6 +21,8 @@ builder.Host.UseSerilog();
 
 var app = builder.Build();
 
+await SeederRunner.ApplyMigrations(app.Services);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -32,12 +35,17 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = "swagger"; // UI at /swagger
     });
 }
-
-await SeederRunner.SeedProduction(app.Services);
+else
+{
+    await SeederRunner.SeedProduction(app.Services);
+}
 
 app.UseCustomRequestLogging();
 
 app.UseExceptionHandler();
+
+app.UseCors(Policies.FrontendCors);
+app.UseRateLimiter();
 
 app.UseAuthentication();
 

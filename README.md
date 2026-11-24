@@ -86,8 +86,55 @@ EasyDoc is primarily a **learning and portfolio project**, showcasing:
 For local development, the project uses **User Secrets** to manage the SQL Server connection string:
 
 ```bash
-dotnet user-secrets init
-dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YourConnectionStringHere"
+dotnet user-secrets init --project EasyDoc.Api
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YourConnectionStringHere" --project EasyDoc.Api
+```
+
+The seeded demo accounts also need public demo credentials. Set them with user
+secrets, or provide the equivalent environment variables when running in a
+container:
+
+```bash
+dotnet user-secrets set "DataSeed:UsersPassword" "REPLACE_WITH_VALID_DEMO_PASSWORD_123!" --project EasyDoc.Api
+dotnet user-secrets set "DataSeed:AdminPassword" "REPLACE_WITH_VALID_DEMO_PASSWORD_123!" --project EasyDoc.Api
+dotnet user-secrets set "DataSeed:AdminEmail" "admin@example.com" --project EasyDoc.Api
+```
+
+Replace the password placeholder before running a fresh seed. It must have at
+least 8 characters, uppercase, lowercase, and a digit. The API fails during
+startup if the password is missing or invalid. Changing the value does not
+update users that were already seeded; reset the demo database or use the
+demo-reset service.
+
+`.env.example` documents the environment-variable names. It is a reference
+file, not automatically loaded by `dotnet run`.
+
+Start the API:
+
+```bash
+dotnet run --project EasyDoc.Api
+```
+
+The API applies EF migrations at startup, then runs the seeders. The API listens
+on `http://localhost:5215`; Swagger is at `/swagger` in Development.
+
+### Docker
+
+Build from the repository root:
+
+```bash
+docker build -f EasyDoc.Api/Dockerfile -t easydoc-api .
+```
+
+The image listens on port `8080`. The API applies EF migrations at startup.
+Supply the connection string and demo credentials through the deployment
+environment.
+
+When the API is behind a TLS-terminating proxy, set
+`ASPNETCORE_FORWARDEDHEADERS_ENABLED=true`. CORS origins are environment-only:
+
+```env
+Frontend__AllowedOrigins__0=https://<frontend-origin>
 ```
 
 ## Email Sending
@@ -154,8 +201,15 @@ This is a deliberately open portfolio sandbox, not the production authorization 
 
 - Demo authentication is a separate endpoint from the normal login and is disabled by default.
   Set `Demo:Enabled=true` only in a dedicated demo environment with a separate demo database.
-- The demo admin is a seeded sandbox seat. It can inspect directories and toggle doctor visibility;
-  the UI exposes no delete, payment, infrastructure, or other destructive operations.
+- The demo admin is a seeded sandbox seat. It can inspect directories and toggle doctor visibility.
+  The destructive admin delete endpoints return `404` while `Demo:Enabled=true`.
+- Demo seed passwords come from `DataSeed:UsersPassword` and `DataSeed:AdminPassword`
+  (environment variables or user secrets). They are intentionally public demo
+  credentials and must never be reused outside a disposable demo database.
 - Patient self-registration writes only to the demo database. Do not enter real patient information.
-- Demo data may be reset. Production must keep `Demo:Enabled=false` and use the regular
+- When `Demo:Reset:Enabled=true`, a background service wipes the demo rows and
+  re-seeds them every `Demo:Reset:IntervalHours` hours. This is only safe on a
+  dedicated demo database.
+- `RateLimit` applies a per-IP fixed window (default: 120 requests per minute).
+- Production must keep `Demo:Enabled=false`, `Demo:Reset:Enabled=false`, and use the regular
   cookie/role policies.

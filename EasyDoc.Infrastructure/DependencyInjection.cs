@@ -1,5 +1,6 @@
 ﻿using EasyDoc.Application.Abstractions.Authentication;
 using EasyDoc.Application.Abstractions.Data;
+using EasyDoc.Application.Options;
 using EasyDoc.Infrastructure.Data;
 using EasyDoc.Infrastructure.Data.Interceptors;
 using EasyDoc.Infrastructure.Services;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using EasyDoc.Application.Abstractions.Utils;
 using EasyDoc.Infrastructure.Data.Repositories;
+using EasyDoc.Infrastructure.Services.Demo;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using EasyDoc.Infrastructure.Data.Identity;
@@ -47,6 +49,18 @@ public static class DependencyInjection
         services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
 
         services.AddScoped<UserNotificationService>();
+
+        var demoResetSection = configuration.GetSection(DemoResetOptions.SectionName);
+        if (configuration.GetValue<bool>("Demo:Enabled") &&
+            demoResetSection.GetValue<bool>(nameof(DemoResetOptions.Enabled)))
+        {
+            services.AddOptions<DemoResetOptions>()
+                .Bind(demoResetSection)
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            services.AddHostedService<DemoResetService>();
+        }
 
         return services;
     }

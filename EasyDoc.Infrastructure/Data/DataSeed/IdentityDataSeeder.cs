@@ -54,6 +54,8 @@ internal class IdentityDataSeeder
             var adminEmail = scope.ServiceProvider.GetRequiredService<IConfiguration>()["DataSeed:AdminEmail"] ??
                 throw new InvalidOperationException("DataSeed:AdminEmail is not configured");
 
+            // Demo-only credential. It is intentionally public for the seeded admin
+            // seat and must never be reused outside a disposable demo database.
             var adminpassword = scope.ServiceProvider.GetRequiredService<IConfiguration>()["DataSeed:AdminPassword"] ??
                 throw new InvalidOperationException("DataSeed:AdminPassword is not configured");
 
@@ -84,6 +86,7 @@ internal class IdentityDataSeeder
         await using (var scope = serviceProvider.CreateAsyncScope())
         {
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            // Demo-only shared password; intentionally public for seeded demo accounts.
             var password = scope.ServiceProvider.GetRequiredService<IConfiguration>()["DataSeed:UsersPassword"] ??
                 throw new InvalidOperationException("DataSeed:UsersPassword is not configured");
 
@@ -114,6 +117,7 @@ internal class IdentityDataSeeder
         await using (var scope = serviceProvider.CreateAsyncScope())
         {
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            // Demo-only shared password; intentionally public for seeded demo accounts.
             var password = scope.ServiceProvider.GetRequiredService<IConfiguration>()["DataSeed:UsersPassword"] ??
                 throw new InvalidOperationException("DataSeed:UsersPassword is not configured");
 

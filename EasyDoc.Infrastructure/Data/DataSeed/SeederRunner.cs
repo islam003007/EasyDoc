@@ -4,12 +4,21 @@ using EasyDoc.Domain.Entities.DoctorAggregate;
 using EasyDoc.Domain.Entities.PatientAggregate;
 using EasyDoc.Domain.Entities.RefrenceData;
 using EasyDoc.Infrastructure.Data.DataSeed.SeedMaterializer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyDoc.Infrastructure.Data.DataSeed;
 
 public static class SeederRunner
 {
+    public static async Task ApplyMigrations(IServiceProvider serviceProvider)
+    {
+        await using var scope = serviceProvider.CreateAsyncScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        await dbContext.Database.MigrateAsync();
+    }
+
     public static async Task SeedProduction(IServiceProvider serviceProvider)
     {
 
@@ -46,6 +55,10 @@ public static class SeederRunner
 
         // 3️⃣ Delete Identity tables
         context.UserRoles.RemoveRange(context.UserRoles);
+        context.UserClaims.RemoveRange(context.UserClaims);
+        context.UserLogins.RemoveRange(context.UserLogins);
+        context.UserTokens.RemoveRange(context.UserTokens);
+        context.RoleClaims.RemoveRange(context.RoleClaims);
         context.Users.RemoveRange(context.Users);
         context.Roles.RemoveRange(context.Roles);
 

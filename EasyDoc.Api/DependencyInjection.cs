@@ -1,6 +1,7 @@
 ﻿using EasyDoc.Api.Constants;
 using EasyDoc.Api.Endpoints;
 using EasyDoc.Api.ExceptionHandlers;
+using EasyDoc.Api.Options;
 using EasyDoc.Application.Constants;
 using EasyDoc.Application.Options;
 using EasyDoc.Infrastructure.Data;
@@ -8,6 +9,7 @@ using EasyDoc.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Threading.RateLimiting;
 
 namespace EasyDoc.Api
 {
@@ -16,6 +18,50 @@ namespace EasyDoc.Api
         public static IServiceCollection AddWeb(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<DemoOptions>(configuration.GetSection("Demo"));
+
+            var allowedOrigins = configuration
+                .GetSection("Frontend:AllowedOrigins")
+                .Get<string[]>() ?? [];
+
+            services.AddCors(options => options.AddPolicy(Policies.FrontendCors, policy =>
+            {
+                if (allowedOrigins.Length == 0)
+                {
+                    return;
+                }
+
+                policy.WithOrigins(allowedOrigins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            }));
+
+            var rateLimit = configuration
+                .GetSection(RateLimitOptions.SectionName)
+                .Get<RateLimitOptions>() ?? new RateLimitOptions();
+
+            services.AddRateLimiter(options =>
+            {
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+                options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+                {
+                    if (!rateLimit.Enabled)
+                    {
+                        return RateLimitPartition.GetNoLimiter("disabled");
+                    }
+
+                    var partitionKey = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+
+                    return RateLimitPartition.GetFixedWindowLimiter(partitionKey, _ =>
+                        new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = rateLimit.PermitLimit,
+                            Window = TimeSpan.FromSeconds(rateLimit.WindowSeconds),
+                            QueueLimit = 0,
+                            AutoReplenishment = true
+                        });
+                });
+            });
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
