@@ -53,4 +53,10 @@ app.UseAuthorization();
 
 app.MapEndpoints();
 
+// Dependency-free liveness probe; do not check the database here because the
+// Azure SQL free-tier database must be allowed to auto-pause when idle.
+app.MapGet("/health", () => Results.Ok(new { status = "Healthy" }))
+    .WithTags("health")
+    .AllowAnonymous();
+
 app.Run();
