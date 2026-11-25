@@ -4,6 +4,7 @@ using EasyDoc.Domain.Entities.DoctorAggregate;
 using EasyDoc.Domain.Entities.PatientAggregate;
 using EasyDoc.Domain.Entities.RefrenceData;
 using EasyDoc.Infrastructure.Data.DataSeed.SeedMaterializer;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,10 +14,38 @@ public static class SeederRunner
 {
     public static async Task ApplyMigrations(IServiceProvider serviceProvider)
     {
-        await using var scope = serviceProvider.CreateAsyncScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        const int maxAttempts = 5;
 
-        await dbContext.Database.MigrateAsync();
+        for (var attempt = 1; ; attempt++)
+        {
+            try
+            {
+                await using var scope = serviceProvider.CreateAsyncScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                await dbContext.Database.MigrateAsync();
+                return;
+            }
+            catch (Exception exception) when (
+                attempt < maxAttempts && IsTransientSqlFailure(exception))
+            {
+                // Azure SQL free tier can auto-pause. Give it time to resume.
+                await Task.Delay(TimeSpan.FromSeconds(attempt * 2));
+            }
+        }
+    }
+
+    private static bool IsTransientSqlFailure(Exception exception)
+    {
+        if (exception is SqlException sqlException)
+        {
+            return sqlException.Number is
+                40613 or 40197 or 40501 or 49918 or 49919 or 49920
+                or 10928 or 10929 or 10053 or 10054 or 10060 or 11001;
+        }
+
+        return exception.InnerException is not null &&
+               IsTransientSqlFailure(exception.InnerException);
     }
 
     public static async Task SeedProduction(IServiceProvider serviceProvider)
