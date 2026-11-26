@@ -1,5 +1,6 @@
 using EasyDoc.Api;
 using EasyDoc.Api.Constants;
+using EasyDoc.Api.Demo;
 using EasyDoc.Api.Extensions;
 using EasyDoc.Application;
 using EasyDoc.Infrastructure;
@@ -27,13 +28,17 @@ await SeederRunner.ApplyMigrations(app.Services);
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    await SeederRunner.SeedDevelopment(app.Services);
 
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/openapi/v1.json", "EasyDoc API V1");
         c.RoutePrefix = "swagger"; // UI at /swagger
     });
+}
+
+if (app.Configuration.GetValue<bool>("Demo:Enabled"))
+{
+    await SeederRunner.SeedDevelopment(app.Services);
 }
 else
 {
@@ -52,6 +57,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapEndpoints();
+
+if (app.Configuration.GetValue<bool>("Demo:Enabled"))
+{
+    app.MapDemoEndpoints();
+}
 
 // Dependency-free liveness probe; do not check the database here because the
 // Azure SQL free-tier database must be allowed to auto-pause when idle.

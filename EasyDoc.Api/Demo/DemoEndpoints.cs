@@ -1,25 +1,33 @@
 using EasyDoc.Application.Demo;
 using EasyDoc.Application.Options;
+using EasyDoc.Infrastructure.Data;
 using EasyDoc.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace EasyDoc.Api.Endpoints.Auth;
+namespace EasyDoc.Api.Demo;
 
-internal class DemoLogin : IEndpoint
+/// <summary>
+/// Demo-only endpoints. The caller maps this group only when Demo:Enabled is true.
+/// </summary>
+public static class DemoEndpoints
 {
-    public Feature Feature => Feature.Auth;
-    public bool IsAdminEndpoint => false;
-
-    public class Request
+    public static IEndpointRouteBuilder MapDemoEndpoints(this IEndpointRouteBuilder app)
     {
-        public string Key { get; set; } = null!;
-    }
+        app.MapGet("/auth/demo-users", (IOptions<DemoOptions> options) =>
+        {
+            if (!options.Value.Enabled)
+                return Results.NotFound();
 
-    public RouteHandlerBuilder MapEndpoint(IEndpointRouteBuilder app)
-    {
-        return app.MapPost("/demo-login", async ([FromBody] Request request,
+            return Results.Ok(DemoUserCatalog.All);
+        })
+        .WithTags("demo")
+        .AllowAnonymous();
+
+        app.MapPost("/auth/demo-login", async (
+            [FromBody] DemoLoginRequest request,
             IOptions<DemoOptions> options,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager) =>
@@ -61,6 +69,37 @@ internal class DemoLogin : IEndpoint
             await signInManager.SignInAsync(user, isPersistent: true);
 
             return Results.NoContent();
-        });
+        })
+        .WithTags("demo")
+        .AllowAnonymous();
+
+        // The login page calls this once. It is deliberately not a health check: a monitor
+        // must not keep the free Azure SQL database awake.
+        app.MapGet("/demo/warmup", async (
+            ApplicationDbContext dbContext,
+            IOptions<DemoOptions> options,
+            CancellationToken cancellationToken) =>
+        {
+            if (!options.Value.Enabled)
+                return Results.NotFound();
+
+            try
+            {
+                await dbContext.Database.ExecuteSqlRawAsync("SELECT 1", cancellationToken);
+                return Results.Ok(new { status = "ready" });
+            }
+            catch (Exception)
+            {
+                return Results.Json(
+                    new { status = "warming" },
+                    statusCode: StatusCodes.Status503ServiceUnavailable);
+            }
+        })
+        .WithTags("demo")
+        .AllowAnonymous();
+
+        return app;
     }
+
+    private sealed record DemoLoginRequest(string Key);
 }
